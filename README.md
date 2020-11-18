@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://discord.gg/eS9mz6R"> Join the Discord for help with issues, glitches, suggestions, etc. </a>
+  <a href="https://discord.gg/eS9mz6R"> Join the Discord for help with installation, issues, glitches, suggestions, etc. </a>
 </p>
 
 -------------------
