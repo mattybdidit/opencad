@@ -1,95 +1,91 @@
 <?php
-
 /**
-Open source CAD system for RolePlaying Communities.
-Copyright (C) 2017 Shane Gill
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
-**/
+ Open source CAD system for RolePlaying Communities.
+ Copyright (C) 2017 Shane Gill
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
+ *
+ */
 
 session_start();
-include_once(__DIR__."/oc-config.php");
-include_once(__DIR__."/oc-functions.php");
-include(__DIR__."/actions/generalActions.php");
-include(__DIR__."/actions/responderActions.php");
-include(__DIR__."/plugins/api_auth.php");
-
+include_once (__DIR__ . "/oc-config.php");
+include_once (__DIR__ . "/oc-functions.php");
+include (__DIR__ . "/actions/generalActions.php");
+include (__DIR__ . "/actions/responderActions.php");
+include (__DIR__ . "/plugins/api_auth.php");
 
 if (empty($_SESSION['logged_in']))
 {
-header('Location: /index.php');
+    header('Location: /index.php');
 }
 else
 {
-$name = $_SESSION['name'];
+    $name = $_SESSION['name'];
 }
 unset($_SESSION['activeDepartment']);
-if ( $_GET['dep'] == "state" || $_SESSION['activeDepartment'] == "state" )
+if ($_GET['dep'] == "state" || $_SESSION['activeDepartment'] == "state")
 {
-$activeDepartment = "State";
-$activeBadge="gavel";
-$_SESSION['activeDepartment'] = 'state';
+    $activeDepartment = "State";
+    $activeBadge = "gavel";
+    $_SESSION['activeDepartment'] = 'state';
 }
-else if ( $_GET['dep'] == "sheriff" || $_SESSION['activeDepartment'] == "sheriff" )
+else if ($_GET['dep'] == "sheriff" || $_SESSION['activeDepartment'] == "sheriff")
 {
-$activeDepartment = "Sheriff";
-$activeBadge="gavel";
-$_SESSION['activeDepartment'] = 'sheriff';
+    $activeDepartment = "Sheriff";
+    $activeBadge = "gavel";
+    $_SESSION['activeDepartment'] = 'sheriff';
 }
-else if ( $_GET['dep'] == "highway" || $_SESSION['activeDepartment'] == "highway" )
+else if ($_GET['dep'] == "highway" || $_SESSION['activeDepartment'] == "highway")
 {
-$activeDepartment = "Highway Patrol";
-$activeBadge="gavel";
-$_SESSION['activeDepartment'] = 'highway';
+    $activeDepartment = "Highway Patrol";
+    $activeBadge = "gavel";
+    $_SESSION['activeDepartment'] = 'highway';
 }
-else if ( $_GET['dep'] == "police" || $_SESSION['activeDepartment'] == "police" )
+else if ($_GET['dep'] == "police" || $_SESSION['activeDepartment'] == "police")
 {
-$activeDepartment = "Police";
-$activeBadge="gavel";
-$_SESSION['activeDepartment'] = 'police';
+    $activeDepartment = "Police";
+    $activeBadge = "gavel";
+    $_SESSION['activeDepartment'] = 'police';
 }
-else if ( $_GET['dep'] == "fire" || $_SESSION['activeDepartment'] == "fire" )
+else if ($_GET['dep'] == "fire" || $_SESSION['activeDepartment'] == "fire")
 {
-$activeDepartment = "Fire";
-$activeBadge="fire";
-$_SESSION['activeDepartment'] = 'fire';
+    $activeDepartment = "Fire";
+    $activeBadge = "fire";
+    $_SESSION['activeDepartment'] = 'fire';
 }
-else if ( $_GET['dep'] == "ems" || $_SESSION['activeDepartment'] == "ems" )
+else if ($_GET['dep'] == "ems" || $_SESSION['activeDepartment'] == "ems")
 {
-$activeDepartment = "EMS";
-$activeBadge="ambulance";
-$_SESSION['activeDepartment'] = 'ems';
+    $activeDepartment = "EMS";
+    $activeBadge = "ambulance";
+    $_SESSION['activeDepartment'] = 'ems';
 }
-else if ( $_GET['dep'] == "roadsideAssist" || $_SESSION['activeDepartment'] == "roadsideAssist" )
+else if ($_GET['dep'] == "roadsideAssist" || $_SESSION['activeDepartment'] == "roadsideAssist")
 {
-$activeDepartment = "Roadside Assistance";
-$activeBadge="wrench";
-$_SESSION['activeDepartment'] = 'roadsideAssist';
+    $activeDepartment = "Roadside Assistance";
+    $activeBadge = "wrench";
+    $_SESSION['activeDepartment'] = 'roadsideAssist';
 }
-
 
 $citationMessage = "";
-if(isset($_SESSION['citationMessage']))
+if (isset($_SESSION['citationMessage']))
 {
-$citationMessage = $_SESSION['citationMessage'];
-unset($_SESSION['citationMessage']);
+    $citationMessage = $_SESSION['citationMessage'];
+    unset($_SESSION['citationMessage']);
 }
 $arrestMessage = "";
-if(isset($_SESSION['arrestMessage']))
+if (isset($_SESSION['arrestMessage']))
 {
-$arrestMessage = $_SESSION['arrestMessage'];
-unset($_SESSION['arrestMessage']);
+    $arrestMessage = $_SESSION['arrestMessage'];
+    unset($_SESSION['arrestMessage']);
 }
 $warningMessage = "";
-if(isset($_SESSION['warningMessage']))
+if (isset($_SESSION['warningMessage']))
 {
-$warningMessage = $_SESSION['warningMessage'];
-unset($_SESSION['warningMessage']);
+    $warningMessage = $_SESSION['warningMessage'];
+    unset($_SESSION['warningMessage']);
 }
 callCheck();
 
@@ -114,7 +110,7 @@ callCheck();
             </div>
             <div class="profile_info">
                <span>Welcome,</span>
-               <h2><?php echo $name;?></h2>
+               <h2><?php echo $name; ?></h2>
             </div>
             <div class="clearfix"></div>
          </div>
@@ -185,7 +181,7 @@ callCheck();
             <a data-toggle="tooltip" data-placement="top" title="Need Help?" href="https://guides.opencad.io/">
             <span class="fas fa-info-circle" aria-hidden="true"></span>
             </a>
-            <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?php echo BASE_URL; ?>/actions/logout.php?responder=<?php echo $_SESSION['identifier'];?>">
+            <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?php echo BASE_URL; ?>/actions/logout.php?responder=<?php echo $_SESSION['identifier']; ?>">
             <span class="fas fa-sign-out-alt" aria-hidden="true"></span>
             </a>
          </div>
@@ -207,7 +203,7 @@ callCheck();
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                      <li><a href="<?php echo BASE_URL; ?>/profile.php"><i class="fas fa-user pull-right"></i> My Profile</a></li>
-                     <li><a href="<?php echo BASE_URL; ?>/actions/logout.php?responder=<?php echo $_SESSION['identifier'];?>"><i class="fas fa-sign-out-alt pull-right"></i> Log Out</a></li>
+                     <li><a href="<?php echo BASE_URL; ?>/actions/logout.php?responder=<?php echo $_SESSION['identifier']; ?>"><i class="fas fa-sign-out-alt pull-right"></i> Log Out</a></li>
                   </ul>
                </li>
             </ul>
@@ -221,9 +217,9 @@ callCheck();
          <div class="page-title">
             <div class="title_left">
                <h3>MDT Console</h3>
-               <?php echo $citationMessage;?>
-         <?php echo $arrestMessage;?>
-         <?php echo $warningMessage;?>
+               <?php echo $citationMessage; ?>
+         <?php echo $arrestMessage; ?>
+         <?php echo $warningMessage; ?>
             </div>
             <div class="x_footer">
          <button class="btn btn-primary" name="aop" data-target="#aop" id="getAOP" disabled></button>
@@ -276,7 +272,7 @@ callCheck();
                         <div class="form-group">
                            <label class="col-md-2 col-sm-2 col-xs-2 control-label">My Callsign</label>
                            <div class="col-md-10 col-sm-10 col-xs-10">
-                              <input type="text" name="callsign" class="form-control" id="callsign1" value="<?php echo $_SESSION['identifier'];?>" readonly />
+                              <input type="text" name="callsign" class="form-control" id="callsign1" value="<?php echo $_SESSION['identifier']; ?>" readonly />
                            </div>
                            <!-- ./ col-sm-9 -->
                         </div>
@@ -291,7 +287,7 @@ callCheck();
                         <div class="form-group">
                            <label class="col-md-2 col-sm-2 col-xs-2 control-label">Change Status</label>
                            <div class="col-md-10 col-sm-10 col-xs-10">
-                              <select name="statusSelect" class="form-control selectpicker <?php echo $_SESSION['identifier'];?>" id="statusSelect" onChange="responderChangeStatus(this);" title="Select a Status">
+                              <select name="statusSelect" class="form-control selectpicker <?php echo $_SESSION['identifier']; ?>" id="statusSelect" onChange="responderChangeStatus(this);" title="Select a Status">
                                  <option value="10-6">10-6/Busy</option>
                                  <option value="10-5">10-5/Meal Break</option>
                                  <option value="10-7">10-7/Unavailable</option>
@@ -329,10 +325,10 @@ callCheck();
             </div>
             <!-- ./ col-md-6 col-sm-6 col-xs-6 -->
             <?php
-               if (isset($_GET['Fire']))
-               {
-                     //End the above row
-                     echo '
+if (isset($_GET['Fire']))
+{
+    //End the above row
+    echo '
                      </div>
                      <!-- ./ row -->
 
@@ -394,14 +390,14 @@ callCheck();
                      </div>
                      <!-- ./ row -->
                      ';
-               }
-               else
-               {
+}
+else
+{
 
-                  /*
-
+    /*
+    
                      SG - Commenting out for now since citation creation isn't going to be a thing for LEOs
-
+    
                   echo '
                   <div class="col-md-6 col-sm-6 col-xs-6">
                   <div class="x_panel">
@@ -415,7 +411,7 @@ callCheck();
                      <!-- ./ x_title -->
                      <div class="x_content">
                      <div class="alert alert-info" style="text-align:center;"><span>Citations need to be approved by staff!</span></div>
-
+    
                      <form id="newCitationForm">
                         <div class="row">
                            <div class="form-group">
@@ -435,23 +431,24 @@ callCheck();
          <!-- ./ form-group -->
       </div>
       <!-- ./ row -->
-   </div>
-   <!-- ./ x_content -->
-   <br/>
-   <div class="x_footer">
+    </div>
+    <!-- ./ x_content -->
+    <br/>
+    <div class="x_footer">
       <button type="submit" class="btn btn-primary pull-right" id="newCitationSubmit" disabled>Submit Citation</button>
-   </div>
-   <!-- ./ x_footer -->
-   </form>
-</div>
-<!-- ./ x_panel -->
-</div>
-<!-- ./ col-md-6 col-sm-6 col-xs-6 -->
-'; */
+    </div>
+    <!-- ./ x_footer -->
+    </form>
+    </div>
+    <!-- ./ x_panel -->
+    </div>
+    <!-- ./ col-md-6 col-sm-6 col-xs-6 -->
+    '; */
 }
 ?>
 <!-- ./ row -->
-<?php  if (POLICE_NCIC == true) { ?>
+<?php if (POLICE_NCIC == true)
+{ ?>
             <div id="ncic" class="dynamic-content row">
                <div class="clearfix"></div>
             <div class="col-md-4 col-sm-4 col-xs-4">
@@ -538,7 +535,10 @@ callCheck();
             </div>
       <!-- ./ col-md-4 col-sm-4 col-xs-4 -->
    </div>
-   <?php } if ( $activeBadge != "gavel" && FIRE_NCIC_NAME == true xor EMS_NCIC_NAME == true xor ROADSIDE_NCIC_NAME == true ) { ?>
+   <?php
+}
+if ($activeBadge != "gavel" && FIRE_NCIC_NAME == true xor EMS_NCIC_NAME == true xor ROADSIDE_NCIC_NAME == true)
+{ ?>
 
    <div class="clearfix"></div>
    <div id="ncic" class="row">
@@ -571,9 +571,14 @@ callCheck();
    </div>
    <!-- ./ col-md-4 col-sm-4 col-xs-4 -->
 
-<?php } else {}
+<?php
+}
+else
+{
+}
 
-   if ( $activeBadge != "gavel" && FIRE_NCIC_PLATE === true xor EMS_NCIC_PLATE === true xor ROADSIDE_NCIC_PLATE === true ) { ?>
+if ($activeBadge != "gavel" && FIRE_NCIC_PLATE === true xor EMS_NCIC_PLATE === true xor ROADSIDE_NCIC_PLATE === true)
+{ ?>
          <div id="ncic" class="row">
             <div class="col-md-4 col-sm-4 col-xs-4">
                <div class="x_panel">
@@ -602,7 +607,11 @@ callCheck();
                <!-- ./ x_panel -->
             </div>
             <!-- ./ col-md-4 col-sm-4 col-xs-4 -->
-         <?php } else {} ?>
+         <?php
+}
+else
+{
+} ?>
    </div>
 <!-- "" -->
 </div>
@@ -613,7 +622,7 @@ callCheck();
 <!-- footer content -->
 <footer>
 <div class="pull-right">
-   <?php echo COMMUNITY_NAME?> CAD System
+   <?php echo COMMUNITY_NAME ?> CAD System
 </div>
 <div class="clearfix"></div>
 </footer>
@@ -720,7 +729,7 @@ callCheck();
          <label class="col-lg-2 control-label">Civilian Name</label>
          <div class="col-lg-10">
          <select class="form-control selectpicker" name="civilian_names" id="civilian_names" data-live-search="true" required title="Select Civilian">
-            <?php getCivilianNamesOption();?>
+            <?php getCivilianNamesOption(); ?>
          </select>
          </div>
          <!-- ./ col-sm-9 -->
@@ -806,7 +815,7 @@ callCheck();
          </div>
          <!-- ./ x_title -->
          <div class="x_content">
-            <?php rms_warnings();?>
+            <?php rms_warnings(); ?>
          </div>
          <!-- ./ x_content -->
          </div>
@@ -823,7 +832,7 @@ callCheck();
          </div>
          <!-- ./ x_title -->
          <div class="x_content">
-            <?php rms_citations();?>
+            <?php rms_citations(); ?>
          </div>
          <!-- ./ x_content -->
          </div>
@@ -840,7 +849,7 @@ callCheck();
          </div>
          <!-- ./ x_title -->
          <div class="x_content">
-            <?php rms_arrests();?>
+            <?php rms_arrests(); ?>
          </div>
          <!-- ./ x_content -->
          </div>
@@ -857,7 +866,7 @@ callCheck();
          </div>
          <!-- ./ x_title -->
          <div class="x_content">
-            <?php rms_warrants();?>
+            <?php rms_warrants(); ?>
          </div>
          <!-- ./ x_content -->
          </div>
@@ -893,7 +902,7 @@ callCheck();
          <label class="col-lg-2 control-label">Civilian Name</label>
          <div class="col-lg-10">
          <select class="form-control selectpicker" name="civilian_names" id="civilian_names" data-live-search="true" required title="Select Civilian">
-            <?php getCivilianNamesOption();?>
+            <?php getCivilianNamesOption(); ?>
          </select>
          </div>
          <!-- ./ col-sm-9 -->
@@ -971,7 +980,7 @@ callCheck();
          <label class="col-lg-2 control-label">Civilian Name</label>
          <div class="col-lg-10">
          <select class="form-control selectpicker" name="civilian_names" id="civilian_names" data-live-search="true" required title="Select Civilian">
-            <?php getCivilianNamesOption();?>
+            <?php getCivilianNamesOption(); ?>
          </select>
          </div>
          <!-- ./ col-sm-9 -->
@@ -1134,7 +1143,7 @@ callCheck();
          <label class="col-lg-2 control-label">Civilian Name</label>
          <div class="col-lg-10">
          <select class="form-control selectpicker" name="civilian_names" id="civilian_names" data-live-search="true" required title="Select Civilian">
-            <?php getCivilianNamesOption();?>
+            <?php getCivilianNamesOption(); ?>
          </select>
          </div>
          <!-- ./ col-sm-9 -->
@@ -1200,15 +1209,15 @@ var vid = document.getElementById("recurringToneAudio");
 vid.volume = 0.3;
 </script>
 <?php
-   if ($_SESSION['activeDepartment'] == 'fire')
-   {
-      echo '<audio id="newCallAudio" src="'.BASE_URL.'/sounds/Fire_Tones_Aligned.wav" preload="auto"></audio>';
-   }
+if ($_SESSION['activeDepartment'] == 'fire')
+{
+    echo '<audio id="newCallAudio" src="' . BASE_URL . '/sounds/Fire_Tones_Aligned.wav" preload="auto"></audio>';
+}
 else
 {
-   echo '<audio id="newCallAudio" src="'.BASE_URL.'/sounds/New_Dispatch.mp3"  preload="auto"></audio>';
-   }
-   ?>
+    echo '<audio id="newCallAudio" src="' . BASE_URL . '/sounds/New_Dispatch.mp3"  preload="auto"></audio>';
+}
+?>
 <?php include "./oc-includes/jquery-colsolidated.inc.php"; ?>
 <script type="text/javascript">
 // Parse the URL parameter
@@ -1222,7 +1231,7 @@ if (!results[2]) return '';
 return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 // Give the parameter a variable name
-var dynamicContent = "<?php echo $_SESSION['activeDepartment'];?>"
+var dynamicContent = "<?php echo $_SESSION['activeDepartment']; ?>"
 
 $(document).ready(function() {
 
@@ -1479,7 +1488,7 @@ function mdtGetPersonBOLOS() {
 </script>
 <script>
 $('#callsign').on('shown.bs.modal', function(e) {
-      $('#callsign').find('input[name="callsign"]').val('<?php echo $_SESSION['identifier'];?>');
+      $('#callsign').find('input[name="callsign"]').val('<?php echo $_SESSION['identifier']; ?>');
 });
 </script>
 <script>
@@ -1500,7 +1509,7 @@ $(function() {
             if (response.match("^Duplicate"))
             {
                   var call2 = $('#callsign').find('input[name="callsign"]').val();
-                  if (call2 == "<?php echo $_SESSION['identifier'];?>")
+                  if (call2 == "<?php echo $_SESSION['identifier']; ?>")
                   {
                      $('#closeCallsign').trigger('click');
 
