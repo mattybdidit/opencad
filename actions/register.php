@@ -43,21 +43,27 @@ function register()
     //Establish database connection
 
     //Check to see if the email has already been used
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
-    }
+    // try{
+    //     $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
+    // } catch(PDOException $ex)
+    // {
+    //     $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
+    //     $_SESSION['error_blob'] = $ex;
+    //     header('Location: '.BASE_URL.'/plugins/error/index.php');
+    //     die();
+    // }
 
-    $stmt = $pdo->prepare("SELECT email from ".DB_PREFIX."users where email = ?");
-    $resStatus = $stmt->execute(array($email));
-    $result = $stmt;
+    // $stmt = $pdo->prepare("SELECT email from ".DB_PREFIX."users where email = ?");
+    // $resStatus = $stmt->execute(array($email));
+    // $result = $stmt;
 
-    if (!$resStatus)
+    $stm = $db->prepare('SELECT email FROM users WHERE email = ?');
+    $stm->bindValue(1, $email);
+    $res = $stm->execute();
+    $result = $stm;
+
+
+    if (!$result)
     {
         $_SESSION['error'] = $stmt->errorInfo();
         header('Location: '.BASE_URL.'/plugins/error/index.php');
