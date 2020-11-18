@@ -73,6 +73,12 @@ else if (isset($_POST['changeUserPassword']))
 /* FUNCTIONS */
 function deleteGroupItem()
 {
+    if(DEMO_MODE == true){
+        $_SESSION['accessMessage'] = '<div class="alert alert-error"><span>Error, you cannot delete that</span></div>';
+        sleep(1);
+        header("Location:".BASE_URL."/oc-admin/userManagement.php");
+        die();
+    }
 	$dept_id 		= !empty($_GET['dept_id']) ? $_GET['dept_id'] : '';
     $user_id 		= !empty($_GET['user_id']) ? $_GET['user_id'] : '';
 
@@ -100,14 +106,19 @@ function deleteGroupItem()
 
 function editUserAccount()
 {
+    session_start();
+    if(DEMO_MODE == true){
+        $_SESSION['accessMessage'] = '<div class="alert alert-error"><span>Error, you cannot edit this user account</span></div>';
+        sleep(1);
+        header("Location:".BASE_URL."/oc-admin/userManagement.php");
+        die();
+    }
 	$userName 		= !empty($_POST['userName']) ? htmlspecialchars($_POST['userName']) : '';
 	$userEmail 		= !empty($_POST['userEmail']) ? htmlspecialchars($_POST['userEmail']) : '';
 	$userID 		= !empty($_POST['userID']) ? htmlspecialchars($_POST['userID']) : '';
 	$userIdentifier = !empty($_POST['userIdentifier']) ? htmlspecialchars($_POST['userIdentifier']) : '';
 	$userGroups 	= !empty($_POST['userGroups']) ? $_POST['userGroups'] : '';
     $userRole       = !empty($_POST['userRole']) ? htmlspecialchars($_POST['userRole']) : '';
-
-    session_start();
     $myRank = $_SESSION['admin_privilege'];
     $hisRank = _getRole($userID);
 
@@ -204,6 +215,12 @@ function editUserAccountRole()
 function delete_user()
 {
     session_start();
+    if(DEMO_MODE == true){
+        $_SESSION['accessMessage'] = '<div class="alert alert-error"><span>Error, you cannot delete this user account</span></div>';
+        sleep(1);
+        header("Location:".BASE_URL."/oc-admin/userManagement.php");
+        die();
+    }
     $uid = htmlspecialchars($_POST['uid']);
     $myRank = $_SESSION['admin_privilege'];
     $hisRank = _getRole($uid);
