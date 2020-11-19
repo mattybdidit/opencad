@@ -15,7 +15,7 @@
     **/
 
     session_start();
-    $error_title = "We are sorry! It looks as a error had occurred.";
+    $error_title = "We are sorry! It looks as a error has occurred.";
     if(!empty($_SESSION['error_title']))
     {
         $error_title = htmlspecialchars($_SESSION['error_title']);
@@ -92,7 +92,7 @@
                                 <br><br>
                                 <?php } ?>
                                 <div class="x_content">
-                                    If this error persists, please open up a <a href="https://jira.opencad.io/secure/CreateIssue!default.jspa">ticket</a>.
+                                    If this error persists, please open up an <a href="https://github.com/Matt4499/opencad/issues/new?assignees=&labels=bug%2Fglitch&template=bug-glitch-report.md&title=%5BBug%2FGlitch%5D+Title+Here">issue.</a>
                                 </div>
                             </div>
                         </div>

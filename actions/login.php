@@ -13,6 +13,9 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
 **/
 
 require_once(__DIR__ . "/../oc-config.php");
+if(DISCORD_LOGS) { 
+    require_once(__DIR__ . "/discordWebhook.php");
+}
 
 if(!empty($_POST))
 {
@@ -85,8 +88,8 @@ if(!empty($_POST))
     $_SESSION['identifier'] = $result['identifier'];
     $_SESSION['callsign'] = $result['identifier']; //Set callsign to default to identifier until the unit changes it
     $_SESSION['admin_privilege'] = $result['admin_privilege']; //Set callsign to default to identifier until the unit changes it
-    if(ENABLE_API_SECURITY === true)
-        setcookie("aljksdz7", hash('md5', session_id().getApiKey()), time() + (86400 * 7), "/");
+    if(ENABLE_API_SECURITY === true) setcookie("aljksdz7", hash('md5', session_id().getApiKey()), time() + (86400 * 7), "/");
+    if(DISCORD_LOGS) sendWebhook("New Login from user ".$result['name'], "Info");
     header("Location:".BASE_URL."/dashboard.php");
 }
 
