@@ -221,7 +221,6 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
                                 <h3>Got Feedback?</h3>
                                 <p>The OpenCAD team wants to know what you think. Please send us your feedback today!
                                 </p>
-                                <a href="#" id="getFeedbackJIRA">Send Feedback</a>
                             </div>
                             <!-- ./ x_content -->
                         </div>
@@ -250,21 +249,6 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
     include (__DIR__ . "/oc-admin-includes/globalModals.inc.php");
     include (__DIR__ . "/../oc-includes/jquery-colsolidated.inc.php"); ?>
 
-    <script type="text/javascript"
-        src="https://jira.opencad.io/s/a0c4d8ca8eced10a4b49aaf45ec76490-T/-f9bgig/77001/9e193173deda371ba40b4eda00f7488e/2.0.24/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-US&collectorId=296607a1">
-    </script>
-
-    <script type="text/javascript">
-    window.ATL_JQ_PAGE_PROPS = {
-        "triggerFunction": function(showCollectorDialog) {
-            //Requires that jQuery is available!
-            jQuery("#getFeedbackJIRA").click(function(e) {
-                e.preventDefault();
-                showCollectorDialog();
-            });
-        }
-    };
-    </script>
 </body>
 
 </html>
