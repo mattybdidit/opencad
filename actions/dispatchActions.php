@@ -1405,6 +1405,7 @@ function cadGetVehicleBOLOSid()
 
 function changeaop()
 {
+	
 	try{
 		$pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
 	} catch(PDOException $ex)
@@ -1414,40 +1415,23 @@ function changeaop()
 		header('Location: '.BASE_URL.'/plugins/error/index.php');
 		die();
 	}
-
-	//$count = $pdo->prepare("SELECT COUNT(*) ".DB_PREFIX."aop");
-
-// count total number of rows
-$query = "SELECT COUNT(*) as total_rows FROM ".DB_PREFIX."aop";
-$stmt = $pdo->prepare($query);
-
-// execute query
-$stmt->execute();
-
-// get total rows
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-$total_rows = $row['total_rows'];
 	 
 	if ( empty($_POST['aop']) )
 	{
-		$stmt = $pdo->query("TRUNCATE ".DB_PREFIX."aop");
-		$stmt->execute();
+		$stmt = $pdo->prepare("UPDATE ".DB_PREFIX."aop SET value = :value WHERE key = :aop");
+		$pdo->bindValue(':value', null);
+		$pdo->bindValue(':aop', 'aop');
+		$result = $stmt->execute();
 		header("Location:".BASE_URL."/cad.php");
 	}
-	else if ( $total_rows == 0 )
-	{
-		$stmt = $pdo->prepare("INSERT INTO ".DB_PREFIX."aop VALUES (?)");
-		$result = $stmt->execute(array(htmlspecialchars($_POST['aop'])));
-		header("Location:".BASE_URL."/cad.php");
-	} else {
-			$stmt = $pdo->prepare("UPDATE ".DB_PREFIX."aop SET aop = ?");
-			$result = $stmt->execute(array(htmlspecialchars($_POST['aop'])));
+	else {
+		$stmt = $pdo->prepare("UPDATE ".DB_PREFIX."config SET value = :value WHERE key = :aop");
+		$pdo->bindValue(':value', $_POST['AOP']);
+		$pdo->bindValue(':aop', 'aop');
+		$result = $stmt->execute();
 	}
-
-
-
 	$pdo = null;
-
+	$stmt = null;
 	header("Location:".BASE_URL."/cad.php");
 }
 
