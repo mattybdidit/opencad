@@ -162,7 +162,7 @@ else if (isset($_POST['resetData']))
 
 /**#@+
 * function getCitationTypes()
-* Fetches all Warrant Types from the warrant_types table with their resepective IDs and
+* Fetches all citation Types from the citation_types table with their resepective IDs and
 * types. It then builds the table and includes functions such as Edit and Delete
 * These functions are handled by editCitationTypes(); and deleteCitationTypes(); 
 *
@@ -801,7 +801,7 @@ function deleteIncidentType()
 
 /**#@+
 * function getRadioCodes()
-* Fetches all Warrant Types from the warrant_types table with their resepective IDs and
+* Fetches all radio codes from the radio_codes table with their resepective IDs and
 * types. It then builds the table and includes functions such as Edit and Delete
 * These functions are handled by editRadioCode(); and deleteRadioCode(); 
 *
@@ -2144,4 +2144,3 @@ function resetData()
     header("Location: ".BASE_URL."/oc-admin/admin.php");
 }
 //** END Data Import/Export/Reset FUNCTIONS **//
-?>

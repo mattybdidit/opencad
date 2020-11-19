@@ -2,7 +2,7 @@
 -- Dumping data for table `colors`
 --
 
-INSERT INTO `colors` (`id`, `color_group`, `color_name`) VALUES
+INSERT INTO `oc_colors` (`id`, `color_group`, `color_name`) VALUES
 (1, 'Chrome', 'Chrome'),
 (2, 'Classic', 'Black'),
 (3, 'Classic', 'Carbon Black'),
@@ -257,7 +257,7 @@ INSERT INTO `colors` (`id`, `color_group`, `color_name`) VALUES
 -- Dumping data for table `citation_types
 --
 
-INSERT INTO `citation_types` (`citation_id`, `citation_description`, `citation_fine`) VALUES
+INSERT INTO `oc_citation_types` (`citation_id`, `citation_description`, `citation_fine`) VALUES
 (1, 'Felony Hit and Run','400'),
 (2, 'Hit and Run', '300'),
 (3, 'Reckless Driving', '200'),
@@ -275,7 +275,7 @@ INSERT INTO `citation_types` (`citation_id`, `citation_description`, `citation_f
 -- Dumping data for table `departments`
 --
 
-INSERT INTO `departments` (`department_id`, `department_name`, `department_short_name`, `department_long_name`, `allow_department`) VALUES
+INSERT INTO `oc_departments` (`department_id`, `department_name`, `department_short_name`, `department_long_name`, `allow_department`) VALUES
 (1, 'Communications', 'SAECOMM', 'San Andreas Emergency Communications', 0),
 (2, 'State', 'SASP', 'San Andreas State Police', 0),
 (3, 'Highway', 'SAHP', 'San Andreas Highway Patrol', 0),
@@ -290,7 +290,7 @@ INSERT INTO `departments` (`department_id`, `department_name`, `department_short
 -- Dumping data for table `incident_types`
 --
 
-INSERT INTO `incident_types` (`code_id`, `code_name`) VALUES
+INSERT INTO `oc_incident_types` (`code_id`, `code_name`) VALUES
 ('10-0', 'Use Caution'),
 ('10-1', 'Signal Weak'),
 ('10-2', 'Signal Good'),
@@ -375,7 +375,7 @@ INSERT INTO `incident_types` (`code_id`, `code_name`) VALUES
 -- Dumping data for table `statuses`
 --
 
-INSERT INTO `statuses` (`status_id`, `status_text`) VALUES
+INSERT INTO `oc_statuses` (`status_id`, `status_text`) VALUES
 (1, '10-8 | Available'),
 (2, '10-6 | Busy'),
 (3, '10-7 | Unavailable | On Call'),
@@ -389,7 +389,7 @@ INSERT INTO `statuses` (`status_id`, `status_text`) VALUES
 -- Dumping data for table `streets`
 --
 
-INSERT INTO `streets` (`id`, `name`, `county`) VALUES
+INSERT INTO `oc_streets` (`id`, `name`, `county`) VALUES
 	(1, 'Abattoir Avenue', 'Los Santos County'),
 	(2, 'Abe Milton Parkway', 'Los Santos County'),
 	(3, 'Ace Jones Drive', 'Los Santos County'),
@@ -2344,7 +2344,7 @@ INSERT INTO `streets` (`id`, `name`, `county`) VALUES
 -- Dumping data for table `tones`
 --
 
-INSERT INTO `tones` (`id`, `name`, `active`) VALUES
+INSERT INTO `oc_tones` (`id`, `name`, `active`) VALUES
 (1, 'priority', '0'),
 (2, 'recurring', '0'),
 (3, 'panic', '0');
@@ -2353,7 +2353,7 @@ INSERT INTO `tones` (`id`, `name`, `active`) VALUES
 -- Dumping data for table `vehicles`
 --
 
-INSERT INTO `vehicles` (`id`, `Make`, `Model`) VALUES
+INSERT INTO `oc_vehicles` (`id`, `Make`, `Model`) VALUES
   (1, 'Albany', 'Alpha'),
   (2, 'Albany', 'Buccaneer'),
   (3, 'Albany', 'Buccaneer Custom'),
@@ -2857,7 +2857,7 @@ INSERT INTO `vehicles` (`id`, `Make`, `Model`) VALUES
 -- Dumping data for table `weapons`
 --
 
-INSERT INTO `weapons` (`id`, `weapon_type`, `weapon_name`) VALUES
+INSERT INTO `oc_weapons` (`id`, `weapon_type`, `weapon_name`) VALUES
 (1, 'Vom Feuer', 'Advanced Rifle'),
 (2, 'Shrewsbury', 'Assault Rifle'),
 (3, 'Shrewsbury', 'Assault Rifle MKII'),
@@ -2951,7 +2951,7 @@ INSERT INTO `weapons` (`id`, `weapon_type`, `weapon_name`) VALUES
 -- Dumping data into `radio_codes`
 --
 
-INSERT INTO `radio_codes` (`id`, `code`, `code_description`, `onCall`) VALUES
+INSERT INTO `oc_radio_codes` (`id`, `code`, `code_description`, `onCall`) VALUES
 (1, '10-8',			'Available', 2),
 (2, '10-6',			'Busy', 1),
 (3, '10-7C',		'Unavailable | On Call', 1),
@@ -2965,7 +2965,7 @@ INSERT INTO `radio_codes` (`id`, `code`, `code_description`, `onCall`) VALUES
 -- Dumping data into `warrant_types`
 --
 
-INSERT INTO `warrant_types` (`id`, `warrant_violent`, `warrant_description`) VALUES
+INSERT INTO `oc_warrant_types` (`id`, `warrant_violent`, `warrant_description`) VALUES
 (1, '1', 'First Degree Murder'),
 (2, '1', 'Second Degree Murder'),
 (3, '1', 'Third Degree Murder'),
