@@ -9,6 +9,7 @@
         { ?>
         <li <?php if ( $pageName == "NCIC Editor") echo $currentPage; ?>><a href="<?php echo BASE_URL; ?>/oc-admin/ncicAdmin.php"><i class="fas fa-database"></i> NCIC Editor</a></li>
       <?php  } else { }?>
+      <li><a href="<?php echo BASE_URL; ?>/oc-admin/settings.php"><i class="fas fa-database"></i> OpenCAD Settings</a></li>
 
       <?php if ( ( MODERATOR_DATA_MANAGER == true && $_SESSION['admin_privilege'] == 2 ) || ( $_SESSION['admin_privilege'] == 3 ) )
         { ?>
