@@ -30,7 +30,7 @@
             $error = htmlspecialchars($_SESSION['error']);
     }
 
-    $error_blob = null;
+    $error_blob = "null";
     if(!empty($_SESSION['error_blob'])){
         $error_blob = htmlspecialchars($_SESSION['error_blob']);
     }

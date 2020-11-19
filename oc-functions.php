@@ -172,7 +172,7 @@ function getApiKey($del_key = false)
         die();
     }
 
-    $result = $pdo->query("SELECT value FROM " . DB_PREFIX . "config WHERE `key`='api_key'");
+    $result = $pdo->query("SELECT svalue FROM " . DB_PREFIX . "config WHERE `skey`='api_key'");
 
     if (!$result)
     {
@@ -186,7 +186,7 @@ function getApiKey($del_key = false)
     {
         error_log("Do delete: $del_key");
         $key = generateRandomString(64);
-        $result = $pdo->query("UPDATE " . DB_PREFIX . "config SET `value`='$key' WHERE `key`='api_key'");
+        $result = $pdo->query("UPDATE " . DB_PREFIX . "config SET `svalue`='$key' WHERE `skey`='api_key'");
 
         if (!$result)
         {
@@ -196,29 +196,11 @@ function getApiKey($del_key = false)
             die();
         }
 
+        
+        $key = $result->fetch(PDO::FETCH_ASSOC) ['svalue'];
+        $pdo = null;
         return $key;
     }
-    else if ($result->rowCount() >= 1)
-    {
-        $key = $result->fetch(PDO::FETCH_ASSOC) ['value'];
-        return $key;
-    }
-    else
-    {
-        $key = generateRandomString(64);
-        $result = $pdo->query("INSERT INTO " . DB_PREFIX . "config VALUES ('api_key', '$key')");
-
-        if (!$result)
-        {
-            $_SESSION['error'] = $pdo->errorInfo();
-            error_log(print_r($pdo->errorInfo() , true));
-            header('Location: ' . BASE_URL . '/plugins/error/index.php');
-            die();
-        }
-
-        return $key;
-    }
-    $pdo = null;
 }
 
 /**#@+
@@ -267,4 +249,3 @@ function permissionDenied()
     header('Location: ' . BASE_URL . '/plugins/error/index.php');
     die();
 }
-

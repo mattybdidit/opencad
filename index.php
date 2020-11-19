@@ -31,7 +31,6 @@ if(!file_exists(getcwd().'/oc-config.php') && is_writable(getcwd())){
 	if ( (isset($_SESSION['logged_in'])) == "YES" )
 	{
 	  header ('Location: ./dashboard.php');
-;      //echo $_SESSION['name']." is logged in!";
 	}
 	if (isset($_GET['loggedOut']))
 	{

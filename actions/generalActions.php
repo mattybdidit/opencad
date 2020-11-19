@@ -622,29 +622,19 @@ function getAOP()
         die();
     }
 
-    $result = $pdo->query("SELECT * from ".DB_PREFIX."aop");
+    $stmt = $pdo->prepare("SELECT svalue from ".DB_PREFIX."config WHERE skey = 'aop'");
+    $result = $stmt->execute();
 
     if (!$result)
     {
-        $_SESSION['error'] = $pdo->errorInfo();
+        $_SESSION['error'] = print_r($stmt->errorInfo());
+        $_SESSION['error_blob'] = $pdo->errorInfo();
         header('Location: '.BASE_URL.'/plugins/error/index.php');
         die();
     }
+    $aop = $stmt->fetchColumn();
+    echo 'AOP: ' .$aop.' ';
     $pdo = null;
-
-    $num_rows = $result->rowCount();
-
-    if($num_rows == 0)
-    {
-        echo "NO AOP SET";
-    }
-    else
-    {
-        foreach($result as $row)
-        {
-            echo 'AOP: '.$row[0].' ';
-        }
-    }
 }
 
 function getDispatchers()

@@ -13,9 +13,7 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
 **/
 
 require_once(__DIR__ . "/../oc-config.php");
-
 include_once(__DIR__ . "/../plugins/api_auth.php");
-
 /**
  * Patch notes:
  * Adding the `else` to make a `else if` prevents the execution
@@ -1418,21 +1416,35 @@ function changeaop()
 	 
 	if ( empty($_POST['aop']) )
 	{
-		$stmt = $pdo->prepare("UPDATE ".DB_PREFIX."aop SET value = :value WHERE key = :aop");
-		$pdo->bindValue(':value', null);
-		$pdo->bindValue(':aop', 'aop');
+		$null = null;
+		$stmt = $pdo->prepare("UPDATE ".DB_PREFIX."config SET svalue = null WHERE skey = 'aop'");
 		$result = $stmt->execute();
-		header("Location:".BASE_URL."/cad.php");
+		if($result == false) {
+			$error = $pdo->errorInfo();
+			$_SESSION['error'] = "Error occured while changing AOP";
+			$_SESSION['error_title'] = $error;
+			header('Location: '.BASE_URL.'/plugins/error/index.php');
+			die();
+		} else {
+			header("Location:".BASE_URL."/cad.php");
+		}
 	}
 	else {
-		$stmt = $pdo->prepare("UPDATE ".DB_PREFIX."config SET value = :value WHERE key = :aop");
-		$pdo->bindValue(':value', $_POST['AOP']);
-		$pdo->bindValue(':aop', 'aop');
+		$aop = $_POST['aop'];
+		$stmt = $pdo->prepare("UPDATE ".DB_PREFIX."config SET svalue = :newaop WHERE skey = 'aop'");
+		$stmt->bindValue(':newaop', $aop);
 		$result = $stmt->execute();
+		if($result == false) {
+			$error = $pdo->errorInfo();
+			$_SESSION['error'] = "Error occured while changing AOP";
+			$_SESSION['error_title'] = $error;
+			header('Location: '.BASE_URL.'/plugins/error/index.php');
+			die();
+		}
 	}
 	$pdo = null;
 	$stmt = null;
-	header("Location:".BASE_URL."/cad.php");
+	header("Location: ".BASE_URL."/cad.php");
 }
 
 function editPersonBOLOS()
