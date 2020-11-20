@@ -11,52 +11,41 @@ This program is free software: you can redistribute it and/or modify
  (at your option) any later version.
 
 This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
-**/
-    session_start();
-    require_once(__DIR__.'../../../oc-config.php');
-    require_once(__DIR__.'../../../oc-functions.php');
-    include(__DIR__ .'../../../actions/dataActions.php');   
+ **/
+session_start();
+require_once(__DIR__ . '../../../oc-config.php');
+require_once(__DIR__ . '../../../oc-functions.php');
+include(__DIR__ . '../../../actions/dataActions.php');
 
-    if (empty($_SESSION['logged_in']))
-    {
-        header('Location: ../index.php');
-        die("Not logged in");
-    }
-    else
-    {
-      $name = $_SESSION['name'];
-    }
+if (empty($_SESSION['logged_in'])) {
+    header('Location: ../index.php');
+    die("Not logged in");
+} else {
+    $name = $_SESSION['name'];
+}
 
-    if ( $_SESSION['admin_privilege'] == 3)
-    {
-      if ($_SESSION['admin_privilege'] == 'Administrator')
-      {
-          //Do nothing
-      }
+if ($_SESSION['admin_privilege'] == 3) {
+    if ($_SESSION['admin_privilege'] == 'Administrator') {
+        //Do nothing
     }
-    else if ($_SESSION['admin_privilege'] == 2 && MODERATOR_DATAMAN_WARRANTTYPES == true)
-    {
-      if ($_SESSION['admin_privilege'] == 'Moderator')
-      {
-          // Do Nothing
-      }
+} else if ($_SESSION['admin_privilege'] == 2 && MODERATOR_DATAMAN_WARRANTTYPES == true) {
+    if ($_SESSION['admin_privilege'] == 'Moderator') {
+        // Do Nothing
     }
-    else
-    {
-        permikssionDenied();
-    } 
+} else {
+    permikssionDenied();
+}
 
-    $successMessage = "";
-    if(isset($_SESSION['successMessage']))
-    {
-        $successMessage = $_SESSION['successMessage'];
-        unset($_SESSION['successMessage']);
-    }
+$successMessage = "";
+if (isset($_SESSION['successMessage'])) {
+    $successMessage = $_SESSION['successMessage'];
+    unset($_SESSION['successMessage']);
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-<?php include (__DIR__ ."../../../oc-includes/header.inc.php"); ?>
+<?php include(__DIR__ . "../../../oc-includes/header.inc.php"); ?>
 
 <body class="nav-md">
     <div class="container body">
@@ -77,7 +66,7 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
                         </div>
                         <div class="profile_info">
                             <span>Welcome,</span>
-                            <h2><?php echo $name;?></h2>
+                            <h2><?php echo $name; ?></h2>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -85,23 +74,20 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
 
                     <br />
 
-                    <?php include __DIR__."../../oc-admin-includes/sidebarNav.inc.php"; ?>
+                    <?php include __DIR__ . "../../oc-admin-includes/sidebarNav.inc.php"; ?>
 
                     <!-- /menu footer buttons -->
                     <div class="sidebar-footer hidden-small">
-                        <a data-toggle="tooltip" data-placement="top" title="Go to Dashboard"
-                            href="<?php echo BASE_URL; ?>/dashboard.php">
+                        <a data-toggle="tooltip" data-placement="top" title="Go to Dashboard" href="<?php echo BASE_URL; ?>/dashboard.php">
                             <span class="fas fa-clipboard-list" aria-hidden="true"></span>
                         </a>
                         <a data-toggle="tooltip" data-placement="top" title="FullScreen" onClick="toggleFullScreen()">
                             <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Need Help?"
-                            href="https://guides.opencad.io/">
+                        <a data-toggle="tooltip" data-placement="top" title="Need Help?" href="https://discord.gg/es9mz6r">
                             <span class="fas fa-info-circle" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout"
-                            href="<?php echo BASE_URL; ?>/actions/logout.php?responder=<?php echo $_SESSION['identifier'];?>">
+                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?php echo BASE_URL; ?>/actions/logout.php?responder=<?php echo $_SESSION['identifier']; ?>">
                             <span class="fas fa-sign-out-alt" aria-hidden="true"></span>
                         </a>
                     </div>
@@ -119,16 +105,13 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
 
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
-                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
-                                    aria-expanded="false">
-                                    <img src="<?php echo get_avatar() ?>" alt=""><?php echo $name;?>
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <img src="<?php echo get_avatar() ?>" alt=""><?php echo $name; ?>
                                     <span class="fas fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                    <li><a href="<?php echo BASE_URL; ?>/profile.php"><i
-                                                class="fas fa-user pull-right"></i>My Profile</a></li>
-                                    <li><a href="<?php echo BASE_URL; ?>/actions/logout.php"><i
-                                                class="fas fa-sign-out-alt pull-right"></i> Log Out</a></li>
+                                    <li><a href="<?php echo BASE_URL; ?>/profile.php"><i class="fas fa-user pull-right"></i>My Profile</a></li>
+                                    <li><a href="<?php echo BASE_URL; ?>/actions/logout.php"><i class="fas fa-sign-out-alt pull-right"></i> Log Out</a></li>
                                 </ul>
                             </li>
 
@@ -193,8 +176,8 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
                                 </div>
                                 <!-- ./ x_title -->
                                 <div class="x_content">
-                                    <?php echo $successMessage;?>
-                                    <?php getWarrantTypes();?>
+                                    <?php echo $successMessage; ?>
+                                    <?php getWarrantTypes(); ?>
                                 </div>
                                 <!-- ./ x_content -->
                             </div>
@@ -213,7 +196,7 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
             <!-- footer content -->
             <footer>
                 <div class="pull-right">
-                    <?php echo COMMUNITY_NAME;?> CAD System
+                    <?php echo COMMUNITY_NAME; ?> CAD System
                 </div>
                 <div class="clearfix"></div>
             </footer>
@@ -232,15 +215,12 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
                 </div>
                 <!-- ./ modal-header -->
                 <div class="modal-body">
-                    <form role="form" method="post" action="<?php echo BASE_URL; ?>/actions/dataActions.php"
-                        class="form-horizontal">
+                    <form role="form" method="post" action="<?php echo BASE_URL; ?>/actions/dataActions.php" class="form-horizontal">
                         <div class="form-group row">
                             <label class="col-md-3 control-label">Warrant Description</label>
                             <div class="col-md-9">
-                                <input type="text" name="warrant_description" class="form-control"
-                                    id="warrant_description" />
-                                <span class="fas fa-exclamation-triangle form-control-feedback right"
-                                    aria-hidden="true"></span> </div>
+                                <input type="text" name="warrant_description" class="form-control" id="warrant_description" />
+                                <span class="fas fa-exclamation-triangle form-control-feedback right" aria-hidden="true"></span> </div>
                             <!-- ./ col-sm-9 -->
                         </div>
                         <!-- ./ form-group -->>
@@ -260,45 +240,45 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
     </div>
     <!-- ./ modal fade bs-example-modal-lg -->
 
-    <?php 
-	include(__DIR__ . "/../oc-admin-includes/globalModals.inc.php"); 
-	include(__DIR__ . "../../../oc-includes/jquery-colsolidated.inc.php");?>
+    <?php
+    include(__DIR__ . "/../oc-admin-includes/globalModals.inc.php");
+    include(__DIR__ . "../../../oc-includes/jquery-colsolidated.inc.php"); ?>
 
     <script>
-    $(document).ready(function() {
-        $('#allWarrantTypes').DataTable({});
-    });
-    </script>
-
-    <script>
-    $('#editWarrantTypeModal').on('show.bs.modal', function(e) {
-        var $modal = $(this),
-            warrantTypeID = e.relatedTarget.id;
-
-        $.ajax({
-            cache: false,
-            type: 'POST',
-            url: '<?php echo BASE_URL; ?>/actions/dataActions.php',
-            data: {
-                'getWarrantTypeDetails': 'yes',
-                'warrantTypeID': warrantTypeID
-            },
-            success: function(result) {
-                console.log(result);
-                data = JSON.parse(result);
-
-                $('input[name="warrant_description"]').val(data['warrant_description']);
-                $('input[name="warrantTypeID"]').val(data['warrantTypeID']);
-            },
-
-            error: function(exception) {
-                alert('Exeption:' + exception);
-            }
+        $(document).ready(function() {
+            $('#allWarrantTypes').DataTable({});
         });
-    })
     </script>
 
-    
+    <script>
+        $('#editWarrantTypeModal').on('show.bs.modal', function(e) {
+            var $modal = $(this),
+                warrantTypeID = e.relatedTarget.id;
+
+            $.ajax({
+                cache: false,
+                type: 'POST',
+                url: '<?php echo BASE_URL; ?>/actions/dataActions.php',
+                data: {
+                    'getWarrantTypeDetails': 'yes',
+                    'warrantTypeID': warrantTypeID
+                },
+                success: function(result) {
+                    console.log(result);
+                    data = JSON.parse(result);
+
+                    $('input[name="warrant_description"]').val(data['warrant_description']);
+                    $('input[name="warrantTypeID"]').val(data['warrantTypeID']);
+                },
+
+                error: function(exception) {
+                    alert('Exeption:' + exception);
+                }
+            });
+        })
+    </script>
+
+
 </body>
 
 </html>

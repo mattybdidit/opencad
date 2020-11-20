@@ -1,4 +1,5 @@
 <?php
+
 /**
  Open source CAD system for RolePlaying Communities.
  Copyright (C) 2017 Shane Gill
@@ -12,34 +13,31 @@
 
 session_start();
 
-require_once (__DIR__ . '/../oc-config.php');
-require_once (__DIR__ . '/../oc-functions.php');
+require_once(__DIR__ . '/../oc-config.php');
+require_once(__DIR__ . '/../oc-functions.php');
 
 if (empty($_SESSION['logged_in'])) {
     header('Location: ../index.php');
     die("Not logged in");
-}
-else {
+} else {
     $name = $_SESSION['name'];
 }
 
 if ($_SESSION['admin_privilege'] == 3) {
     if ($_SESSION['admin_privilege'] == 'Administrator') {
         //Do nothing
-        
+
     }
-}
-else if ($_SESSION['admin_privilege'] == 2) {
+} else if ($_SESSION['admin_privilege'] == 2) {
     if ($_SESSION['admin_privilege'] == 'Moderator') {
         // Do Nothing
-        
+
     }
-}
-else {
+} else {
     permissionDenied();
 }
 
-include ("../actions/adminActions.php");
+include("../actions/adminActions.php");
 
 $accessMessage = "";
 if (isset($_SESSION['accessMessage'])) {
@@ -57,8 +55,6 @@ if (isset($_SESSION['successMessage'])) {
     $successMessage = $_SESSION['successMessage'];
     unset($_SESSION['successMessage']);
 }
-
-$DebugModeEnabled = getBooleanSetting("debug_mode");
 
 ?>
 
@@ -98,19 +94,16 @@ $DebugModeEnabled = getBooleanSetting("debug_mode");
 
                     <!-- /menu footer buttons -->
                     <div class="sidebar-footer hidden-small">
-                        <a data-toggle="tooltip" data-placement="top" title="Go to Dashboard"
-                            href="<?php echo BASE_URL; ?>/dashboard.php">
+                        <a data-toggle="tooltip" data-placement="top" title="Go to Dashboard" href="<?php echo BASE_URL; ?>/dashboard.php">
                             <span class="fas fa-clipboard-list" aria-hidden="true"></span>
                         </a>
                         <a data-toggle="tooltip" data-placement="top" title="FullScreen" onClick="toggleFullScreen()">
                             <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Need Help?"
-                            href="https://guides.opencad.io/">
+                        <a data-toggle="tooltip" data-placement="top" title="Need Help?" href="https://discord.gg/es9mz6r">
                             <span class="fas fa-info-circle" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout"
-                            href="<?php echo BASE_URL; ?>/actions/logout.php?responder=<?php echo $_SESSION['identifier']; ?>">
+                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?php echo BASE_URL; ?>/actions/logout.php?responder=<?php echo $_SESSION['identifier']; ?>">
                             <span class="fas fa-sign-out-alt" aria-hidden="true"></span>
                         </a>
                     </div>
@@ -127,8 +120,7 @@ $DebugModeEnabled = getBooleanSetting("debug_mode");
                         </div>
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
-                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
-                                    aria-expanded="false">
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <img src="<?php echo get_avatar() ?>" alt=""><?php echo $name; ?>
                                     <span class="fas fa-angle-down"></span>
                                 </a>
@@ -149,27 +141,27 @@ $DebugModeEnabled = getBooleanSetting("debug_mode");
                 <div class="">
                     <div class="page-title">
 
-                    <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Setting</th>
-      <th scope="col">Value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Debug Mode</td>
-      <td>
-        <label class="switch">
-        <input type="checkbox" <?php if($DebugModeEnabled) echo 'checked'; ?>>
-        <span class="slider round"></span>
-        </label>
-      </td>
-    </tr>
-    <tr>
-      <td>Community Name</td>
-      <td>
-      <input type="text" value="<?php echo getStringSetting('community_name'); ?>"">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Setting</th>
+                                    <th scope="col">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Debug Mode</td>
+                                    <td>
+                                        <label class="switch">
+                                            <input type="checkbox" <?php if (OC_DEBUG) echo 'checked'; ?>>
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Community Name</td>
+                                    <td>
+                                        <input type="text" value="<?php echo getStringSetting('community_name'); ?>"">
       </td>
     </tr>
   </tbody>
@@ -181,18 +173,18 @@ $DebugModeEnabled = getBooleanSetting("debug_mode");
 
             <!-- footer content -->
             <footer>
-                <div class="pull-right">
-                    <?php echo COMMUNITY_NAME; ?> CAD System
+                <div class=" pull-right">
+                                        <?php echo COMMUNITY_NAME; ?> CAD System
+                    </div>
+                    <div class="clearfix"></div>
+                    </footer>
+                    <!-- /footer content -->
                 </div>
-                <div class="clearfix"></div>
-            </footer>
-            <!-- /footer content -->
-        </div>
-    </div>
+            </div>
 
-    <?php
-include (__DIR__ . "/oc-admin-includes/globalModals.inc.php");
-include (__DIR__ . "/../oc-includes/jquery-colsolidated.inc.php"); ?>
+            <?php
+            include(__DIR__ . "/oc-admin-includes/globalModals.inc.php");
+            include(__DIR__ . "/../oc-includes/jquery-colsolidated.inc.php"); ?>
 
 </body>
 
