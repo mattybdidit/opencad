@@ -28,7 +28,7 @@ if ($_SESSION['admin_privilege'] == 3) {
     if ($_SESSION['admin_privilege'] == 'Administrator') {
         //Do nothing
     }
-} else if ($_SESSION['admin_privilege'] == 2 && MODERAOTR_DATAMAN_STREETS == true) {
+} else if ($_SESSION['admin_privilege'] == 2 && MODERATOR_DATAMAN_STREETS == true) {
     if ($_SESSION['admin_privilege'] == 'Moderator') {
         // Do Nothing
     }

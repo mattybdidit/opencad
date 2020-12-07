@@ -129,7 +129,7 @@ function getMyCall()
         die();
     }
 
-    $stmt = $pdo->prepare("SELECT " . DB_PREFIX . "active_users.* from " . DB_PREFIX . "active_users WHERE " . DB_PREFIX . "active_users.id = ? AND " . DB_PREFIX . "active_users.status = '0' AND " . DB_PREFIX . "active_users.status_detail = '3'");
+    $stmt = $pdo->prepare("SELECT * from " . DB_PREFIX . "active_users WHERE " . DB_PREFIX . "active_users.id = ? AND " . DB_PREFIX . "active_users.status = '0' AND " . DB_PREFIX . "active_users.status_detail = '3'");
     $result = $stmt->execute(array($uid));
 
     if (!$result) {
@@ -141,14 +141,12 @@ function getMyCall()
     $num_rows = $stmt->rowCount();
 
     if ($num_rows == 0) {
-        echo '<div class="alert alert-info"><span>Not currently on a call</span></div>';
+        echo '<div class="alert alert-info"><span>Not currently on a call </span></div> ';
     } else {
         //Figure out what call the user is on
-        $sql = '';
-
         $stmt = $pdo->prepare("SELECT call_id from " . DB_PREFIX . "calls_users WHERE id = ?");
         $resStatus = $stmt->execute(array($uid));
-        $result = $stmt;
+        $call_id = $stmt->fetchColumn();
 
         if (!$resStatus) {
             $_SESSION['error'] = $stmt->errorInfo();
@@ -156,12 +154,8 @@ function getMyCall()
             die();
         }
 
-        foreach ($result as $row) {
-            $call_id = $row[0];
-        }
-
         $stmt = $pdo->prepare("SELECT * from " . DB_PREFIX . "calls WHERE call_id = ?");
-        $resStatus = $stmt->execute(array($uid));
+        $resStatus = $stmt->execute(array($call_id));
         $result = $stmt;
 
         if (!$resStatus) {

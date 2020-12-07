@@ -1,4 +1,5 @@
 <?php
+
 /**
  Open source CAD system for RolePlaying Communities.
  Copyright (C) 2017 Shane Gill
@@ -14,49 +15,35 @@ $lang = isset($_REQUEST['lang']) ? prepare_input($_REQUEST['lang']) : '';
 
 if (!isset($arr_active_languages)) $arr_active_languages = array();
 
-if (!empty($lang) && array_key_exists($lang, $arr_active_languages))
-{
+if (!empty($lang) && array_key_exists($lang, $arr_active_languages)) {
     $curr_lang = $_SESSION['curr_lang'] = $lang;
     $curr_lang_direction = $_SESSION['curr_lang_direction'] = isset($arr_active_languages[$lang]['direction']) ? $arr_active_languages[$lang]['direction'] : EI_DEFAULT_LANGUAGE;
-}
-else if (isset($_SESSION['curr_lang']) && array_key_exists($_SESSION['curr_lang'], $arr_active_languages))
-{
+} else if (isset($_SESSION['curr_lang']) && array_key_exists($_SESSION['curr_lang'], $arr_active_languages)) {
     $curr_lang = $_SESSION['curr_lang'];
     $curr_lang_direction = isset($_SESSION['curr_lang_direction']) ? $_SESSION['curr_lang_direction'] : EI_DEFAULT_LANGUAGE_DIRECTION;
-}
-else
-{
+} else {
     $curr_lang = DEFAULT_LANGUAGE;
     $curr_lang_direction = DEFAULT_LANGUAGE_DIRECTION;
 }
 
-if (file_exists('/oc-lang/' . $curr_lang . '/' . $curr_lang . '.inc.php'))
-{
-    include_once ('/oc-lang/' . $curr_lang . '/' . $curr_lang . '.inc.php');
-}
-else if (file_exists('../oc-lang/' . $curr_lang . '/' . $curr_lang . '.inc.php'))
-{
-    include_once ('../oc-lang/' . $curr_lang . '/' . $curr_lang . '.inc.php');
-}
-else if (file_exists('../../oc-lang/' . $curr_lang . '/' . $curr_lang . '.inc.php'))
-{
-    include_once ('../../oc-lang/' . $curr_lang . '/' . $curr_lang . '.inc.php');
-}
-else
-{
-    include_once ('./oc-lang/en/en.inc.php');
+if (file_exists('/oc-lang/' . $curr_lang . '/' . $curr_lang . '.inc.php')) {
+    include_once('/oc-lang/' . $curr_lang . '/' . $curr_lang . '.inc.php');
+} else if (file_exists('../oc-lang/' . $curr_lang . '/' . $curr_lang . '.inc.php')) {
+    include_once('../oc-lang/' . $curr_lang . '/' . $curr_lang . '.inc.php');
+} else if (file_exists('../../oc-lang/' . $curr_lang . '/' . $curr_lang . '.inc.php')) {
+    include_once('../../oc-lang/' . $curr_lang . '/' . $curr_lang . '.inc.php');
+} else {
+    include_once('./oc-lang/en/en.inc.php');
 }
 
-if (version_compare(PHP_VERSION, '7.1', '<'))
-{
+if (version_compare(PHP_VERSION, '7.1', '<')) {
     session_start();
     $_SESSION['error_title'] = "Incompatable PHP Version";
     $_SESSION['error'] = "An incompatable version  of PHP is active. OpenCAD requires PHP 7.1 at minimum, the current recommended version is 7.2. Currently PHP " . phpversion() . " is active, please contact your server administrator.";
     header('Location: ' . BASE_URL . '/plugins/error/index.php');
 }
 
-if (OC_DEBUG == "true")
-{
+if (OC_DEBUG == "true") {
     session_start();
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -64,9 +51,7 @@ if (OC_DEBUG == "true")
     echo "<pre>";
     print_r($_SESSION);
     echo "</pre>";
-}
-else
-{
+} else {
     ini_set('display_errors', 0);
     ini_set('display_startup_errors', 0);
     error_reporting(E_ERROR);
@@ -84,15 +69,12 @@ else
  **/
 function get_avatar()
 {
-    if (defined('USE_GRAVATAR') && USE_GRAVATAR)
-    {
+    if (defined('USE_GRAVATAR') && USE_GRAVATAR) {
         $url = 'https://www.gravatar.com/avatar/';
         $url .= md5(strtolower(trim($_SESSION['email'])));
         $url .= "?size=200&default=https://i.imgur.com/VN4YCW7.png";
         return $url;
-    }
-    else
-    {
+    } else {
         return "https://i.imgur.com/VN4YCW7.png";
     }
 }
@@ -109,8 +91,7 @@ function getMySQLVersion()
     $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD);
 
     /* check connection */
-    if (mysqli_connect_errno())
-    {
+    if (mysqli_connect_errno()) {
         printf("Connect failed: %s\n", mysqli_connect_error());
         exit();
     }
@@ -136,7 +117,7 @@ function pageLoadTime()
     $time = $time[0];
     $finish = $time;
     $total_time = $finish / 60 / 60 / 60 / 60 / 60;
-    $final_time = round(($total_time) , 2);
+    $final_time = round(($total_time), 2);
     echo 'Page generated in ' . $final_time . ' seconds.';
 }
 
@@ -150,12 +131,9 @@ function pageLoadTime()
  **/
 function getApiKey($del_key = false)
 {
-    try
-    {
+    try {
         $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
-    }
-    catch(PDOException $ex)
-    {
+    } catch (PDOException $ex) {
         $_SESSION['error'] = "Could not connect -> " . $ex->getMessage();
         $_SESSION['error_blob'] = $ex;
         header('Location: ' . BASE_URL . '/plugins/error/index.php');
@@ -164,30 +142,27 @@ function getApiKey($del_key = false)
 
     $result = $pdo->query("SELECT svalue FROM " . DB_PREFIX . "config WHERE `skey`='api_key'");
 
-    if (!$result)
-    {
+    if (!$result) {
         $_SESSION['error'] = $pdo->errorInfo();
-        error_log(print_r($pdo->errorInfo() , true));
+        error_log(print_r($pdo->errorInfo(), true));
         header('Location: ' . BASE_URL . '/plugins/error/index.php');
         die();
     }
 
-    if ($result->rowCount() >= 1 && $del_key)
-    {
+    if ($result->rowCount() >= 1 && $del_key) {
         error_log("Do delete: $del_key");
         $key = generateRandomString(64);
         $result = $pdo->query("UPDATE " . DB_PREFIX . "config SET `svalue`='$key' WHERE `skey`='api_key'");
 
-        if (!$result)
-        {
+        if (!$result) {
             $_SESSION['error'] = $pdo->errorInfo();
-            error_log(print_r($pdo->errorInfo() , true));
+            error_log(print_r($pdo->errorInfo(), true));
             header('Location: ' . BASE_URL . '/plugins/error/index.php');
             die();
         }
 
-        
-        $key = $result->fetch(PDO::FETCH_ASSOC) ['svalue'];
+
+        $key = $result->fetch(PDO::FETCH_ASSOC)['svalue'];
         $pdo = null;
         return $key;
     }
@@ -206,9 +181,8 @@ function generateRandomString($length = 10)
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
-    for ($i = 0;$i < $length;$i++)
-    {
-        $randomString .= $characters[rand(0, $charactersLength - 1) ];
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
     return $randomString;
 }

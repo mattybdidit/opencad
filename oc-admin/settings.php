@@ -161,7 +161,7 @@ if (isset($_SESSION['successMessage'])) {
                                 <tr>
                                     <td>Community Name</td>
                                     <td>
-                                        <input type="text" value="<?php echo getStringSetting('community_name'); ?>"">
+                                        <input type="text" value="<?php echo COMMUNITY_NAME; ?>"">
       </td>
     </tr>
   </tbody>

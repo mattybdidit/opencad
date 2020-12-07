@@ -31,7 +31,7 @@ if (!empty($_SESSION['error'])) {
 
 $error_blob = "null";
 if (!empty($_SESSION['error_blob'])) {
-    $error_blob = htmlspecialchars($_SESSION['error_blob']);
+    $error_blob = $_SESSION['error_blob'];
 }
 
 /** Search for specific keywords */
@@ -82,10 +82,10 @@ if (strpos($error, DBE_UNKNOWN_HOST) !== false) {
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
-                                    Last Error: <?php echo print_r($error,); ?>
+                                    Last Error: <?php echo print_r($error, true); ?>
                                 </div>
                                 <div class="x_content">
-                                    Last PHP Exception: <?php echo $error_blob; ?>
+                                    Last PHP Exception: <?php print_r($error_blob, true); ?>
                                 </div>
                                 <br><br>
                                 <div class="x_content">
