@@ -422,7 +422,7 @@ function getDepartments()
         foreach($result as $row)
         {
 
-            if($row[4] = 1) {
+            if($row[4] == 1) {
                 $deptStatus = "<span style=\"color:red;\">Disabled (1)</span>";
             } else {
                 $deptStatus = "<span style=\"color:green; font-weight:bold;\">Enabled (2)</span>";
@@ -1694,7 +1694,7 @@ function getWarrantTypes()
         {
             echo '
             <tr>
-                <td>' . $row[1] . '</td>
+                <td>' . $row[2] . '</td>
                 <td>';
         if ( DEMO_MODE == false) {
             echo '<form action="'.BASE_URL.'/actions/dataActions.php" method="post">';
@@ -1712,8 +1712,7 @@ function getWarrantTypes()
                 echo '<input name="deleteWarrantType" type="submit" class="btn btn-xs btn-link" onclick="deleteWarrantType(' . $row[0] . ')" value="Delete" disabled />';
             }
         } else {
-            echo ' </td>
-                <td>
+            echo '
                 <form action="'.BASE_URL.'/actions/dataActions.php" method="post">
                 <button name="editWarrantType" type="button" data-toggle="modal" id="' . $row[0] . '" data-target="#editWarrantTypeModal" class="btn btn-xs btn-link" disabled >Edit</button>
                 <input name="deleteWarrantType" type="submit" class="btn btn-xs btn-link" onclick="deleteWarrantType(' . $row[0] . ')" value="Delete" disabled />
@@ -1733,7 +1732,6 @@ function getWarrantTypes()
         ';
     }
 }
-
 /**#@+
 * function getWarrantTypeDetails();
 * Fetches details for a given edit modal in Warrant Types Manager.
