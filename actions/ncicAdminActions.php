@@ -92,17 +92,17 @@ function ncicGetNames()
             <table id="ncic_names" class="table table-striped table-bordered">
             <thead>
                 <tr>
-                <th>Name</th>
-                <th>DOB</th>
-                <th>Address</th>
-                <th>Gender</th>
-                <th>Race</th>
-                <th>Build</th>
-                <th>Hair Color</th>
-                <th>DL Status</th>
-				<th>Weapon Status</th>
-				<th>Deceased</th>
-                <th>Actions</th>
+                <th>Name</th> 
+                <th>DOB</th> 
+                <th>Address</th> 
+                <th>Gender</th> 
+                <th>Race</th> 
+                <th>Build</th>  
+                <th>Hair Color</th> 
+                <th>DL Status</th> 
+				<th>Weapon Status</th> 
+				<th>Deceased</th> 
+                <th>Actions</th> 
                 </tr>
             </thead>
             <tbody>
@@ -112,14 +112,14 @@ function ncicGetNames()
         {
             echo '
             <tr>
-                <td>'.$row['name'].'</td>
-                <td>'.$row['dob'].'</td>
+                <td>'.$row['name'].'</td> 
+                <td>'.$row['dob'].'</td>  
                 <td>'.$row['address'].'</td>
-                <td>'.$row['gender'].'</td>
-                <td>'.$row['race'].'</td>
-                <td>'.$row['dl_status'].'</td>
-                <td>'.$row['hair_color'].'</td>
-                <td>'.$row['build'].'</td>
+                <td>'.$row['gender'].'</td>  
+                <td>'.$row['race'].'</td> 
+                <td>'.$row['build'].'</td> 
+                <td>'.$row['hair_color'].'</td> 
+                <td>'.$row['dl_status'].'</td> 
                 <td>'.$row['weapon_permit'].'</td>
 				<td>'.$row['deceased'].'</td>
                 <td>
