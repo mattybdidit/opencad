@@ -2816,7 +2816,7 @@ CREATE TABLE IF NOT EXISTS `oc_users` (
 DELETE FROM `oc_users`;
 /*!40000 ALTER TABLE `oc_users` DISABLE KEYS */;
 INSERT INTO `oc_users` (`id`, `name`, `email`, `password`, `identifier`, `admin_privilege`, `supervisor_privilege`, `password_reset`, `approved`, `suspend_reason`, `suspend_duration`) VALUES
-	(1, 'matt4499', 'admin@admin.admin', '$2y$10$YTGmQHkodl1eeQpuZ0ioNOn3t3EujCBZgs1l0mUg2cRZZiOmHaLOO', 'ADMIN', 3, 1, 0, 1, NULL, NULL);
+	(1, 'Admin', 'admin@admin.admin', '$2y$10$YTGmQHkodl1eeQpuZ0ioNOn3t3EujCBZgs1l0mUg2cRZZiOmHaLOO', 'ADMIN', 3, 1, 0, 1, NULL, NULL);
 /*!40000 ALTER TABLE `oc_users` ENABLE KEYS */;
 
 -- Dumping structure for table opencad.oc_user_departments
