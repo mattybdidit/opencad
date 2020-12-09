@@ -12,9 +12,11 @@ This program is free software: you can redistribute it and/or modify
 This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
 **/
 
-if(file_exists(getcwd().'/oc-install') && is_writable(getcwd())){
-
+if(file_exists(getcwd().'/oc-install/installer.php') && is_writable(getcwd())){
    header('Location://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'].'oc-install/installer.php');
+}
+if(!file_exists(getcwd().'/oc-install/installer.php')){
+	rmdir("oc-install");
 }
 	require_once(__DIR__ . "/oc-config.php");
 	require_once(__DIR__ . "/actions/register.php");
@@ -36,9 +38,6 @@ if(file_exists(getcwd().'/oc-install') && is_writable(getcwd())){
 	{
 	  $loginMessage = '<div class="alert alert-success" style="text-align: center;" ><span>You\'ve successfully been logged out</span></div>';
    }
-   if(isset($_SESSION['register_error']))
-   {
-	}
 	if(isset($_SESSION['register_error']))
 	{
 	  $registerError = '<div class="alert alert-danger" style="text-align: center;"><span>'.$_SESSION['register_error'].'</span></div>';
@@ -54,8 +53,6 @@ if(file_exists(getcwd().'/oc-install') && is_writable(getcwd())){
 	  $loginMessage = '<div class="alert alert-danger" style="text-align: center;"><span>'.$_SESSION['loginMessageDanger'].'</span></div>';
 		unset($_SESSION['loginMessageDanger']);
 	}
-
-
 ?>
 
 <!DOCTYPE html>
