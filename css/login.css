@@ -1,0 +1,12 @@
+* {
+    color: white;
+}
+
+body {
+    background-color: black;
+}
+
+div.modal, #register > div.modal-footer, ul {
+    background-color: #363636 !important;
+    color: white !important;
+}

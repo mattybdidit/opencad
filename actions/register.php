@@ -35,7 +35,7 @@ function register()
         session_start();
         $_SESSION['register_error'] = "Passwords do not match";
         sleep(1);
-        header("Location:".BASE_URL."/index.php#signup");
+        header("Location:".BASE_URL."/index.php?register=passwordMatch");
         exit();
     }
     //Hash the password
@@ -67,10 +67,7 @@ function register()
     $num_rows = $result->rowCount();
     if ($num_rows>0)
     {
-        session_start();
-        $_SESSION['register_error'] = "Email already exists";
-        sleep(1);
-        header("Location:".BASE_URL."/index.php#signup");
+        header("Location:".BASE_URL."/index.php?register=emailExists");
         exit();
     }
 
@@ -101,10 +98,7 @@ function register()
     }
 
     $pdo = null;
-    session_start();
-    $_SESSION['register_success'] = "Successfully requested access. Please wait for an administrator to approve your request.";
-    sleep(1);
-    header("Location:".BASE_URL."/index.php#signup");
+    header("Location:".BASE_URL."/index.php?register=success");
 }
 
 function civreg()
