@@ -101,8 +101,6 @@ if(!file_exists(getcwd().'/oc-install/installer.php')){
 						<p class="change_link">New?
 						   <a href="#signup" class="to_register"> Request Access </a>
 						</p>
-						<p class="change_link">Civilian Only? Not Enabled
-						</p>
 						<div class="clearfix"></div>
 						<br />
 						<div>

@@ -13,17 +13,17 @@ function sendWebhook($message, $type) {
         $response = curl_exec($ch);
         curl_close($ch);
         if ($response == 0) {
-            $_SESSION['error'] = "An internal error occured. Please contact an admin.";
+            $_SESSION['error'] = "An internal error occured. Please contact an admin. Webhook not sent.";
             $_SESSION['error_blob'] = "discord webhook error while trying to send it";
             header('Location: ' . BASE_URL . '/plugins/error/index.php');
-            die();
+            exit();
         }
     }
     else {
-        $_SESSION['error'] = "An internal error occured. Please contact an admin.";
+        $_SESSION['error'] = "An internal error occured. Please contact an admin. Message or Type is null.";
         $_SESSION['error_blob'] = "Message & Type are null in discord webhook";
         header('Location: ' . BASE_URL . '/plugins/error/index.php');
-        die();
+        exit();
     }
 }
 ?>

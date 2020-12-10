@@ -39,11 +39,11 @@ if (file_exists('/oc-lang/' . $curr_lang . '/' . $curr_lang . '.inc.php')) {
 if (version_compare(PHP_VERSION, '7.1', '<')) {
     session_start();
     $_SESSION['error_title'] = "Incompatable PHP Version";
-    $_SESSION['error'] = "An incompatable version  of PHP is active. OpenCAD requires PHP 7.1 at minimum, the current recommended version is 7.2. Currently PHP " . phpversion() . " is active, please contact your server administrator.";
+    $_SESSION['error'] = "An incompatable version of PHP is active. OpenCAD requires PHP 7.1 at minimum, the current recommended version is 7.2. Currently PHP " . phpversion() . " is active, please contact your server administrator.";
     header('Location: ' . BASE_URL . '/plugins/error/index.php');
 }
 
-if (OC_DEBUG == "true") {
+if (OC_DEBUG) {
     session_start();
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
