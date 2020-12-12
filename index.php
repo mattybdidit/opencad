@@ -1,5 +1,9 @@
 <?php
 	if(file_exists(getcwd().'/oc-install/installer.php') && is_writable(getcwd())){
+		session_start();
+		session_unset();
+		session_destroy();
+		setcookie('aljksdz7', null, -1, "/");
 		header('Location://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'].'oc-install/installer.php');
 	}
 	if(!file_exists(getcwd().'/oc-install/installer.php')){
