@@ -40,7 +40,7 @@ if (version_compare(PHP_VERSION, '7.1', '<')) {
     session_start();
     $_SESSION['error_title'] = "Incompatable PHP Version";
     $_SESSION['error'] = "An incompatable version of PHP is active. OpenCAD requires PHP 7.1 at minimum, the current recommended version is 7.2. Currently PHP " . phpversion() . " is active, please contact your server administrator.";
-    header('Location: ' . BASE_URL . '/plugins/error/index.php');
+    die($_SESSION['error']);
 }
 
 if (OC_DEBUG) {
@@ -134,19 +134,13 @@ function getApiKey($del_key = false)
     try {
         $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
     } catch (PDOException $ex) {
-        $_SESSION['error'] = "Could not connect -> " . $ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: ' . BASE_URL . '/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT svalue FROM " . DB_PREFIX . "config WHERE `skey`='api_key'");
 
     if (!$result) {
-        $_SESSION['error'] = $pdo->errorInfo();
-        error_log(print_r($pdo->errorInfo(), true));
-        header('Location: ' . BASE_URL . '/plugins/error/index.php');
-        die();
+        die($pdo->errorInfo());
     }
 
     if ($result->rowCount() >= 1 && $del_key) {
@@ -155,10 +149,7 @@ function getApiKey($del_key = false)
         $result = $pdo->query("UPDATE " . DB_PREFIX . "config SET `svalue`='$key' WHERE `skey`='api_key'");
 
         if (!$result) {
-            $_SESSION['error'] = $pdo->errorInfo();
-            error_log(print_r($pdo->errorInfo(), true));
-            header('Location: ' . BASE_URL . '/plugins/error/index.php');
-            die();
+            die($pdo->errorInfo());
         }
 
 
@@ -208,8 +199,5 @@ function getOpenCADVersion()
  **/
 function permissionDenied()
 {
-    $_SESSION['error_title'] = "Permission Denied";
-    $_SESSION['error'] = "Sorry, you don't have permission to access this page.";
-    header('Location: ' . BASE_URL . '/plugins/error/index.php');
-    die();
+    die("Sorry, you don't have permission to access this page.");
 }
