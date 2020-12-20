@@ -443,7 +443,7 @@ INSERT INTO `oc_config` (`skey`, `svalue`) VALUES
 	('db_user', 'root'),
 	('db_password', NULL),
 	('db_prefix', 'oc_'),
-	('base_url', '//localhost/opencad-dev'),
+	('base_url', '//YouDidNotRunTheInstaller'),
 	('enable_api_security', 'true'),
 	('police_ncic', 'true'),
 	('police_call_selfassign', 'true'),
