@@ -13,7 +13,7 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
 **/
 
 require_once(__DIR__ . "/../oc-config.php");
-if(DISCORD_WEBHOOKS == true) { 
+if(DISCORD_LOGS == true) { 
     require_once(__DIR__ . "/discordWebhook.php");
 }
 
@@ -49,7 +49,7 @@ if(!empty($_POST))
     else
     {
         session_start();
-        $_SESSION['loginMessageDanger'] = 'Invalid credentials';
+        $_SESSION['loginMessageDanger'] = 'Invalid username/password';
         header("Location:".BASE_URL."/index.php");
         exit();
     }
@@ -68,11 +68,24 @@ if(!empty($_POST))
     }
     else if ($result['approved'] == "2")
     {
-        /* TODO: Show reason why user is suspended */
         session_start();
         $_SESSION['loginMessageDanger'] = "Your account has been suspended by an administrator for: $suspended_reason";
         header("Location:".BASE_URL."/index.php");
         exit();
+    }
+
+    if(isset($_POST['captcha'])) {
+        if(isset($_SESSION['captcha']['code'])){
+            if(!($_POST['captcha'] == $_SESSION['captcha']['code'])){
+                $_SESSION['loginMessageDanger'] = "The captcha code you entered was incorrect. (Case sensitive)";
+                header("Location:".BASE_URL."/index.php");
+                exit();
+            }
+        } else {
+            $_SESSION['loginMessageDanger'] = "An error occured with the captcha plugin.";
+            header("Location:".BASE_URL."/index.php");
+            exit();
+        }
     }
 
     /* TODO: Handle password resets */
@@ -84,7 +97,7 @@ if(!empty($_POST))
     $_SESSION['callsign'] = $result['identifier']; //Set callsign to default to identifier until the unit changes it
     $_SESSION['admin_privilege'] = $result['admin_privilege'];
     if(ENABLE_API_SECURITY === true) setcookie("aljksdz7", hash('md5', session_id().getApiKey()), time() + (86400 * 7), "/");
-    if(DISCORD_WEBHOOKS == true) sendWebhook("New Login from user ".$result['name'], "Info");
+    if(DISCORD_LOGS === true) sendWebhook("New Login from user ".$result['name'], "Info");
     header("Location:".BASE_URL."/dashboard.php");
 }
 

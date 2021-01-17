@@ -146,6 +146,9 @@ foreach ($results as list($key, $value)) {
         case 'ems_ncic_plate':
             define(strtoupper('ems_ncic_plate'), filter_var($value, FILTER_VALIDATE_BOOLEAN));
         break;
+        case 'login_captcha_enabled':
+            define(strtoupper('login_captcha_enabled'), filter_var($value, FILTER_VALIDATE_BOOLEAN));
+        break;
         case 'civ_limit_max_identities':
           define(strtoupper('civ_limit_max_identities'), filter_var($value, FILTER_VALIDATE_INT));
         break;
