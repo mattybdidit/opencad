@@ -70,7 +70,15 @@
          <div class="row">
             <div class="input-field col offset-s4 s4">
                <input name="password" id="password" type="password" class="validate" required>
-               <label for="password">Password</label>
+			   <label for="password">Password</label>
+			   
+			   <?php if(!LOGIN_CAPTCHA_ENABLED) { ?>
+			   		<input type="submit" class="btn red darken-4" value="Login">
+               		<a class="btn red darken-4" onclick="M.toast({html: 'Contact an admin to reset your password.', classes:'red darken-4'});" >Forgot Password?</a>
+			   		<a class="btn red darken-4 modal-trigger" href="#register">New? Register</a>
+			   <?php } ?>
+
+
             </div>
 		 </div>
 		 <?php if(LOGIN_CAPTCHA_ENABLED) { ?>

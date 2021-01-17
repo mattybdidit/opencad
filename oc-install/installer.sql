@@ -466,6 +466,7 @@ INSERT INTO `oc_config` (`skey`, `svalue`) VALUES
 	('civ_limit_max_identities', '0'),
 	('civ_limit_max_vehicles', '0'),
 	('civ_limit_max_weapons', '0'),
+	('login_captcha_enabled', 'false'),
 	('moderator_approve_user', 'true'),
 	('moderator_edit_user', 'true'),
 	('moderator_suspend_with_reason', 'true'),
