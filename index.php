@@ -17,14 +17,13 @@
 
 	if(session_status() === PHP_SESSION_NONE) session_start();
 
-	if(LOGIN_CAPTCHA_ENABLED) {
-		include("plugins/captcha/simple-php-captcha.php");
-		$_SESSION['captcha'] = simple_php_captcha();
-	}
-	
 	if ( (isset($_SESSION['logged_in'])) == "YES" )
 	{
 	  header ('Location: ./dashboard.php');
+	}
+	if(LOGIN_CAPTCHA_ENABLED) {
+		include("plugins/captcha/simple-php-captcha.php");
+		$_SESSION['captcha'] = simple_php_captcha();
 	}
 	if (isset($_GET['loggedOut']))
 	{
@@ -121,7 +120,7 @@
 						<input class="form-control" placeholder="Identifier (1K24, 124, ETC.)" name="identifier" type="text" required>
 					 </div>
 					 <div class="input-field col s12">
-						<input class="form-control" placeholder="Password" name="password" type="password" value="<?php if($testing){echo "password";}?>" required>
+						<input class="form-control" placeholder="Password" name="password" type="password" required>
 					 </div>
 					 <!-- ./ form-group -->
 					 <div class="input-field col s12">

@@ -4,14 +4,17 @@
 //
 //  Copyright 2011 by Cory LaViska for A Beautiful Site, LLC
 //
-function captcha_plugin_information() {
-    return array(
-        "plugin_name" => "Login Captcha",
-        "opencad_version" => "0.3.1",
-        "authors" => "Cory LaViska, Matt4499 (made edits)",
-        "description" => "Adds a required captcha to the login page.",
-        "icon" => "security",
-    );
+class SimpleCaptchaPlugin {
+    public $PluginInformation = array();
+     
+    function getplugininformation() {
+        $this->pluginInformation['plugin_name'] = "SimpleLoginCaptcha";
+        $this->pluginInformation['version'] = "1.0.0";
+        $this->pluginInformation['authors'] = "Cory LaViska, Matt4499 (made edits)";
+        $this->pluginInformation['description'] = "Adds a required captcha to the login page. (If it is enabled in the settings database)";
+        $this->pluginInformation['icon'] = "shield-check";
+        return $this->pluginInformation;
+    }
 }
 
 function simple_php_captcha($config = array()) {
