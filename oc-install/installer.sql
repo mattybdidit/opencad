@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `oc_calls` (
   `call_narrative` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_calls: ~0 rows (approximately)
+-- Dumping data for table opencad.oc_calls: ~1 rows (approximately)
 DELETE FROM `oc_calls`;
 /*!40000 ALTER TABLE `oc_calls` DISABLE KEYS */;
 INSERT INTO `oc_calls` (`call_id`, `call_type`, `call_primary`, `call_street1`, `call_street2`, `call_street3`, `call_narrative`) VALUES
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `oc_call_list` (
   `call_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_call_list: ~6 rows (approximately)
+-- Dumping data for table opencad.oc_call_list: ~7 rows (approximately)
 DELETE FROM `oc_call_list`;
 /*!40000 ALTER TABLE `oc_call_list` DISABLE KEYS */;
 INSERT INTO `oc_call_list` (`call_id`) VALUES
@@ -428,7 +428,7 @@ CREATE TABLE IF NOT EXISTS `oc_config` (
   `svalue` varchar(80) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_config: ~58 rows (approximately)
+-- Dumping data for table opencad.oc_config: ~59 rows (approximately)
 DELETE FROM `oc_config`;
 /*!40000 ALTER TABLE `oc_config` DISABLE KEYS */;
 INSERT INTO `oc_config` (`skey`, `svalue`) VALUES
@@ -466,7 +466,6 @@ INSERT INTO `oc_config` (`skey`, `svalue`) VALUES
 	('civ_limit_max_identities', '0'),
 	('civ_limit_max_vehicles', '0'),
 	('civ_limit_max_weapons', '0'),
-	('login_captcha_enabled', 'false'),
 	('moderator_approve_user', 'true'),
 	('moderator_edit_user', 'true'),
 	('moderator_suspend_with_reason', 'true'),
@@ -489,8 +488,8 @@ INSERT INTO `oc_config` (`skey`, `svalue`) VALUES
 	('demo_mode', 'false'),
 	('use_gravatar', 'true'),
 	('oc_debug', 'false'),
-	('needs_refresh', 'true'),
-	('ems_ncic_plate', 'true');
+	('ems_ncic_plate', 'true'),
+	('login_captcha_enabled', 'false');
 /*!40000 ALTER TABLE `oc_config` ENABLE KEYS */;
 
 -- Dumping structure for table opencad.oc_departments
@@ -636,6 +635,16 @@ INSERT INTO `oc_incident_types` (`id`, `code_id`, `code_name`) VALUES
 	(78, '10-84', 'No Smoke Visible');
 /*!40000 ALTER TABLE `oc_incident_types` ENABLE KEYS */;
 
+-- Dumping structure for table opencad.oc_logs
+CREATE TABLE IF NOT EXISTS `oc_logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `text` varchar(500) DEFAULT NULL,
+  `time` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+
+DELETE FROM `oc_logs`;
+
 -- Dumping structure for table opencad.oc_ncic_arrests
 CREATE TABLE IF NOT EXISTS `oc_ncic_arrests` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -695,7 +704,7 @@ CREATE TABLE IF NOT EXISTS `oc_ncic_names` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_ncic_names: ~0 rows (approximately)
+-- Dumping data for table opencad.oc_ncic_names: ~1 rows (approximately)
 DELETE FROM `oc_ncic_names`;
 /*!40000 ALTER TABLE `oc_ncic_names` DISABLE KEYS */;
 INSERT INTO `oc_ncic_names` (`id`, `submittedByName`, `submittedById`, `name`, `dob`, `address`, `gender`, `race`, `dl_status`, `dl_type`, `dl_class`, `dl_issuer`, `hair_color`, `build`, `weapon_permit`, `weapon_permit_type`, `weapon_permit_Issued_by`, `blood_type`, `blod_type`, `organ_donor`, `deceased`) VALUES
@@ -2813,7 +2822,6 @@ CREATE TABLE IF NOT EXISTS `oc_users` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT COMMENT='User table';
 
--- Dumping data for table opencad.oc_users: ~0 rows (approximately)
 DELETE FROM `oc_users`;
 /*!40000 ALTER TABLE `oc_users` DISABLE KEYS */;
 INSERT INTO `oc_users` (`id`, `name`, `email`, `password`, `identifier`, `admin_privilege`, `supervisor_privilege`, `password_reset`, `approved`, `suspend_reason`, `suspend_duration`) VALUES

@@ -13,6 +13,8 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
 **/
 
 require_once(__DIR__ . "/../oc-config.php");
+require_once(__DIR__ . "/../plugins/plugin_api/plugin_api.php");
+$PluginApi = new PluginApi();
 if(DISCORD_LOGS == true) { 
     require_once(__DIR__ . "/discordWebhook.php");
 }
@@ -50,6 +52,7 @@ if(!empty($_POST))
     {
         session_start();
         $_SESSION['loginMessageDanger'] = 'Invalid username/password';
+        $PluginApi->audit_log("[Login/Failed] ". $result['name']." used an incorrect password.");
         header("Location:".BASE_URL."/index.php");
         exit();
     }
@@ -98,6 +101,7 @@ if(!empty($_POST))
     $_SESSION['admin_privilege'] = $result['admin_privilege'];
     if(ENABLE_API_SECURITY === true) setcookie("aljksdz7", hash('md5', session_id().getApiKey()), time() + (86400 * 7), "/");
     if(DISCORD_LOGS === true) sendWebhook("New Login from user ".$result['name'], "Info");
+    $PluginApi->audit_log("[Login/Success] ". $result['name']." successfully logged in.");
     header("Location:".BASE_URL."/dashboard.php");
 }
 

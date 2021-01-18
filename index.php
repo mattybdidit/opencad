@@ -1,5 +1,9 @@
 <?php
 	$DEV = false;
+	if($DEV) {
+		include_once("plugins/plugin_api/plugin_api.php");
+		$Plugin_API = new PluginApi();
+	}
 	if(!$DEV && file_exists(getcwd().'/oc-install/installer.php') && is_writable(getcwd())){
 		if(session_status() === PHP_SESSION_NONE) session_start();
 		session_unset();
@@ -86,7 +90,7 @@
 			
 			<?php 
 				
-				$captcha_img = sprintf("<img src='%s' style='padding-left: 25vh;'></img>", $_SESSION['captcha']['image_src']);
+				$captcha_img = sprintf("<img src='%s' draggable='false' style='padding-left: 25vh;'></img>", $_SESSION['captcha']['image_src']);
 				echo $captcha_img;
 
 				?>

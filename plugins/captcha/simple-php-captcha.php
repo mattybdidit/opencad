@@ -1,7 +1,5 @@
 <?php
 //
-//  A simple PHP CAPTCHA script
-//
 //  Copyright 2011 by Cory LaViska for A Beautiful Site, LLC
 //
 class SimpleCaptchaPlugin {
@@ -14,6 +12,10 @@ class SimpleCaptchaPlugin {
         $this->pluginInformation['description'] = "Adds a required captcha to the login page. (If it is enabled in the settings database)";
         $this->pluginInformation['icon'] = "shield-check";
         return $this->pluginInformation;
+    }
+
+    function uninstall_plugin() {
+        unlink("simple-php-captcha.php");
     }
 }
 
