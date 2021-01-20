@@ -1,15 +1,4 @@
-<?php
-   /**
-    Open source CAD system for RolePlaying Communities.
-    Copyright (C) 2017 Shane Gill
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-    This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
-    *
-    */
-   
+<?php 
    session_start();
    
    require_once(__DIR__ . '/../oc-config.php');
@@ -37,6 +26,9 @@
    }
    
    include("../actions/adminActions.php");
+   include("../plugins/plugin_api/plugin_api.php");
+
+   $PluginAPI = new PluginApi();
    
    $accessMessage = "";
    if (isset($_SESSION['accessMessage'])) {
@@ -59,7 +51,32 @@
        include("../plugins/captcha/simple-php-captcha.php");
        $SimpleCaptchaPlugin = new SimpleCaptchaPlugin();
    }
-   
+
+   if(isset($_GET['change_setting'], $_GET['setting_name'], $_GET['setting_value'])) {
+      change_setting($_GET["setting_name"], $_GET["setting_value"]);
+   }
+
+   function change_setting($name, $status) { 
+      $pdo = $PluginAPI->get_db();
+      if(!is_null($pdo)) {
+         $stmt = $pdo->prepare("UPDATE ".DB_PREFIX."config SET	svalue = ? WHERE skey = ?");
+         if ($stmt->execute(array($name, $status))) {
+            $pdo = null;
+            $_SESSION["successMessage"] = "changed the setting!";
+            header("Refresh:0");
+         } else {
+             die($stmt->errorInfo());
+         }
+      $pdo = null;
+      }
+   }
+
+   if(isset($_SESSION['successMessage']))
+	{
+	  $successMessage = sprintf("<script> $(function(){ M.toast({html: '%s', classes: 'green accent-4'}); });</script>", $_SESSION['successMessage']);
+	  unset($_SESSION['successMessage']);
+	}
+
    ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -139,6 +156,9 @@
                            <div class="x_panel">
                               <div class="x_title">
                               <h2>OpenCAD Settings</h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                    <button disabled class="btn disabled" style="background-color: #2A3F54; color: white;" onclick="refreshSettings()">Apply</button>
+                              </ul>
                      <table class="table table-striped">
                         <thead>
                            <tr>
@@ -201,7 +221,7 @@
                         </thead>
                         <tbody>
                            <tr>
-                              <td scope="col"><?php echo $SimpleCaptchaPlugin->getplugininformation()['plugin_name']; ?></td>
+                              <td scope="col"> <span class="<?php echo $SimpleCaptchaPlugin->getplugininformation()['icon']; ?>"></span> <?php echo $SimpleCaptchaPlugin->getplugininformation()['plugin_name']; ?></td>
                               <td><?php echo $SimpleCaptchaPlugin->getplugininformation()['version']; ?></td>
                               <td><?php echo $SimpleCaptchaPlugin->getplugininformation()['authors']; ?></td>
                               <td><?php echo $SimpleCaptchaPlugin->getplugininformation()['description']; ?></td>
@@ -232,6 +252,12 @@
       </div>
       <?php
          include(__DIR__ . "/oc-admin-includes/globalModals.inc.php");
-         include(__DIR__ . "/../oc-includes/jquery-colsolidated.inc.php"); ?>
+         include(__DIR__ . "/../oc-includes/jquery-colsolidated.inc.php"); 
+
+         if(!is_null($successMessage)){
+            echo $successMessage;
+         }
+
+      ?>
    </body>
 </html>

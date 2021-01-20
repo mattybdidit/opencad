@@ -10,12 +10,13 @@ class SimpleCaptchaPlugin {
         $this->pluginInformation['version'] = "1.0.0";
         $this->pluginInformation['authors'] = "Cory LaViska, Matt4499 (made edits)";
         $this->pluginInformation['description'] = "Adds a required captcha to the login page. (If it is enabled in the settings database)";
-        $this->pluginInformation['icon'] = "shield-check";
+        $this->pluginInformation['icon'] = "fas fa-shield-alt";
         return $this->pluginInformation;
     }
 
     function uninstall_plugin() {
         unlink("simple-php-captcha.php");
+        //To-Do: Delete entire directory, disable/remove stuff from db, that the plugin uses.
     }
 }
 
