@@ -370,6 +370,103 @@ if (isset($_SESSION['identityRequestMessage'])) {
                 </div>
                 <!-- "" -->
             </div>
+            	<!--Edit modal -->
+	<div class="modal fade" id="editIdentityModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Edit Identity</h4>
+				</div>
+				<!-- ./ modal-header -->
+				<div class="modal-body">
+					<form role="form" action="<?php echo BASE_URL; ?>/actions/civActions.php" class="editname_modalform" method="post">
+						<div class="form-group row">
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-2 control-label">Name</label>
+							<div class="col-lg-10">
+								<input name="civNameReq" class="form-control civNameReq" id="civNameReq" value="<?php echo $civName; ?>" required />
+								<span class="fasfa-user form-control-feedback right" aria-hidden="true"></span>
+							</div>
+							<!-- ./ col-sm-9 -->
+						</div>
+						<!-- ./ form-group -->
+						<div class="form-group row">
+							<label class="col-lg-2 control-label">Date of Birth</label>
+							<div class="col-lg-10">
+								<input type="text" name="civDobReq" class="form-control civDobReq" id="datepicker2" maxlength="10" value="<?php echo $civDob; ?>" readonly />
+								<span class="fasfa-calendar form-control-feedback right" aria-hidden="true"></span>
+							</div>
+							<!-- ./ col-sm-9 -->
+						</div>
+						<!-- ./ form-group -->
+						<div class="form-group row">
+							<label class="col-lg-2 control-label">Address</label>
+							<div class="col-lg-10">
+								<input type="text" name="civAddressReq" class="form-control civAddressReq" id="civAddressReq" value="<?php echo $civAddr; ?>" required />
+								<span class="fasfa-location-arrow form-control-feedback right" aria-hidden="true"></span>
+							</div>
+							<!-- ./ col-sm-9 -->
+						</div>
+						<!-- ./ form-group -->
+						<div class="form-group row">
+							<label class="col-lg-2 control-label">Sex</label>
+							<div class="col-lg-10">
+								<select name="civSexReq" class="form-control selectpicker selectpicker3" id="civSexReq" title="Select a sex" data-live-search="true" required>
+									<?php getDataSetColumn($table = "ncic_names", $data = "gender", $leadTrim = 11, $followTrim = 16); ?>
+								</select>
+							</div>
+							<!-- ./ col-sm-9 -->
+						</div>
+						<!-- ./ form-group -->
+						<div class="form-group row">
+							<label class="col-lg-2 control-label">Race</label>
+							<div class="col-lg-10">
+								<select name="civRaceReq" class="form-control selectpicker civRaceReq_picker" id="civRaceReq" title="Select a race or ethnicity" data-live-search="true" required>
+									<?php getDataSetColumn($table = "ncic_names", $data = "race", $leadTrim = 9, $followTrim = 19); ?>
+								</select>
+							</div>
+							<!-- ./ col-sm-9 -->
+						</div>
+						<!-- ./ form-group -->
+						<div class="form-group row">
+							<label class="col-lg-2 control-label">Hair Color</label>
+							<div class="col-lg-10">
+								<select name="civHairReq" class="form-control selectpicker civHairReq_picker" id="civHairReq" title="Select a hair color" required>
+									<?php getDataSetColumn($table = "ncic_names", $data = "hair_color", $leadTrim = 15, $followTrim = 20); ?>
+								</select>
+							</div>
+							<!-- ./ col-sm-9 -->
+						</div>
+						<!-- ./ form-group -->
+						<div class="form-group row">
+							<label class="col-lg-2 control-label">Build</label>
+							<div class="col-lg-10">
+								<select name="civBuildReq" class="form-control selectpicker civBuildReq_picker" id="civBuildReq" title="Select a build" required>
+									<?php getDataSetColumn($table = "ncic_names", $data = "build", $leadTrim = 20, $followTrim = 25); ?>
+								</select>
+								<!-- ./ col-sm-9 -->
+							</div>
+							<!-- ./ form-group -->
+
+						</div>
+
+				</div>
+				<!-- ./ modal-body -->
+				<div class="modal-footer">
+					<input type="hidden" name="Edit_id" value="" class="Editdataid" />
+					<input name="edit_name" type="submit" class="btn btn-primary" value="Edit" />
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</form>
+				</div>
+				<!-- ./ modal-footer -->
+			</div>
+			<!-- ./ modal-content -->
+		</div>
+		<!-- ./ modal-dialog modal-lg -->
+	</div>
             <!-- /page content -->
 
             <!-- footer content -->

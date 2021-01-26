@@ -6,7 +6,7 @@ class SimpleCaptchaPlugin {
     public $PluginInformation = array();
      
     function getplugininformation() {
-        $this->pluginInformation['plugin_name'] = "SimpleLoginCaptcha";
+        $this->pluginInformation['plugin_name'] = "SimpleLoginCaptcha (built-in)";
         $this->pluginInformation['version'] = "1.0.0";
         $this->pluginInformation['authors'] = "Cory LaViska, Matt4499 (made edits)";
         $this->pluginInformation['description'] = "Adds a required captcha to the login page. (If it is enabled in the settings database)";

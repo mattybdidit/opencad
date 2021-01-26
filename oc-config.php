@@ -15,7 +15,7 @@ $stmt->execute();
 $results = $stmt->fetchAll();
 foreach ($results as list($key, $value)) {
     if ($key == "db_host" || $key == "db_user" || $key == "db_password" || $key == "db_prefix") continue;
-    // define(strtoupper($key),  $value);
+    // echo $key . " " . $value. " <br>";
     switch ($key) {
         case 'fire_panic':
             define(strtoupper('fire_panic'), filter_var($value, FILTER_VALIDATE_BOOLEAN));

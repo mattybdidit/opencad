@@ -37,14 +37,14 @@ if (file_exists('/oc-lang/' . $curr_lang . '/' . $curr_lang . '.inc.php')) {
 }
 
 if (version_compare(PHP_VERSION, '7.1', '<')) {
-    session_start();
+    if(session_status() === PHP_SESSION_NONE) session_start();
     $_SESSION['error_title'] = "Incompatable PHP Version";
     $_SESSION['error'] = "An incompatable version of PHP is active. OpenCAD requires PHP 7.1 at minimum, the current recommended version is 7.2. Currently PHP " . phpversion() . " is active, please contact your server administrator.";
     die($_SESSION['error']);
 }
 
 if (OC_DEBUG) {
-    session_start();
+    if(session_status() === PHP_SESSION_NONE) session_start();
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);

@@ -120,7 +120,7 @@ function ncicGetNames()
                 <td>'.$row['weapon_permit'].'</td>
 				<td>'.$row['deceased'].'</td>
                 <td>
-                    <button name="edit_name" data-toggle="modal" data-target="#IdentityEditModal" id="edit_nameBtn" data-id='.$row[0].' class="btn btn-xs btn-link">Edit</button>
+                    <button name="edit_name" data-toggle="modal" data-target="#editIdentityModal" id="edit_nameBtn" data-id='.$row[0].' class="btn btn-xs btn-link">Edit</button>
                     <form action="".BASE_URL."/actions/ncicAdminActions.php" method="post">
                     <input name="delete_name" type="submit" class="btn btn-xs btn-link" style="color: red;" value="Delete"/>
                     <input name="uid" type="hidden" value='.$row[0].' />

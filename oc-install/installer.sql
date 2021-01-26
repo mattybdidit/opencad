@@ -1,4 +1,3 @@
--- Dumping structure for table opencad.oc_active_users
 CREATE TABLE IF NOT EXISTS `oc_active_users` (
   `identifier` varchar(255) NOT NULL,
   `callsign` varchar(255) NOT NULL COMMENT 'Unit Callsign',
@@ -9,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `oc_active_users` (
   UNIQUE KEY `identifier` (`identifier`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_active_users: ~1 rows (approximately)
+-- Dumping data for table opencad.oc_active_users: ~0 rows (approximately)
 DELETE FROM `oc_active_users`;
 /*!40000 ALTER TABLE `oc_active_users` DISABLE KEYS */;
 INSERT INTO `oc_active_users` (`identifier`, `callsign`, `status`, `status_detail`, `id`) VALUES
@@ -62,11 +61,9 @@ CREATE TABLE IF NOT EXISTS `oc_calls` (
   `call_narrative` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_calls: ~1 rows (approximately)
+-- Dumping data for table opencad.oc_calls: ~0 rows (approximately)
 DELETE FROM `oc_calls`;
 /*!40000 ALTER TABLE `oc_calls` DISABLE KEYS */;
-INSERT INTO `oc_calls` (`call_id`, `call_type`, `call_primary`, `call_street1`, `call_street2`, `call_street3`, `call_narrative`) VALUES
-	(7, '10-1 | Signal Weak', NULL, 'Amarillo Way', 'West Mirror Drive', '', '2020-11-20 07:20:53: Call Created<br/>2020-11-20 07:20:53: TEST<br/>2020-11-20 07:35:21: Dispatched: ADMIN<br/>2020-11-20 07:36:25: Dispatched: ADMIN<br/>2020-11-20 07:36:41: Dispatched: ADMIN<br/>');
 /*!40000 ALTER TABLE `oc_calls` ENABLE KEYS */;
 
 -- Dumping structure for table opencad.oc_calls_users
@@ -97,13 +94,6 @@ CREATE TABLE IF NOT EXISTS `oc_call_history` (
 -- Dumping data for table opencad.oc_call_history: ~6 rows (approximately)
 DELETE FROM `oc_call_history`;
 /*!40000 ALTER TABLE `oc_call_history` DISABLE KEYS */;
-INSERT INTO `oc_call_history` (`call_id`, `call_type`, `call_primary`, `call_street1`, `call_street2`, `call_street3`, `call_narrative`) VALUES
-	(1, '10-65 | Armed Robbery', NULL, 'San Andreas Avenue', 'Ace Jones Drive', '', '2020-11-20 02:04:06: Call Created<br/>2020-11-20 02:04:06: SHOTS FIRED<br/>'),
-	(2, '10-80 | In Pursuit', NULL, 'Abattoir Avenue', 'Autopia Parkway', '', '2020-11-20 02:21:21: Call Created<br/>2020-11-20 02:21:21: TEST<br/>2020-11-20 02:22:30: Dispatched: ADMIN<br/>2020-11-20 02:22:44: Unit Cleared: ADMIN<br/>2020-11-20 06:42:03: Unit: 1 self-assigned to the call. <br/>2020-11-20 06:44:48: Unit Cleared: ADMIN<br/>2020-11-20 06:47:26: Unit:  self-assigned to the call. <br/>2020-11-20 06:47:30: Unit:  self-assigned to the call. <br/>'),
-	(3, '10-0 | Use Caution', '(NULL)', 'Bay City Incline', 'Baytree Canyon Road (City)', 'test', '2020-11-20 06:48:37: Call Created<br/>2020-11-20 06:48:37: TEST<br/>2020-11-20 06:48:50: Unit:  self-assigned to the call. <br/>2020-11-20 06:48:55: Unit:  self-assigned to the call. <br/>2020-11-20 06:49:19: Unit:  self-assigned to the call. <br/>2020-11-20 06:51:40: Unit: ADMIN self-assigned to the call. <br/>2020-11-20 06:52:20: Unit: ADMIN self-assigned to the call. <br/>2020-11-20 06:52:31: Unit: ADMIN self-assigned to the call. <br/>2020-11-20 06:55:35: Unit: ADMIN self-assigned to the call. <br/>'),
-	(4, '10-0 | Use Caution', '1', 'Aguja Street', 'Aguja Street', 'test', '2020-11-20 07:01:33: Call Created<br/>2020-11-20 07:01:33: TEST<br/>2020-11-20 07:01:47: Dispatched: ADMIN<br/>'),
-	(5, '10-0 | Use Caution', NULL, 'Route 13 G', 'Americano Way', 'test', '2020-11-20 07:10:41: Call Created<br/>2020-11-20 07:10:41: TEST<br/>2020-11-20 07:11:12: Unit: ADMIN self-assigned to the call. <br/>2020-11-20 07:11:29: Unit Cleared: ADMIN<br/>2020-11-20 07:13:02: Unit: ADMIN self-assigned to the call. <br/>'),
-	(6, '10-1 | Signal Weak', NULL, 'Route 13 E', 'Adam\'s Apple Boulevard', 'aaa', '2020-11-20 07:19:08: Call Created<br/>2020-11-20 07:19:08: AAA<br/>2020-11-20 07:19:25: Dispatched: ADMIN<br/>');
 /*!40000 ALTER TABLE `oc_call_history` ENABLE KEYS */;
 
 -- Dumping structure for table opencad.oc_call_list
@@ -425,17 +415,17 @@ INSERT INTO `oc_colors` (`id`, `color_group`, `color_name`) VALUES
 -- Dumping structure for table opencad.oc_config
 CREATE TABLE IF NOT EXISTS `oc_config` (
   `skey` varchar(80) NOT NULL,
-  `svalue` varchar(80) DEFAULT NULL
+  `svalue` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_config: ~59 rows (approximately)
+-- Dumping data for table opencad.oc_config: ~58 rows (approximately)
 DELETE FROM `oc_config`;
 /*!40000 ALTER TABLE `oc_config` DISABLE KEYS */;
 INSERT INTO `oc_config` (`skey`, `svalue`) VALUES
 	('api_key', 'tjGiGtzN5fupRFOydCeH991tikVAXe1V3DTIdWTxiQTs0vzhHyhZL0J33JQdL1Rp'),
 	('aop', 'Statewide'),
 	('discord_logs', 'false'),
-	('discord_webhook_url', NULL),
+	('discord_webhook_url', 'null'),
 	('community_name', 'OpenCAD DEV'),
 	('default_language', 'en'),
 	('default_language_direction', 'ltr'),
@@ -443,7 +433,7 @@ INSERT INTO `oc_config` (`skey`, `svalue`) VALUES
 	('db_user', 'root'),
 	('db_password', NULL),
 	('db_prefix', 'oc_'),
-	('base_url', '//YouDidNotRunTheInstaller'),
+	('base_url', 'YouDidNotRunTheInstaller'),
 	('enable_api_security', 'true'),
 	('police_ncic', 'true'),
 	('police_call_selfassign', 'true'),
@@ -641,9 +631,12 @@ CREATE TABLE IF NOT EXISTS `oc_logs` (
   `text` varchar(500) DEFAULT NULL,
   `time` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
+-- Dumping data for table opencad.oc_logs: ~13 rows (approximately)
 DELETE FROM `oc_logs`;
+/*!40000 ALTER TABLE `oc_logs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oc_logs` ENABLE KEYS */;
 
 -- Dumping structure for table opencad.oc_ncic_arrests
 CREATE TABLE IF NOT EXISTS `oc_ncic_arrests` (
@@ -694,21 +687,18 @@ CREATE TABLE IF NOT EXISTS `oc_ncic_names` (
   `dl_issuer` set('Not Applicable','Government','Military') DEFAULT 'Not Applicable',
   `hair_color` set('Bald','Black','Blonde','Blue','Brown','Gray','Green','Orange','Pink','Purple','Red','Auburn','Sandy','Strawberry','White','Partially Gray') DEFAULT NULL,
   `build` set('Average','Fit','Muscular','Overweight','Skinny','Thin') DEFAULT NULL,
-  `weapon_permit` set('Unobtained','Vaild','Suspended','Expired','Canceled') DEFAULT NULL,
+  `weapon_permit` set('Unobtained','Vaild','Suspended','Expired','Canceled') DEFAULT 'Unobtained',
   `weapon_permit_type` set('Small Arms','Specialised Weapon','Automatic Weapon','Semi-Automatic','Military Grade') DEFAULT NULL,
   `weapon_permit_Issued_by` set('Ammu-Nation','Government','Military') DEFAULT NULL,
-  `blood_type` set('A+','O+','B+','AB+','A-','O-','B-','AB-') DEFAULT NULL,
-  `blod_type` set('A+','O+','B+','AB+','A-','O-','B-','AB-') DEFAULT NULL,
+  `blood_type` set('A+','O+','B+','AB+','A-','O-','B-','AB-') DEFAULT 'A+',
   `organ_donor` set('NO','YES') DEFAULT 'NO',
   `deceased` set('NO','YES') DEFAULT 'NO',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table opencad.oc_ncic_names: ~1 rows (approximately)
 DELETE FROM `oc_ncic_names`;
 /*!40000 ALTER TABLE `oc_ncic_names` DISABLE KEYS */;
-INSERT INTO `oc_ncic_names` (`id`, `submittedByName`, `submittedById`, `name`, `dob`, `address`, `gender`, `race`, `dl_status`, `dl_type`, `dl_class`, `dl_issuer`, `hair_color`, `build`, `weapon_permit`, `weapon_permit_type`, `weapon_permit_Issued_by`, `blood_type`, `blod_type`, `organ_donor`, `deceased`) VALUES
-	(1, 'matt4499', '1', 'Matt Myers', '0000-00-00', '829 Marina Drive', 'Male', 'Caucasian', 'Unobtained', 'Not Issued', 'Not Applicable', 'Not Applicable', 'Black', 'Muscular', NULL, NULL, NULL, NULL, NULL, 'NO', 'NO');
 /*!40000 ALTER TABLE `oc_ncic_names` ENABLE KEYS */;
 
 -- Dumping structure for table opencad.oc_ncic_plates
@@ -2822,6 +2812,7 @@ CREATE TABLE IF NOT EXISTS `oc_users` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT COMMENT='User table';
 
+-- Dumping data for table opencad.oc_users: ~0 rows (approximately)
 DELETE FROM `oc_users`;
 /*!40000 ALTER TABLE `oc_users` DISABLE KEYS */;
 INSERT INTO `oc_users` (`id`, `name`, `email`, `password`, `identifier`, `admin_privilege`, `supervisor_privilege`, `password_reset`, `approved`, `suspend_reason`, `suspend_duration`) VALUES
