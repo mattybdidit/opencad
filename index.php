@@ -1,9 +1,7 @@
 <?php
 	$DEV = false;
-	if($DEV) {
-		include_once("plugins/plugin_api/plugin_api.php");
-		$Plugin_API = new PluginApi();
-	}
+	include_once(getcwd()."/plugins/plugin_api/plugin_api.php");
+	$Plugin_API = new PluginApi();
 	if(!$DEV && file_exists(getcwd().'/oc-install/installer.php') && is_writable(getcwd())){
 		if(session_status() === PHP_SESSION_NONE) session_start();
 		session_unset();
@@ -105,6 +103,10 @@
 			   <input type="submit" class="btn red darken-4" value="Login">
                <a class="btn red darken-4" onclick="M.toast({html: 'Contact an admin to reset your password.', classes:'red darken-4'});" >Forgot Password?</a>
                <a class="btn red darken-4 modal-trigger" href="#register">New? Register</a>
+            </div>
+			<div class="row">
+			<div class="input-field col offset-s4 s4">
+               <p class="center-align">OpenCAD Version <?php $Plugin_API->get_oc_version_name(); echo " "; $Plugin_API->get_oc_version_build(); ?></p>
             </div>
 		 </div>
 		<?php } ?>

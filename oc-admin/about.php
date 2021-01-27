@@ -16,6 +16,8 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
 session_start();
 
 require_once(__DIR__ . '/../oc-config.php');
+require_once(__DIR__ . '/../plugins/plugin_api/plugin_api.php');
+$PluginAPI = new PluginApi();
 require_once(__DIR__ . '/../oc-functions.php');
 include("../actions/adminActions.php");
 
@@ -146,43 +148,23 @@ if (isset($_SESSION['accessMessage'])) {
                                         <img src="<?php echo BASE_URL; ?>/images/gplv3-127x51.png" height="128px" width="251px" />
                                     </div>
                                     <div class="row tile_count">
-                                        <h2>About Your Environment</h2>
+                                        <h2>About Your Installation</h2>
                                         <div class="input-group">
-                                            PHP Version:<input type="text" class="form-control" readonly="readonly" placeholder="<?php echo phpversion(); ?>" />
-                                            <p><em>Note:</em> The active version of PHP.</p>
+                                            PHP Version: <em> <?php echo phpversion(); ?> </em>
                                         </div>
                                         <!-- ./ col-md-2 col-sm-4 col-xs-6 tile_stats_count -->
                                         <div class="input-group">
-                                            Database Engine:<input type="text" class="form-control" readonly="readonly" placeholder="<?php echo getMySQLVersion(); ?>" />
-                                            <p><em>Note:</em> The database engine which is currently deployed on the
-                                                server.</p>
-                                        </div>
-                                    </div>
-                                    <!-- ./ row tile_count -->
-                                    <div class="row tile_count">
-                                        <h2>About Your Application</h2>
-                                        <div class="input-group">
-                                            OpenCAD Version:<input type="text" class="form-control" readonly="readonly" placeholder="<?php echo getOpenCADVersion(); ?>" />
-                                            <p><em>Note:</em> If the limit of ten (10) requests per one (1) minute the
-                                                API key will be blacklisted and support will <em>not</em> remove the
-                                                block.</p>
+                                            Database Engine: <em> <?php echo getMySQLVersion(); ?> </em>
                                         </div>
                                         <div class="input-group">
-                                            OpenCAD Build:<input type="text" class="form-control" readonly="readonly" placeholder="API KEY HERE" />
-                                            <p><em>Note:</em> If the limit of ten (10) requests per one (1) minute the
-                                                API key will be blacklisted and support will <em>not</em> remove the
-                                                block.</p>
+                                            PHP Extensions: <em> <?php 
+                                            foreach(get_loaded_extensions() as $key => $value) {
+                                                 echo $value . ", "; 
+                                            } ?>
+                                            </em>
                                         </div>
-                                        <div class="x_content">
-                                            <div class="input-group">
-                                                API Key:
-                                                <input type="text" class="form-control" readonly="readonly" placeholder="<?php echo getApiKey(); ?>" />
-                                                <p>
-                                                    <em>Note:</em> Used to encrypt cookie 'aljksdz7' and authenticate
-                                                    request to the api if the requestor is not logged in.
-                                                </p>
-                                                <a style="margin-left:10px" class="btn btn-primary" href="<?php echo BASE_URL; ?>/actions/generalActions.php?newApiKey=1">Generate</a>
-                                            </div>
+                                        <div class="input-group">
+                                            OpenCAD Version: <em> <?php echo $PluginAPI->get_oc_version_name(); echo " "; echo $PluginAPI->get_oc_version_build(); ?> </em>
                                         </div>
                                     </div>
                                     <!-- ./ col-md-2 col-sm-4 col-xs-6 tile_stats_count -->
@@ -191,7 +173,7 @@ if (isset($_SESSION['accessMessage'])) {
                                 <h2>About OpenCAD</h2>
                                 <p>OpenCAD is an opensource project licensed under GNU GPL v3. The original code and
                                     concept by <a href="https://github.com/ossified" title="a link to the original developer's GitHub.">Shane Gill</a>. This project
-                                    is maintained by Matt4499</p>
+                                    is maintained by <a href="https://github.com/Matt4499">Matt4499</a></p>
                             </div>
                             <!-- ./ x_content -->
                         </div>

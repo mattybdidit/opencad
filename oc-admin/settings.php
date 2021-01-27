@@ -155,7 +155,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                            <div class="x_panel">
                               <div class="x_title">
-                              <h2>OpenCAD Settings</h2>
+                              <h2>OpenCAD Settings (LIST INCOMPLETE. SETTINGS LIST/CHANGING IN DEVELOPMENT) </h2>
                               <ul class="nav navbar-right panel_toolbox">
                                     <button disabled class="btn disabled" style="background-color: #2A3F54; color: white;" onclick="refreshSettings()">Apply</button>
                               </ul>
@@ -221,11 +221,19 @@
                         </thead>
                         <tbody>
                            <tr>
+                              <td scope="col"> <span class="<?php echo $PluginAPI->getplugininformation()['icon']; ?>"></span> <?php echo $PluginAPI->getplugininformation()['plugin_name']; ?></td>
+                              <td><?php echo $PluginAPI->getplugininformation()['version']; ?></td>
+                              <td><?php echo $PluginAPI->getplugininformation()['authors']; ?></td>
+                              <td><?php echo $PluginAPI->getplugininformation()['description']; ?></td>
+                           </tr>
+                        <?php if(LOGIN_CAPTCHA_ENABLED) { ?>
+                           <tr>
                               <td scope="col"> <span class="<?php echo $SimpleCaptchaPlugin->getplugininformation()['icon']; ?>"></span> <?php echo $SimpleCaptchaPlugin->getplugininformation()['plugin_name']; ?></td>
                               <td><?php echo $SimpleCaptchaPlugin->getplugininformation()['version']; ?></td>
                               <td><?php echo $SimpleCaptchaPlugin->getplugininformation()['authors']; ?></td>
                               <td><?php echo $SimpleCaptchaPlugin->getplugininformation()['description']; ?></td>
                            </tr>
+                        <?php } ?>
                         </tbody>
                      </table>
                               </div>

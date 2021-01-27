@@ -12,13 +12,13 @@ class PluginApi {
         $this->pluginInformation['plugin_name'] = "PluginAPI (built-in)";
         $this->pluginInformation['version'] = "1.0.0";
         $this->pluginInformation['authors'] = "Matt4499";
-        $this->pluginInformation['description'] = "Adds a plugin API for other plugins to use.";
+        $this->pluginInformation['description'] = "Adds a plugin API for other plugins to use, and some built-in OpenCAD features.";
         $this->pluginInformation['icon'] = "fas fa-shield-alt";
         return $this->pluginInformation;
     }
 
     function uninstall_plugin() {
-        unlink("simple-php-captcha.php");
+        die("You cannot uninstall PluginApi as it is built into OpenCAD.");
         //To-Do: Delete entire directory, disable/remove stuff from db, that the plugin uses, audit log the uninstall and who did it
     }
 
@@ -27,6 +27,7 @@ class PluginApi {
     }
 
     function audit_log($text) {
+        if(is_null($text)) { error_log("[pluginapi/audit_log] text was null!"); return; }
         $date = date("F j, Y, g:i a T");
         $id = null;
 
@@ -57,6 +58,13 @@ class PluginApi {
         return $pdo;
     }
 
+    function get_oc_version_name() {
+        echo 'Azazel';
+    }
+    
+    function get_oc_version_build() {
+        echo '0.1';
+    }
 }
 
 

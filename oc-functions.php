@@ -144,7 +144,7 @@ function getApiKey($del_key = false)
     }
 
     if ($result->rowCount() >= 1 && $del_key) {
-        error_log("Do delete: $del_key");
+        // error_log("Do delete: $del_key");
         $key = generateRandomString(64);
         $result = $pdo->query("UPDATE " . DB_PREFIX . "config SET `svalue`='$key' WHERE `skey`='api_key'");
 
@@ -187,7 +187,7 @@ function generateRandomString($length = 10)
  **/
 function getOpenCADVersion()
 {
-    echo '0.3.2';
+    echo '0.3.3'; //To-Do: make this use plugin api to return version name + build
 }
 
 /**#@+
