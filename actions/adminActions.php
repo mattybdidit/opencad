@@ -11,7 +11,6 @@
  */
 
 require_once(__DIR__ . "/../oc-config.php");
-include_once(__DIR__ . "/../plugins/api_auth.php");
 
 /*
 This file handles all actions for admin.php script
@@ -86,10 +85,7 @@ function deleteGroupItem()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."user_departments WHERE user_id = ? AND department_id = ?");
@@ -139,10 +135,7 @@ function editUserAccount()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
    
@@ -193,10 +186,7 @@ function editUserAccountRole()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
  
     $stmt = $pdo->prepare("UPDATE ".DB_PREFIX."users SET admin_privilege = ? WHERE id = ?");
@@ -236,26 +226,19 @@ function delete_user()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."users WHERE id = ?");
     if (!$stmt->execute(array($uid)))
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."user_departments WHERE user_id = ?");
     if (!$stmt->execute(array($uid)))
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $pdo = null;
@@ -272,10 +255,7 @@ function getUserCount()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT COUNT(*) from ".DB_PREFIX."users")->fetch(PDO::FETCH_NUM);
@@ -295,10 +275,7 @@ function getPendingUsers()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT id, name, email, identifier FROM ".DB_PREFIX."users WHERE approved = '0'");
@@ -380,19 +357,14 @@ function _getRole($id)
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT admin_privilege FROM ".DB_PREFIX."users WHERE id = ?");
     $result = $stmt->execute(array($userID));
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -406,10 +378,7 @@ function getUserGroups($uid)
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT ".DB_PREFIX."departments.department_name FROM ".DB_PREFIX."user_departments_temp INNER JOIN ".DB_PREFIX."departments on ".DB_PREFIX."user_departments_temp.department_id=".DB_PREFIX."departments.department_id WHERE ".DB_PREFIX."user_departments_temp.user_id = ?");
@@ -417,9 +386,7 @@ function getUserGroups($uid)
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     foreach ($stmt as $row)
     {
@@ -436,10 +403,7 @@ function getUserGroupsApproved($uid)
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT ".DB_PREFIX."departments.department_name,".DB_PREFIX."departments.department_id FROM ".DB_PREFIX."user_departments INNER JOIN ".DB_PREFIX."departments on ".DB_PREFIX."user_departments.department_id=".DB_PREFIX."departments.department_id WHERE ".DB_PREFIX."user_departments.user_id = ?");
@@ -447,9 +411,7 @@ function getUserGroupsApproved($uid)
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     if ( DEMO_MODE == false ) {
@@ -476,10 +438,7 @@ function approveUser()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("INSERT INTO ".DB_PREFIX."user_departments SELECT u.* FROM ".DB_PREFIX."user_departments_temp u WHERE user_id = ?");
@@ -487,9 +446,7 @@ function approveUser()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."user_departments_temp WHERE user_id = ?");
@@ -497,9 +454,7 @@ function approveUser()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $stmt = $pdo->prepare("UPDATE ".DB_PREFIX."users SET approved = '1' WHERE id = ?");
@@ -507,9 +462,7 @@ function approveUser()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -528,10 +481,7 @@ function rejectUser()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."user_departments_temp where user_id = ?");
@@ -539,9 +489,7 @@ function rejectUser()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."users where id = ?");
@@ -549,9 +497,7 @@ function rejectUser()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -570,10 +516,7 @@ function getGroupCount($gid)
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT COUNT(*) from ".DB_PREFIX."user_departments WHERE department_id = ?");
@@ -582,9 +525,7 @@ function getGroupCount($gid)
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $pdo = null;
@@ -598,10 +539,7 @@ function getUsers()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT id, name, email, admin_privilege, identifier, approved FROM ".DB_PREFIX."users WHERE approved = '1' OR approved = '2'");
@@ -726,7 +664,7 @@ function getUsers()
 }
 
 //Function to suspend a user account
-// TODO: Add reason, duration
+// TODO: Add duration
 function suspendUser()
 {
     session_start();
@@ -745,10 +683,7 @@ function suspendUser()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("UPDATE ".DB_PREFIX."users SET approved = '2' WHERE id = ?");
@@ -756,9 +691,7 @@ function suspendUser()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -789,10 +722,7 @@ function suspendUserWithReason()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("UPDATE ".DB_PREFIX."users SET approved = '2' WHERE id = ?");
@@ -800,9 +730,7 @@ function suspendUserWithReason()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $stmt = $pdo->prepare("UPDATE ".DB_PREFIX."users SET suspend_reason = (?) WHERE id = ?");
@@ -810,9 +738,7 @@ function suspendUserWithReason()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -832,10 +758,7 @@ function reactivateUser()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("UPDATE ".DB_PREFIX."users SET approved = '1' WHERE id = ?");
@@ -843,9 +766,7 @@ function reactivateUser()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -863,10 +784,7 @@ function getUserDetails()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT id, name, email, identifier, admin_privilege FROM ".DB_PREFIX."users WHERE ID = ?");
@@ -875,9 +793,7 @@ function getUserDetails()
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -902,10 +818,7 @@ function getUserID()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT id FROM ".DB_PREFIX."users WHERE ID = ?");
@@ -914,9 +827,7 @@ function getUserID()
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -934,10 +845,7 @@ function getUserGroupsEditor($encode, $userId)
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT ".DB_PREFIX."departments.department_name FROM ".DB_PREFIX."user_departments INNER JOIN ".DB_PREFIX."departments on ".DB_PREFIX."user_departments.department_id=".DB_PREFIX."departments.department_id WHERE ".DB_PREFIX."user_departments.user_id = ?");
@@ -946,9 +854,7 @@ function getUserGroupsEditor($encode, $userId)
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -970,10 +876,7 @@ function getCodes()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT code_id, code_name FROM ".DB_PREFIX."codes");
@@ -1019,10 +922,7 @@ function getCallHistory()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT * FROM ".DB_PREFIX."call_history");
@@ -1096,10 +996,7 @@ function delete_callhistory()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."call_history WHERE call_id = ?");
@@ -1107,9 +1004,7 @@ function delete_callhistory()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 

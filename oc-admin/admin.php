@@ -11,66 +11,53 @@ This program is free software: you can redistribute it and/or modify
  (at your option) any later version.
 
 This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
-**/
+ **/
 
-    session_start();
+session_start();
 
-    require_once(__DIR__ . '/../oc-config.php');
-    require_once(__DIR__ . '/../oc-functions.php');
+require_once(__DIR__ . '/../oc-config.php');
+require_once(__DIR__ . '/../oc-functions.php');
 
-    if (empty($_SESSION['logged_in']))
-    {
-        header('Location: ../index.php');
-        die("Not logged in");
+if (empty($_SESSION['logged_in'])) {
+    header('Location: ../index.php');
+    die("Not logged in");
+} else {
+    $name = $_SESSION['name'];
+}
+
+
+if ($_SESSION['admin_privilege'] == 3) {
+    if ($_SESSION['admin_privilege'] == 'Administrator') {
+        //Do nothing
     }
-    else
-    {
-      $name = $_SESSION['name'];
+} else if ($_SESSION['admin_privilege'] == 2) {
+    if ($_SESSION['admin_privilege'] == 'Moderator') {
+        // Do Nothing
     }
-
-
-    if ( $_SESSION['admin_privilege'] == 3)
-    {
-      if ($_SESSION['admin_privilege'] == 'Administrator')
-      {
-          //Do nothing
-      }
-    }
-    else if ($_SESSION['admin_privilege'] == 2)
-    {
-      if ($_SESSION['admin_privilege'] == 'Moderator')
-      {
-          // Do Nothing
-      }
-    }
-    else
-    {
-        permissionDenied();
-    }
+} else {
+    permissionDenied();
+}
 
 
 
-    include("../actions/adminActions.php");
+include("../actions/adminActions.php");
 
-    $accessMessage = "";
-    if(isset($_SESSION['accessMessage']))
-    {
-        $accessMessage = $_SESSION['accessMessage'];
-        unset($_SESSION['accessMessage']);
-    }
-    $adminMessage = "";
-    if(isset($_SESSION['adminMessage']))
-    {
-        $adminMessage = $_SESSION['adminMessage'];
-        unset($_SESSION['adminMessage']);
-    }
+$accessMessage = "";
+if (isset($_SESSION['accessMessage'])) {
+    $accessMessage = $_SESSION['accessMessage'];
+    unset($_SESSION['accessMessage']);
+}
+$adminMessage = "";
+if (isset($_SESSION['adminMessage'])) {
+    $adminMessage = $_SESSION['adminMessage'];
+    unset($_SESSION['adminMessage']);
+}
 
-    $successMessage = "";
-    if(isset($_SESSION['successMessage']))
-    {
-        $successMessage = $_SESSION['successMessage'];
-        unset($_SESSION['successMessage']);
-    }
+$successMessage = "";
+if (isset($_SESSION['successMessage'])) {
+    $successMessage = $_SESSION['successMessage'];
+    unset($_SESSION['successMessage']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -97,7 +84,7 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
                         </div>
                         <div class="profile_info">
                             <span>Welcome,</span>
-                            <h2><?php echo $name;?></h2>
+                            <h2><?php echo $name; ?></h2>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -109,19 +96,16 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
 
                     <!-- /menu footer buttons -->
                     <div class="sidebar-footer hidden-small">
-                        <a data-toggle="tooltip" data-placement="top" title="Go to Dashboard"
-                            href="<?php echo BASE_URL; ?>/dashboard.php">
+                        <a data-toggle="tooltip" data-placement="top" title="Go to Dashboard" href="<?php echo BASE_URL; ?>/dashboard.php">
                             <span class="fas fa-clipboard-list" aria-hidden="true"></span>
                         </a>
                         <a data-toggle="tooltip" data-placement="top" title="FullScreen" onClick="toggleFullScreen()">
                             <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Need Help?"
-                            href="https://guides.opencad.io/">
+                        <a data-toggle="tooltip" data-placement="top" title="Need Help?" href="https://discord.gg/es9mz6r">
                             <span class="fas fa-info-circle" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout"
-                            href="<?php echo BASE_URL; ?>/actions/logout.php?responder=<?php echo $_SESSION['identifier'];?>">
+                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?php echo BASE_URL; ?>/actions/logout.php?responder=<?php echo $_SESSION['identifier']; ?>">
                             <span class="fas fa-sign-out-alt" aria-hidden="true"></span>
                         </a>
                     </div>
@@ -138,9 +122,8 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
                         </div>
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
-                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
-                                    aria-expanded="false">
-                                    <img src="<?php echo get_avatar() ?>" alt=""><?php echo $name;?>
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <img src="<?php echo get_avatar() ?>" alt=""><?php echo $name; ?>
                                     <span class="fas fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -178,7 +161,7 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
                 <!-- ./ col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search -->
               </div>
               <!-- ./ title_right -->
-              */?>
+              */ ?>
                     </div>
 
                     <div class="clearfix"></div>
@@ -198,11 +181,12 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
                                 </div>
                                 <!-- ./ x_title -->
                                 <div class="x_content">
-                                    <?php echo $adminMessage; echo $successMessage; ?>
+                                    <?php echo $adminMessage;
+                                    echo $successMessage; ?>
                                     <div class="row tile_count">
                                         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                                             <span class="count_top"><i class="fa fa-user"></i> Total Users</span>
-                                            <div class="count"><?php echo getUserCount();?></div>
+                                            <div class="count"><?php echo getUserCount(); ?></div>
                                         </div>
                                         <!-- ./ col-md-2 col-sm-4 col-xs-6 tile_stats_count -->
                                     </div>
@@ -232,9 +216,9 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
                                 </div>
                                 <!-- ./ x_title -->
                                 <div class="x_content">
-                                    <?php echo $accessMessage;?>
+                                    <?php echo $accessMessage; ?>
 
-                                    <?php getPendingUsers();?>
+                                    <?php getPendingUsers(); ?>
                                 </div>
                                 <!-- ./ x_content -->
                             </div>
@@ -253,7 +237,7 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
             <!-- footer content -->
             <footer>
                 <div class="pull-right">
-                    <?php echo COMMUNITY_NAME;?> CAD System
+                    <?php echo COMMUNITY_NAME; ?> CAD System
                 </div>
                 <div class="clearfix"></div>
             </footer>
@@ -262,12 +246,9 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
     </div>
 
     <?php
-    include (__DIR__ . "/oc-admin-includes/globalModals.inc.php");
-    include (__DIR__ . "/../oc-includes/jquery-colsolidated.inc.php"); ?>
+    include(__DIR__ . "/oc-admin-includes/globalModals.inc.php");
+    include(__DIR__ . "/../oc-includes/jquery-colsolidated.inc.php"); ?>
 
-    <script type="text/javascript"
-        src="https://jira.opencad.io/s/a0c4d8ca8eced10a4b49aaf45ec76490-T/-f9bgig/77001/9e193173deda371ba40b4eda00f7488e/2.0.24/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-US&collectorId=ede74ac1">
-    </script>
 </body>
 
 </html>

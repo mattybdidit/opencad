@@ -35,7 +35,7 @@ function register()
         session_start();
         $_SESSION['register_error'] = "Passwords do not match";
         sleep(1);
-        header("Location:".BASE_URL."/index.php#signup");
+        header("Location:".BASE_URL."/index.php?register=passwordMatch");
         exit();
     }
     //Hash the password
@@ -47,10 +47,7 @@ function register()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT email from ".DB_PREFIX."users where email = ?");
@@ -59,18 +56,13 @@ function register()
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $num_rows = $result->rowCount();
     if ($num_rows>0)
     {
-        session_start();
-        $_SESSION['register_error'] = "Email already exists";
-        sleep(1);
-        header("Location:".BASE_URL."/index.php#signup");
+        header("Location:".BASE_URL."/index.php?register=emailExists");
         exit();
     }
 
@@ -79,9 +71,7 @@ function register()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     /*Add user to departments they requested, temporary table */
     /*This is really inefficient. There should be a better way*/
@@ -101,10 +91,7 @@ function register()
     }
 
     $pdo = null;
-    session_start();
-    $_SESSION['register_success'] = "Successfully requested access. Please wait for an administrator to approve your request.";
-    sleep(1);
-    header("Location:".BASE_URL."/index.php#signup");
+    header("Location:".BASE_URL."/index.php?register=success");
 }
 
 function civreg()
@@ -117,7 +104,7 @@ function civreg()
         session_start();
         $_SESSION['register_error'] = "Passwords do not match";
         sleep(1);
-        header("Location:".BASE_URL."/index.php#signup");
+        header("Location:".BASE_URL."/index.php");
         exit();
     }
     //Hash the password
@@ -129,10 +116,7 @@ function civreg()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT email from ".DB_PREFIX."users where email = ?");
@@ -141,9 +125,7 @@ function civreg()
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $num_rows = $result->rowCount();
 
@@ -152,7 +134,7 @@ function civreg()
         session_start();
         $_SESSION['register_error'] = "Email already exists";
         sleep(1);
-        header("Location:".BASE_URL."/index.php#civreg");
+        header("Location:".BASE_URL."/index.php");
         exit();
     }
 
@@ -161,9 +143,7 @@ function civreg()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $civ = "8";
@@ -172,15 +152,12 @@ function civreg()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $pdo = null;
     session_start();
-    $_SESSION['register_success'] = "Successfully registered. You may now log-in.";
-    sleep(1);
-    header("Location:".BASE_URL."/index.php#civreg");
+    $_SESSION['register_success'] = "You may now login as CIV.";
+    header("Location:".BASE_URL."/index.php");
 }
 ?>

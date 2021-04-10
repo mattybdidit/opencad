@@ -27,10 +27,7 @@ function logoutResponder()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."active_users WHERE identifier = ?");
@@ -38,9 +35,7 @@ function logoutResponder()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 }
@@ -49,7 +44,7 @@ session_start();
 session_unset();
 session_destroy();
 if(ENABLE_API_SECURITY === true)
-    setcookie('aljksdz7', null, -1, "/");
+    setcookie('opencad', null, -1, "/");
 
 header("Location: ".BASE_URL."/index.php?loggedOut=true");
 exit();

@@ -11,50 +11,39 @@ This program is free software: you can redistribute it and/or modify
  (at your option) any later version.
 
 This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
-**/
-    session_start();
+ **/
+session_start();
 
-    require_once(__DIR__ . '/../oc-config.php');
-    require_once(__DIR__ . '/../oc-functions.php');
-    include(__DIR__ . '/../actions/adminActions.php');
-    include(__DIR__ . '/../actions/publicFunctions.php');
-    include(__DIR__ . '/../actions/generalActions.php');
+require_once(__DIR__ . '/../oc-config.php');
+require_once(__DIR__ . '/../oc-functions.php');
+include(__DIR__ . '/../actions/adminActions.php');
+include(__DIR__ . '/../actions/publicFunctions.php');
+include(__DIR__ . '/../actions/generalActions.php');
 
-    if (empty($_SESSION['logged_in']))
-    {
-        header('Location: ../index.php');
-        die("Not logged in");
-    }
-    else
-    {
-      $name = $_SESSION['name'];
-    }
+if (empty($_SESSION['logged_in'])) {
+    header('Location: ../index.php');
+    die("Not logged in");
+} else {
+    $name = $_SESSION['name'];
+}
 
-    if ( $_SESSION['admin_privilege'] == 3)
-    {
-        if ($_SESSION['admin_privilege'] == 'Administrator')
-        {
-          //Do nothing
-        }
+if ($_SESSION['admin_privilege'] == 3) {
+    if ($_SESSION['admin_privilege'] == 'Administrator') {
+        //Do nothing
     }
-    else if ($_SESSION['admin_privilege'] == 2)
-    {
-        if ($_SESSION['admin_privilege'] == 'Moderator')
-        {
-              // Do Nothing
-        }
+} else if ($_SESSION['admin_privilege'] == 2) {
+    if ($_SESSION['admin_privilege'] == 'Moderator') {
+        // Do Nothing
     }
-    else
-    {
-        permissionDenied();
-    }
+} else {
+    permissionDenied();
+}
 
-    $accessMessage = "";
-    if(isset($_SESSION['accessMessage']))
-    {
-        $accessMessage = $_SESSION['accessMessage'];
-        unset($_SESSION['accessMessage']);
-    }
+$accessMessage = "";
+if (isset($_SESSION['accessMessage'])) {
+    $accessMessage = $_SESSION['accessMessage'];
+    unset($_SESSION['accessMessage']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -80,7 +69,7 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
                         </div>
                         <div class="profile_info">
                             <span>Welcome,</span>
-                            <h2><?php echo $name;?></h2>
+                            <h2><?php echo $name; ?></h2>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -88,23 +77,20 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
 
                     <br />
 
-                    <?php include (__DIR__ ."/oc-admin-includes/sidebarNav.inc.php"); ?>
+                    <?php include(__DIR__ . "/oc-admin-includes/sidebarNav.inc.php"); ?>
 
                     <!-- /menu footer buttons -->
                     <div class="sidebar-footer hidden-small">
-                        <a data-toggle="tooltip" data-placement="top" title="Go to Dashboard"
-                            href="<?php echo BASE_URL; ?>/dashboard.php">
+                        <a data-toggle="tooltip" data-placement="top" title="Go to Dashboard" href="<?php echo BASE_URL; ?>/dashboard.php">
                             <span class="fas fa-clipboard-list" aria-hidden="true"></span>
                         </a>
                         <a data-toggle="tooltip" data-placement="top" title="FullScreen" onClick="toggleFullScreen()">
                             <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Need Help?"
-                            href="https://guides.opencad.io/">
+                        <a data-toggle="tooltip" data-placement="top" title="Need Help?" href="https://discord.gg/es9mz6r">
                             <span class="fas fa-info-circle" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout"
-                            href="<?php echo BASE_URL; ?>/actions/logout.php?responder=<?php echo $_SESSION['identifier'];?>">
+                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?php echo BASE_URL; ?>/actions/logout.php?responder=<?php echo $_SESSION['identifier']; ?>">
                             <span class="fas fa-sign-out-alt" aria-hidden="true"></span>
                         </a>
                     </div>
@@ -122,16 +108,13 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
 
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
-                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
-                                    aria-expanded="false">
-                                    <img src="<?php echo get_avatar() ?>" alt=""><?php echo $name;?>
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <img src="<?php echo get_avatar() ?>" alt=""><?php echo $name; ?>
                                     <span class="fas fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                    <li><a href="<?php echo BASE_URL; ?>/profile.php"><i
-                                                class="fas fa-user pull-right"></i>My Profile</a></li>
-                                    <li><a href="<?php echo BASE_URL; ?>/actions/logout.php"><i
-                                                class="fas fa-sign-out-alt pull-right"></i> Log Out</a></li>
+                                    <li><a href="<?php echo BASE_URL; ?>/profile.php"><i class="fas fa-user pull-right"></i>My Profile</a></li>
+                                    <li><a href="<?php echo BASE_URL; ?>/actions/logout.php"><i class="fas fa-sign-out-alt pull-right"></i> Log Out</a></li>
                                 </ul>
                             </li>
 
@@ -171,42 +154,42 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
                                     <div class="row tile_count">
                                         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                                             <span class="count_top"><i class="fas fa-user"></i> Communications</span>
-                                            <div class="count"><?php echo getGroupCount("1");?></div>
+                                            <div class="count"><?php echo getGroupCount("1"); ?></div>
                                         </div>
                                         <!-- ./ col-md-2 col-sm-4 col-xs-6 tile_stats_count -->
                                         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                                             <span class="count_top"><i class="fas fa-user"></i> State</span>
-                                            <div class="count"><?php echo getGroupCount("2");?></div>
+                                            <div class="count"><?php echo getGroupCount("2"); ?></div>
                                         </div>
                                         <!-- ./ col-md-2 col-sm-4 col-xs-6 tile_stats_count -->
                                         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                                             <span class="count_top"><i class="fas fa-user"></i> Highway Patrol</span>
-                                            <div class="count"><?php echo getGroupCount("3");?></div>
+                                            <div class="count"><?php echo getGroupCount("3"); ?></div>
                                         </div>
                                         <!-- ./ col-md-2 col-sm-4 col-xs-6 tile_stats_count -->
                                         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                                             <span class="count_top"><i class="fas fa-user"></i> Sheriff</span>
-                                            <div class="count"><?php echo getGroupCount("4");?></div>
+                                            <div class="count"><?php echo getGroupCount("4"); ?></div>
                                         </div>
                                         <!-- ./ col-md-2 col-sm-4 col-xs-6 tile_stats_count -->
                                         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                                             <span class="count_top"><i class="fas fa-user"></i> Police</span>
-                                            <div class="count"><?php echo getGroupCount("5");?></div>
+                                            <div class="count"><?php echo getGroupCount("5"); ?></div>
                                         </div>
                                         <!-- ./ col-md-2 col-sm-4 col-xs-6 tile_stats_count -->
                                         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                                             <span class="count_top"><i class="fas fa-user"></i> Fire</span>
-                                            <div class="count"><?php echo getGroupCount("6");?></div>
+                                            <div class="count"><?php echo getGroupCount("6"); ?></div>
                                         </div>
                                         <!-- ./ col-md-2 col-sm-4 col-xs-6 tile_stats_count -->
                                         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                                             <span class="count_top"><i class="fas fa-user"></i> EMS</span>
-                                            <div class="count"><?php echo getGroupCount("7");?></div>
+                                            <div class="count"><?php echo getGroupCount("7"); ?></div>
                                         </div>
                                         <!-- ./ col-md-2 col-sm-4 col-xs-6 tile_stats_count -->
                                         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                                             <span class="count_top"><i class="fas fa-user"></i> Civilian</span>
-                                            <div class="count"><?php echo getGroupCount("8");?></div>
+                                            <div class="count"><?php echo getGroupCount("8"); ?></div>
                                         </div>
                                         <!-- ./ col-md-2 col-sm-4 col-xs-6 tile_stats_count -->
                                     </div>
@@ -236,8 +219,8 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
                                 </div>
                                 <!-- ./ x_title -->
                                 <div class="x_content">
-                                    <?php echo $accessMessage;?>
-                                    <?php getUsers();?>
+                                    <?php echo $accessMessage; ?>
+                                    <?php getUsers(); ?>
                                 </div>
                                 <!-- ./ x_content -->
                             </div>
@@ -256,7 +239,7 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
             <!-- footer content -->
             <footer>
                 <div class="pull-right">
-                    <?php echo COMMUNITY_NAME;?> CAD System
+                    <?php echo COMMUNITY_NAME; ?> CAD System
                 </div>
                 <div class="clearfix"></div>
             </footer>
@@ -279,8 +262,7 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
                     </div>
                     <!-- ./ modal-header -->
                     <div class="modal-body">
-                        <form role="form" method="post" action="<?php echo BASE_URL; ?>/actions/adminActions.php"
-                            class="form-horizontal">
+                        <form role="form" method="post" action="<?php echo BASE_URL; ?>/actions/adminActions.php" class="form-horizontal">
                             <div class="form-group row">
                                 <label class="col-md-3 control-label">Name</label>
                                 <div class="col-md-9">
@@ -317,7 +299,7 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
                                 </div>
                                 <!-- ./ col-sm-9 -->
                             </div>
-                            <!-- ./ form-group -->                                               
+                            <!-- ./ form-group -->
                     </div>
                     <!-- ./ modal-body -->
                     <div class="modal-footer">
@@ -333,7 +315,7 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
             <!-- ./ modal-dialog modal-lg -->
         </div>
         <!-- ./ modal fade bs-example-modal-lg -->
-        </div>
+    </div>
 
     <!-- Change User Role Modal -->
     <div class="modal fade" id="editUserRoleModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -345,19 +327,18 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
                     <h4 class="modal-title" id="editUserRoleModal">Change User Role</h4>
                     <!-- ./ modal-header -->
                     <div class="modal-body">
-                        <form role="form" method="post" action="<?php echo BASE_URL; ?>/actions/adminActions.php"
-                            class="form-horizontal">
+                        <form role="form" method="post" action="<?php echo BASE_URL; ?>/actions/adminActions.php" class="form-horizontal">
                             <!-- ./ form-group -->
                             <div class="form-group row">
                                 <label class="col-md-3 control-label">User Role</label>
                                 <div class="col-md-9">
                                     <select name="userRole" class="selectpicker form-control" id="userRole">
-                                        <?php getRole();?>
+                                        <?php getRole(); ?>
                                     </select>
                                 </div>
                                 <!-- ./ col-sm-9 -->
                             </div>
-                            <!-- ./ form-group -->                                               
+                            <!-- ./ form-group -->
                     </div>
                     <!-- ./ modal-body -->
                     <div class="modal-footer">
@@ -373,56 +354,56 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
             <!-- ./ modal-dialog modal-lg -->
         </div>
         <!-- ./ modal fade bs-example-modal-lg -->
-        </div>
-
-        <!-- Change Password -->
-    <div class="modal fade" id="changeUserPassword" tabindex="-1" role="dialog" aria-hidden="true">
-       <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" id="closeChangePassword"><span aria-hidden="true">×</span>
-                </button>
-          <h4 class="modal-title" id="myModalLabel">Change Password</h4>
-        </div>
-        <!-- ./ modal-header -->
-        <div class="modal-body">
-          <form role="form" action="<?php echo BASE_URL; ?>/actions/adminActions.php" method="post">
-            <div class="form-group row">
-              <label class="col-lg-2 control-label">Password</label>
-              <div class="col-lg-10">
-        <input class="form-control" type="password" name="password" id="password" size="30" maxlength="255" placeholder="Enter your new password..." value="" required <?php if ( DEMO_MODE == true ) {?> readonly <?php } ?> />
-              </div>
-              <!-- ./ col-sm-9 -->
-            </div>
-            <div class="form-group row">
-              <label class="col-lg-2 control-label">Confirm Password</label>
-              <div class="col-lg-10">
-        <input class="form-control" type="password" name="confirm_password" size="30" id="confirm_password" maxlength="255" placeholder="Retype your new password..." value="" required <?php if ( DEMO_MODE == true ) {?> readonly <?php } ?> />
-              </div>
-              <!-- ./ col-sm-9 -->
-            </div>
-        </div>
-        <!-- ./ modal-body -->
-        <div class="modal-footer">
-            <input type="hidden" name="userID" id="userID">
-            <input type="submit" name="changeUserPassword" id="changeUserPassword" class="btn btn-primary" value="Change Password" />
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </form>
-        </div>
-        <!-- ./ modal-footer -->
-      </div>
-      <!-- ./ modal-content -->
     </div>
-    <!-- ./ modal-dialog modal-lg -->
-  </div>
-  <!-- ./ modal fade bs-example-modal-lg -->
-        
 
-        <?php
+    <!-- Change Password -->
+    <div class="modal fade" id="changeUserPassword" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" id="closeChangePassword"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Change Password</h4>
+                </div>
+                <!-- ./ modal-header -->
+                <div class="modal-body">
+                    <form role="form" action="<?php echo BASE_URL; ?>/actions/adminActions.php" method="post">
+                        <div class="form-group row">
+                            <label class="col-lg-2 control-label">Password</label>
+                            <div class="col-lg-10">
+                                <input class="form-control" type="password" name="password" id="password" size="30" maxlength="255" placeholder="Enter your new password..." value="" required <?php if (DEMO_MODE == true) { ?> readonly <?php } ?> />
+                            </div>
+                            <!-- ./ col-sm-9 -->
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-2 control-label">Confirm Password</label>
+                            <div class="col-lg-10">
+                                <input class="form-control" type="password" name="confirm_password" size="30" id="confirm_password" maxlength="255" placeholder="Retype your new password..." value="" required <?php if (DEMO_MODE == true) { ?> readonly <?php } ?> />
+                            </div>
+                            <!-- ./ col-sm-9 -->
+                        </div>
+                </div>
+                <!-- ./ modal-body -->
+                <div class="modal-footer">
+                    <input type="hidden" name="userID" id="userID">
+                    <input type="submit" name="changeUserPassword" id="changeUserPassword" class="btn btn-primary" value="Change Password" />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </form>
+                </div>
+                <!-- ./ modal-footer -->
+            </div>
+            <!-- ./ modal-content -->
+        </div>
+        <!-- ./ modal-dialog modal-lg -->
+    </div>
+    <!-- ./ modal fade bs-example-modal-lg -->
+
+
+    <?php
     include(__DIR__ . "./oc-admin-includes/globalModals.inc.php");
     include(__DIR__ . "/../oc-includes/jquery-colsolidated.inc.php"); ?>
 
-        <script>
+    <script>
         $(document).ready(function() {
             $('#allUsers').DataTable;
         });
@@ -472,7 +453,7 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
             });
         });
 
-         $('#editUserRoleModal').on('show.bs.modal', function(e) {
+        $('#editUserRoleModal').on('show.bs.modal', function(e) {
             var $modal = $(this),
                 userId = e.relatedTarget.id;
 
@@ -520,10 +501,10 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
                 });
             }
         });
-        </script>
+    </script>
 
 
-        <script>
+    <script>
         $(document).ready(function() {
 
             $('#pendingUsers').DataTable({
@@ -532,11 +513,8 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
             });
 
         });
-        </script>
+    </script>
 
-        <script type="text/javascript"
-            src="https://jira.opencad.io/s/a0c4d8ca8eced10a4b49aaf45ec76490-T/-f9bgig/77001/9e193173deda371ba40b4eda00f7488e/2.0.24/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-US&collectorId=ede74ac1">
-        </script>
 </body>
 
 </html>

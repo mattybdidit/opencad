@@ -10,7 +10,6 @@
  **/
 
 require_once(__DIR__ . "/../oc-config.php");
-include_once(__DIR__ . "/../plugins/api_auth.php");
 
 /* This file handles all actions for admin.php script */
 
@@ -162,7 +161,7 @@ else if (isset($_POST['resetData']))
 
 /**#@+
 * function getCitationTypes()
-* Fetches all Warrant Types from the warrant_types table with their resepective IDs and
+* Fetches all citation Types from the citation_types table with their resepective IDs and
 * types. It then builds the table and includes functions such as Edit and Delete
 * These functions are handled by editCitationTypes(); and deleteCitationTypes(); 
 *
@@ -175,10 +174,7 @@ function getCitationTypes()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT * FROM ".DB_PREFIX."citation_types");
@@ -268,10 +264,7 @@ function getCitationTypeDetails()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT * FROM ".DB_PREFIX."citation_types WHERE id = ?");
@@ -280,9 +273,7 @@ function getCitationTypeDetails()
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -308,10 +299,7 @@ function editCitationType()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     
@@ -344,18 +332,13 @@ function deleteCitationType()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."citation_types WHERE id = ?");
     if (!$stmt->execute(array($id)))
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $pdo = null;
@@ -384,10 +367,7 @@ function getDepartments()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT * FROM ".DB_PREFIX."departments");
@@ -422,7 +402,7 @@ function getDepartments()
         foreach($result as $row)
         {
 
-            if($row[4] = 1) {
+            if($row[4] == 1) {
                 $deptStatus = "<span style=\"color:red;\">Disabled (1)</span>";
             } else {
                 $deptStatus = "<span style=\"color:green; font-weight:bold;\">Enabled (2)</span>";
@@ -482,10 +462,7 @@ function getDepartmentDetails()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT * FROM ".DB_PREFIX."departments WHERE department_id = ?");
@@ -494,9 +471,7 @@ function getDepartmentDetails()
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -527,10 +502,7 @@ function editDepartment()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     
@@ -563,18 +535,13 @@ function deleteDepartment()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."departments WHERE department_id = ?");
     if (!$stmt->execute(array($departmentID)))
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $pdo = null;
@@ -603,10 +570,7 @@ function getIncidentTypes()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT * FROM ".DB_PREFIX."incident_types");
@@ -697,10 +661,7 @@ function getIncidentTypeDetails()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT * FROM ".DB_PREFIX."incident_types WHERE id = ?");
@@ -709,9 +670,7 @@ function getIncidentTypeDetails()
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -738,10 +697,7 @@ function editIncidentType()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     
@@ -774,18 +730,13 @@ function deleteIncidentType()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."incident_types WHERE id = ?");
     if (!$stmt->execute(array($id)))
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $pdo = null;
@@ -801,7 +752,7 @@ function deleteIncidentType()
 
 /**#@+
 * function getRadioCodes()
-* Fetches all Warrant Types from the warrant_types table with their resepective IDs and
+* Fetches all radio codes from the radio_codes table with their resepective IDs and
 * types. It then builds the table and includes functions such as Edit and Delete
 * These functions are handled by editRadioCode(); and deleteRadioCode(); 
 *
@@ -814,10 +765,7 @@ function getRadioCodes()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT * FROM ".DB_PREFIX."radio_codes");
@@ -907,10 +855,7 @@ function getRadioCodeDetails()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT * FROM ".DB_PREFIX."radio_codes WHERE id = ?");
@@ -919,9 +864,7 @@ function getRadioCodeDetails()
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -948,10 +891,7 @@ function editRadioCode()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     
@@ -984,18 +924,13 @@ function deleteRadioCode()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."radio_codes WHERE id = ?");
     if (!$stmt->execute(array($id)))
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $pdo = null;
@@ -1023,10 +958,7 @@ function getStreets()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT * FROM ".DB_PREFIX."streets");
@@ -1117,10 +1049,7 @@ function getStreetDetails()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT * FROM ".DB_PREFIX."streets WHERE id = ?");
@@ -1129,9 +1058,7 @@ function getStreetDetails()
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -1158,10 +1085,7 @@ function editStreet()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     
@@ -1194,18 +1118,13 @@ function deleteStreet()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."streets WHERE id = ?");
     if (!$stmt->execute(array($id)))
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $pdo = null;
@@ -1233,10 +1152,7 @@ function getVehicles()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT * FROM ".DB_PREFIX."vehicles");
@@ -1327,10 +1243,7 @@ function getVehicleDetails()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT * FROM ".DB_PREFIX."vehicles WHERE id = ?");
@@ -1339,9 +1252,7 @@ function getVehicleDetails()
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -1374,10 +1285,7 @@ function editVehicle()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     
@@ -1412,18 +1320,13 @@ function deleteVehicle()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."vehicles WHERE id = ?");
     if (!$stmt->execute(array($id)))
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $pdo = null;
@@ -1452,10 +1355,7 @@ function getWarningTypes()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT * FROM ".DB_PREFIX."warning_types");
@@ -1543,10 +1443,7 @@ function getWarningTypeDetails()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT * FROM ".DB_PREFIX."warning_types WHERE id = ?");
@@ -1555,9 +1452,7 @@ function getWarningTypeDetails()
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -1581,10 +1476,7 @@ function editWarningType()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     
@@ -1617,18 +1509,13 @@ function deleteWarningType()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."warning_types WHERE id = ?");
     if (!$stmt->execute(array($id)))
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $pdo = null;
@@ -1657,10 +1544,7 @@ function getWarrantTypes()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT * FROM ".DB_PREFIX."warrant_types");
@@ -1694,7 +1578,7 @@ function getWarrantTypes()
         {
             echo '
             <tr>
-                <td>' . $row[1] . '</td>
+                <td>' . $row[2] . '</td>
                 <td>';
         if ( DEMO_MODE == false) {
             echo '<form action="'.BASE_URL.'/actions/dataActions.php" method="post">';
@@ -1712,8 +1596,7 @@ function getWarrantTypes()
                 echo '<input name="deleteWarrantType" type="submit" class="btn btn-xs btn-link" onclick="deleteWarrantType(' . $row[0] . ')" value="Delete" disabled />';
             }
         } else {
-            echo ' </td>
-                <td>
+            echo '
                 <form action="'.BASE_URL.'/actions/dataActions.php" method="post">
                 <button name="editWarrantType" type="button" data-toggle="modal" id="' . $row[0] . '" data-target="#editWarrantTypeModal" class="btn btn-xs btn-link" disabled >Edit</button>
                 <input name="deleteWarrantType" type="submit" class="btn btn-xs btn-link" onclick="deleteWarrantType(' . $row[0] . ')" value="Delete" disabled />
@@ -1733,7 +1616,6 @@ function getWarrantTypes()
         ';
     }
 }
-
 /**#@+
 * function getWarrantTypeDetails();
 * Fetches details for a given edit modal in Warrant Types Manager.
@@ -1748,10 +1630,7 @@ function getWarrantTypeDetails()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT * FROM ".DB_PREFIX."warrant_types WHERE id = ?");
@@ -1760,9 +1639,7 @@ function getWarrantTypeDetails()
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -1786,10 +1663,7 @@ function editWarrantType()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     
@@ -1822,18 +1696,13 @@ function deleteWarrantType()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."warrant_types WHERE id = ?");
     if (!$stmt->execute(array($id)))
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $pdo = null;
@@ -1862,10 +1731,7 @@ function getWeapons()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT * FROM ".DB_PREFIX."weapons");
@@ -1956,10 +1822,7 @@ function getWeaponDetails()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT * FROM ".DB_PREFIX."weapons WHERE id = ?");
@@ -1968,9 +1831,7 @@ function getWeaponDetails()
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
     $pdo = null;
 
@@ -1997,10 +1858,7 @@ function editWeapon()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     
@@ -2033,18 +1891,13 @@ function deleteWeapon()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."weapons WHERE id = ?");
     if (!$stmt->execute(array($id)))
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $pdo = null;
@@ -2079,10 +1932,7 @@ function resetData()
         $pdo    =   new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
     if ($_POST == "allData") 
     {
@@ -2132,9 +1982,7 @@ function resetData()
     
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $pdo = null;
@@ -2144,4 +1992,3 @@ function resetData()
     header("Location: ".BASE_URL."/oc-admin/admin.php");
 }
 //** END Data Import/Export/Reset FUNCTIONS **//
-?>

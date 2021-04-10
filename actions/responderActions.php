@@ -14,8 +14,6 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
 **/
 require_once(__DIR__ . "/../oc-config.php");
 
-include_once(__DIR__ . "/../plugins/api_auth.php");
-
 /* Handle POST requests */
 if (isset($_POST['updateCallsign'])){
     updateCallsign();
@@ -62,10 +60,7 @@ function updateCallsign()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("UPDATE ".DB_PREFIX."active_users SET callsign = ?, status = '0' WHERE ".DB_PREFIX."active_users.identifier = ?");
@@ -73,9 +68,7 @@ function updateCallsign()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 	$pdo = null;
 
@@ -92,10 +85,7 @@ function getStatus()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("SELECT status_detail FROM ".DB_PREFIX."active_users WHERE identifier = ?");
@@ -104,9 +94,7 @@ function getStatus()
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $statusDetail = "";
@@ -121,9 +109,7 @@ function getStatus()
 
     if (!$resStatus)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
     $statusText = "";
@@ -151,10 +137,7 @@ function mdtGetVehicleBOLOS()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT ".DB_PREFIX."bolos_vehicles.* FROM ".DB_PREFIX."bolos_vehicles");
@@ -228,10 +211,7 @@ function mdtGetPersonBOLOS()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $result = $pdo->query("SELECT ".DB_PREFIX."bolos_persons.* FROM ".DB_PREFIX."bolos_persons");
@@ -309,10 +289,7 @@ function create_citation()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("INSERT INTO ".DB_PREFIX."ncic_citations (name_id, citation_name, citation_fine, issued_by, status, issued_date) VALUES (?, ?, ?, ?, '1', ?)");
@@ -320,9 +297,7 @@ function create_citation()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
 	if ($citation_name_2){
@@ -391,10 +366,7 @@ function create_warning()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
     $stmt = $pdo->prepare("INSERT INTO ".DB_PREFIX."ncic_warnings (name_id, warning_name, issued_by, status, issued_date) VALUES (?, ?, ?, '1', ?)");
@@ -402,9 +374,7 @@ function create_warning()
 
     if (!$result)
     {
-        $_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($stmt->errorInfo());
     }
 
 	if ($warning_name_2){
@@ -481,10 +451,7 @@ function create_arrest()
         $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
     } catch(PDOException $ex)
     {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
-        $_SESSION['error_blob'] = $ex;
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+        die($ex->getMessage());
     }
 
 	$stmt = $pdo->prepare("INSERT INTO ".DB_PREFIX."ncic_arrests (name_id, arrest_reason, arrest_fine, issued_by, issued_date) VALUES (?, ?, ?, ?, ?)");
@@ -492,9 +459,7 @@ function create_arrest()
 
 	if (!$result)
 	{
-		$_SESSION['error'] = $stmt->errorInfo();
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
-        die();
+		die($stmt->errorInfo());
 	}
 
 	if ($arrest_reason_2){

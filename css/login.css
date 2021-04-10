@@ -1,0 +1,28 @@
+* {
+    color: white;
+}
+
+body {
+    background-color: black;
+}
+
+div.modal, #register > div.modal-footer, ul {
+    background-color: #363636 !important;
+    color: white !important;
+}
+
+.error-text {
+    -webkit-animation: glow 1s ease-in-out infinite alternate;
+    -moz-animation: glow 1s ease-in-out infinite alternate;
+    animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+    from {
+   text-shadow: 0 0 10px #dc143c, 0 0 20px #dc143c, 0 0 30px #dc143c, 0 0 40px #dc143c, 0 0 50px #dc143c, 0 0 60px #dc143c, 0 0 70px #dc143c, 0 0 90px #dc143c;
+ }
+ 
+ to {
+   text-shadow: 0 0 20px #dc143c, 0 0 30px #dc143c, 0 0 40px #dc143c, 0 0 50px #dc143c, 0 0 60px #dc143c, 0 0 70px #dc143c, 0 0 80px #dc143c, 0 1 90px #dc143c;
+ }
+}
