@@ -36,14 +36,6 @@ function install()
 				echo "<script> $(function(){ M.toast({html: 'An error occured while setting the new base URL', classes: 'red darken-4'}); });</script>";
 				die();
 			} else {
-				$file_contents = file_get_contents("../oc_config.php");
-				$input = "define('DB_HOST', '$dbhost');
-				define('DB_USER', '$dbuser');
-				define('DB_PASSWORD', '$dbpassword');
-				define('DB_NAME', '$dbname');
-				define('DB_PREFIX', 'oc_');";
-				str_replace("%", $input, $file_contents);
-				file_put_contents("../oc-config.php", $file_contents);
 				header("Location: $BaseURL");
 				unlink("css.css");
 				unlink("installer.sql");
