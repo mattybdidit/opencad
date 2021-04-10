@@ -104,7 +104,7 @@ function civreg()
         session_start();
         $_SESSION['register_error'] = "Passwords do not match";
         sleep(1);
-        header("Location:".BASE_URL."/index.php#signup");
+        header("Location:".BASE_URL."/index.php");
         exit();
     }
     //Hash the password
@@ -134,7 +134,7 @@ function civreg()
         session_start();
         $_SESSION['register_error'] = "Email already exists";
         sleep(1);
-        header("Location:".BASE_URL."/index.php#civreg");
+        header("Location:".BASE_URL."/index.php");
         exit();
     }
 
@@ -157,8 +157,7 @@ function civreg()
 
     $pdo = null;
     session_start();
-    $_SESSION['register_success'] = "Successfully registered. You may now log-in.";
-    sleep(1);
-    header("Location:".BASE_URL."/index.php#civreg");
+    $_SESSION['register_success'] = "You may now login as CIV.";
+    header("Location:".BASE_URL."/index.php");
 }
 ?>

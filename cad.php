@@ -18,9 +18,6 @@ include_once(__DIR__ . "/oc-functions.php");
 include(__DIR__ . "/actions/generalActions.php");
 include(__DIR__ . "/actions/publicFunctions.php");
 include(__DIR__ . "/actions/dispatchActions.php");
-include(__DIR__ . "/plugins/api_auth.php");
-
-// TODO: Verify user has permission to be on this page
 
 if (empty($_SESSION['logged_in'])) {
 	header('Location: ./index.php');

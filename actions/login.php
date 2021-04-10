@@ -100,7 +100,7 @@ if(!empty($_POST))
     $_SESSION['callsign'] = $result['identifier']; //Set callsign to default to identifier until the unit changes it
     $_SESSION['admin_privilege'] = $result['admin_privilege'];
     if(ENABLE_API_SECURITY === true) {
-        setcookie("aljksdz7", hash('md5', session_id().getApiKey()), time() + (86400 * 7), "/");
+        setcookie("opencad", hash('md5', session_id().getApiKey()), time() + (86400 * 7), "/");
     }
     if(DISCORD_LOGS === true) {
         sendWebhook("New Login from user ".$result['name'], "Info");

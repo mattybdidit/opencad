@@ -1,13 +1,9 @@
 <?php 
+class PluginApi { 
 
-class PluginApi {
-    
     public $PluginInformation = array();
+    public $DB;
 
-    //function __construct() {
-    //    include_once("oc-config.php");
-    //}
-     
     function getplugininformation() {
         $this->pluginInformation['plugin_name'] = "PluginAPI (built-in)";
         $this->pluginInformation['version'] = "1.0.0";
@@ -15,15 +11,6 @@ class PluginApi {
         $this->pluginInformation['description'] = "Adds a plugin API for other plugins to use, and some built-in OpenCAD features.";
         $this->pluginInformation['icon'] = "fas fa-shield-alt";
         return $this->pluginInformation;
-    }
-
-    function uninstall_plugin() {
-        die("You cannot uninstall PluginApi as it is built into OpenCAD.");
-        //To-Do: Delete entire directory, disable/remove stuff from db, that the plugin uses, audit log the uninstall and who did it
-    }
-
-    function install_plugin() {
-        //To-Do: make changes to DB as plugin needs, audit log the install, and who installed it
     }
 
     function audit_log($text) {
@@ -49,13 +36,16 @@ class PluginApi {
     }
 
     function get_db() {
+        if($this->DB instanceof PDO) {
+            return $this->DB;
+        }
         try{
-            $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
+            $this->DB = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
         } catch(PDOException $ex)
         {
             die($ex->getMessage());
         }
-        return $pdo;
+        return $this->DB;
     }
 
     function get_oc_version_name() {
@@ -63,7 +53,19 @@ class PluginApi {
     }
     
     function get_oc_version_build() {
-        echo '0.1';
+        echo '0.2';
+    }
+
+    function get_oc_version_changes() {
+        return Array(
+            "Added an example plugin (example_plugin.php)",
+            "Updated to Azazel 0.2",
+            "Removed api_auth as it was unneeded",
+            "Prevented PluginAPI from opening new DBs",
+            "Fixed an issue with the installer",
+            "Re-implemented civilian-only register (aka CIV_REG)",
+            "Dashboard makeover (will be adding more stuff soon)"
+        );
     }
 }
 

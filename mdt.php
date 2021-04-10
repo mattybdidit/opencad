@@ -16,7 +16,6 @@ include_once(__DIR__ . "/oc-config.php");
 include_once(__DIR__ . "/oc-functions.php");
 include(__DIR__ . "/actions/generalActions.php");
 include(__DIR__ . "/actions/responderActions.php");
-include(__DIR__ . "/plugins/api_auth.php");
 
 if (empty($_SESSION['logged_in'])) {
    header('Location: /index.php');

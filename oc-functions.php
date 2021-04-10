@@ -187,7 +187,7 @@ function generateRandomString($length = 10)
  **/
 function getOpenCADVersion()
 {
-    echo '0.3.3'; //To-Do: make this use plugin api to return version name + build
+    echo '0.3.3';
 }
 
 /**#@+

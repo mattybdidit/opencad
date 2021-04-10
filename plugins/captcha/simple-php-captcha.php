@@ -16,7 +16,6 @@ class SimpleCaptchaPlugin {
 
     function uninstall_plugin() {
         unlink("simple-php-captcha.php");
-        //To-Do: Delete entire directory, disable/remove stuff from db, that the plugin uses.
     }
 }
 

@@ -44,7 +44,7 @@ session_start();
 session_unset();
 session_destroy();
 if(ENABLE_API_SECURITY === true)
-    setcookie('aljksdz7', null, -1, "/");
+    setcookie('opencad', null, -1, "/");
 
 header("Location: ".BASE_URL."/index.php?loggedOut=true");
 exit();

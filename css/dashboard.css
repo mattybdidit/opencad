@@ -1,0 +1,12 @@
+body {
+    background-color: black;
+    color: white;
+}
+
+.collection, .collection-header, .collection-item {
+    background-color: #525252 !important;
+}
+
+html {
+    scrollbar-color: #dc143c gray !important;
+}

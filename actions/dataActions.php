@@ -10,7 +10,6 @@
  **/
 
 require_once(__DIR__ . "/../oc-config.php");
-include_once(__DIR__ . "/../plugins/api_auth.php");
 
 /* This file handles all actions for admin.php script */
 

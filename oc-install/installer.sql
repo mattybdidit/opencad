@@ -3540,8 +3540,3 @@ INSERT INTO `oc_weapons` (`id`, `weapon_type`, `weapon_name`) VALUES
 	(87, 'Throwable', 'Snowball'),
 	(88, 'Throwable', 'Pipe Bomb');
 /*!40000 ALTER TABLE `oc_weapons` ENABLE KEYS */;
-
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
