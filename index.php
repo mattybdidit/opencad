@@ -9,9 +9,6 @@ if (!$DEV && file_exists(getcwd() . '/oc-install/installer.php') && is_writable(
 	setcookie('opencad', null, -1, "/");
 	header('Location://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . 'oc-install/installer.php');
 }
-if(!file_exists("./secret.php")){
-	die("You did not run the installer or secret.php did not generate.");
-}
 if (!file_exists(getcwd() . '/oc-install/installer.php') && is_dir("oc-install") && !$DEV) {
 	rmdir("oc-install");
 }
