@@ -498,7 +498,7 @@ INSERT INTO `oc_departments` (`department_id`, `department_name`, `department_sh
 	(1, 'Communications', 'SAECOMM', 'San Andreas Emergency Communications', 0),
 	(2, 'State', 'SASP', 'San Andreas State Police', 0),
 	(3, 'Highway', 'SAHP', 'San Andreas Highway Patrol', 0),
-	(4, 'Sheriff', 'BCSO', 'Blaine County Sheriffs\' Office', 0),
+	(4, 'Sheriff', 'BCSO', 'Blaine County Sheriffs Office', 0),
 	(5, 'Police', 'SAPD', 'San Andreas Police Department', 0),
 	(6, 'Fire', 'SAFD', 'San Andreas Fire Department', 0),
 	(7, 'EMS', 'SAEMS', 'San Andreas Emergency Services', 0),
@@ -623,7 +623,6 @@ INSERT INTO `oc_incident_types` (`id`, `code_id`, `code_name`) VALUES
 	(76, '10-82', 'Fire in Progress'),
 	(77, '10-83', 'Smoke Visible'),
 	(78, '10-84', 'No Smoke Visible');
-/*!40000 ALTER TABLE `oc_incident_types` ENABLE KEYS */;
 
 -- Dumping structure for table opencad.oc_logs
 CREATE TABLE IF NOT EXISTS `oc_logs` (
@@ -3539,4 +3538,3 @@ INSERT INTO `oc_weapons` (`id`, `weapon_type`, `weapon_name`) VALUES
 	(86, 'Throwable', 'Proximity Mine'),
 	(87, 'Throwable', 'Snowball'),
 	(88, 'Throwable', 'Pipe Bomb');
-/*!40000 ALTER TABLE `oc_weapons` ENABLE KEYS */;

@@ -32,7 +32,7 @@ if(!empty($_POST))
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT id, name, password, email, identifier, admin_privilege, password_reset, approved, suspend_reason FROM ".DB_PREFIX."users WHERE email = ?");
+    $stmt = $pdo->prepare("SELECT * FROM ".DB_PREFIX."users WHERE email = ? LIMIT 1");
     $resStatus = $stmt->execute(array($email));
     $result = $stmt->fetch();
 
@@ -108,5 +108,3 @@ if(!empty($_POST))
     $PluginApi->audit_log("[Login/Success] ". $result['name']." successfully logged in.");
     header("Location:".BASE_URL."/dashboard.php");
 }
-
-?>

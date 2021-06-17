@@ -62,6 +62,11 @@ while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
                 <i class="material-icons red-text">send</i></a>
                 </div>
             </li>
+            <li class="collection-item">
+                <div>Dispatch (New, Unfinished CAD) <a href="./newcad.php" class="secondary-content">
+                <i class="material-icons red-text">send</i></a>
+                </div>
+            </li>
             ';
     } else if ($row[1] == "7") {
         $_SESSION['ems'] = 'YES';
@@ -101,7 +106,7 @@ while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
             ';
     } else if ($row[1] == "4") {
         $_SESSION['sheriff'] = 'YES';
-        $sheriffButton = 
+        $sheriffButton =
             '
             <li class="collection-item">
                 <div>Sheriff <a href="./mdt.php?dep=sheriff" class="secondary-content">
@@ -144,10 +149,10 @@ $adminRows = $adminPriv->num_rows;
 if ($adminRows < 2) {
     while ($adminRow = mysqli_fetch_array($adminPriv, MYSQLI_BOTH)) {
         if ($adminRow[0] == "3" || $adminRow[0] == "2") {
-            $adminButton = 
-            '
+            $adminButton =
+                '
             <li class="collection-item">
-                <div>Staff Panel <a href="./oc-admin/admin.php" class="secondary-content">
+                <div>Staff Panel <a href="./oc-admin/staff.php" class="secondary-content">
                 <i class="material-icons red-text">send</i></a>
                 </div>
             </li>
@@ -178,7 +183,7 @@ mysqli_close($link);
     </div>
     <div id="container">
         <div class="row" style="margin-left: 50rem;">
-            <div class="animate__animated animate__fadeInDown" style="width: 30% !important;">
+            <div class="animate__animated animate__fadeInDown" style="width: 44vh !important;">
                 <ul class="collection with-header">
                     <li class="collection-header">
                         <h4>Clock In</h4>
@@ -204,8 +209,8 @@ mysqli_close($link);
                 href="https://github.com/Matt4499/opencad">Matt4499</a></p>
 
         <ul class="collection">
-            <?php 
-            foreach($PluginAPI->get_oc_version_changes() as $value) {
+            <?php
+            foreach ($PluginAPI->get_oc_version_changes() as $value) {
                 echo "<li class=\"collection-item\">$value</li>";
             }
             ?>
