@@ -47,16 +47,25 @@ if (isset($_SESSION['loginMessageDanger'])) {
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="./css/login.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="<?php echo COMMUNITY_NAME; ?> CAD" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description"
+        content="OpenCAD is a free & open-source CAD system for GTA 5/FiveM roleplaying communities. Register/Login today!" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="<?php echo BASE_URL; ?>/favicon.ico" />
+    <meta property="og:url" content="<?php echo BASE_URL; ?>" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="shortcut icon" type="image/jpg" href="./favicon.ico" />
-    <title>OpenCAD | Login</title>
+    <link rel="stylesheet" href="./css/login.css" />
+
+    <title><?php echo COMMUNITY_NAME; ?> | Login</title>
 </head>
 
 <body>
     <div class="section">
-        <h1 class="center-align"> OpenCAD | Login </h1>
+        <h1 class="center-align"> <?php echo COMMUNITY_NAME; ?> | Login </h1>
         <?php
         if ($DEV) {
         ?>
@@ -118,14 +127,6 @@ if (isset($_SESSION['loginMessageDanger'])) {
                     <?php } ?>
                 </div>
                 <?php } ?>
-                <div class="row center">
-                    <em>
-                        <?php echo $Plugin_API->get_oc_version_name(); ?>
-                        <?php echo $Plugin_API->get_oc_version_build(); ?>
-                        <br>
-                        <?php echo $Plugin_API->get_oc_version_build_date(); ?>
-                    </em>
-                </div>
         </form>
     </div>
     <div id="register" class="modal">

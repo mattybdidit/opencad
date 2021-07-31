@@ -32,8 +32,8 @@ if (!$link) {
 }
 
 $id = $_SESSION['id'];
-$sql = "SELECT * from " . DB_PREFIX . "user_departments WHERE user_id = \"$id\"";
-$getAdminPriv = "SELECT `admin_privilege` from " . DB_PREFIX . "users WHERE id = \"$id\"";
+$sql = "SELECT * from oc_user_departments WHERE user_id = \"$id\"";
+$getAdminPriv = "SELECT `admin_privilege` from oc_users WHERE id = \"$id\"";
 
 $result = mysqli_query($link, $sql);
 $adminPriv = mysqli_query($link, $getAdminPriv);
@@ -202,6 +202,20 @@ mysqli_close($link);
             </div>
         </div>
     </div>
+
+    <?php
+    $curVersion = $Plugin_API->get_oc_version_build();
+    $newVersion = file_get_contents("https://raw.githubusercontent.com/Matt4499/opencad/master/version.txt");
+    if ($newVersion > $curVersion) {
+        echo "<br> <h4><a href='https://github.com/Matt4499/opencad'>OpenCAD has new updates!</a></h4>" . "<br>" . "Current version: $curVersion" . "<br>" . "New version: $newVersion";
+    }
+    if ($newVersion == $curVersion) {
+        echo "<br> <h4>OpenCAD is up to date! (MASTER)</h4>";
+    }
+    if ($curVersion > $newVersion) {
+        echo "<br> <h4>OpenCAD is up to date! (DEV)</h4>";
+    }
+    ?>
 
     <div class="container center animate__animated animate__fadeInDown">
         <h3>OpenCAD Changelog (this version)</h3>

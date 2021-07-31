@@ -17,7 +17,6 @@ include_once("../actions/adminActions.php");
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="./css/cad.css" />
 </head>
 
 <body>
@@ -36,13 +35,12 @@ include_once("../actions/adminActions.php");
     </ul>
     <div class="row">
         <div class="col s9 offset-s2">
-            <h4> <?php echo COMMUNITY_NAME . " | Staff"; ?> </h4>
-            <em>This page is super useless and is literally in the original OpenCAD. This will be changed and
-                all staff related things will be moved here in the future.</em>
+            <h4> <?php echo COMMUNITY_NAME . " | Staff Dashboard"; ?> </h4>
+
             <div class="card horizontal">
                 <div class="card-stacked">
                     <div class="card-content">
-                        <span class="card-title">User Count</span>
+                        <span class="card-title">Member Counts</span>
                         <ul class="collection">
 
                             <li class="collection-item">
@@ -50,12 +48,59 @@ include_once("../actions/adminActions.php");
                                 <div class="chip">
                                     <?php echo getUserCount(); ?>
                                 </div>
+                                Civilian
+                                <div class="chip">
+                                    <?php echo getUserCount("civ"); ?>
+                                </div>
+                                Staff
+                                <div class="chip">
+                                    <?php echo getUserCount("staff"); ?>
+                                </div>
+                                Police/LEO
+                                <div class="chip">
+                                    <?php echo getUserCount("police"); ?>
+                                </div>
+                                Fire/EMS
+                                <div class="chip">
+                                    <?php echo getUserCount("fireems"); ?>
+                                </div>
+                                Dispatchers
+                                <div class="chip">
+                                    <?php echo getUserCount("dispatch"); ?>
+                                </div>
                             </li>
-
                         </ul>
                     </div>
                 </div>
             </div>
+
+            <div class="card horizontal">
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <span class="card-title">Pending Users</span>
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Callsign</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <?php getPendingUsers(); ?>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
         </div>
     </div>
 </body>

@@ -84,7 +84,7 @@ if (isset($_GET['term'])) {
 		die();
 	}
 
-	$stmt = $pdo->prepare("SELECT * from " . DB_PREFIX . "streets WHERE name LIKE ?");
+	$stmt = $pdo->prepare("SELECT * from oc_streets WHERE name LIKE ?");
 	$result = $stmt->execute(array("%$term%"));
 
 	if (!$result) {
@@ -125,7 +125,7 @@ function addNarrative()
 		die();
 	}
 
-	$stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "calls SET call_narrative = concat(call_narrative, ?) WHERE call_id = ?");
+	$stmt = $pdo->prepare("UPDATE oc_calls SET call_narrative = concat(call_narrative, ?) WHERE call_id = ?");
 	$result = $stmt->execute(array($narrativeAdd, $callId));
 
 	if (!$result) {
@@ -163,7 +163,7 @@ function assignUnit()
 		die();
 	}
 
-	$stmt = $pdo->prepare("SELECT callsign, id FROM " . DB_PREFIX . "active_users WHERE identifier = ?");
+	$stmt = $pdo->prepare("SELECT callsign, id FROM oc_active_users WHERE identifier = ?");
 	$resStatus = $stmt->execute(array($unit));
 	$result = $stmt;
 
@@ -178,7 +178,7 @@ function assignUnit()
 		$id = $row[1];
 	}
 
-	$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "calls_users (call_id, identifier, callsign, id) VALUES (?, ?, ?, ?)");
+	$stmt = $pdo->prepare("INSERT INTO oc_calls_users (call_id, identifier, callsign, id) VALUES (?, ?, ?, ?)");
 	$result = $stmt->execute(array($callId, $unit, $callsign, $id));
 
 	if (!$result) {
@@ -187,7 +187,7 @@ function assignUnit()
 		die();
 	}
 
-	$stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "active_users SET status = '0', status_detail = '3' WHERE " . DB_PREFIX . "active_users.callsign = ?");
+	$stmt = $pdo->prepare("UPDATE oc_active_users SET status = '0', status_detail = '3' WHERE oc_active_users.callsign = ?");
 	$result = $stmt->execute(array($callsign));
 
 	if (!$result) {
@@ -199,7 +199,7 @@ function assignUnit()
 	//Now we'll add data to the call log for unit history
 	$narrativeAdd = date("Y-m-d H:i:s") . ': Dispatched: ' . $callsign . '<br/>';
 
-	$stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "calls SET call_narrative = concat(call_narrative, ?) WHERE call_id = ?");
+	$stmt = $pdo->prepare("UPDATE oc_calls SET call_narrative = concat(call_narrative, ?) WHERE call_id = ?");
 	$result = $stmt->execute(array($narrativeAdd, $callId));
 
 	if (!$result) {
@@ -226,7 +226,7 @@ function storeCall()
 		die();
 	}
 
-	$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "call_history SELECT " . DB_PREFIX . "calls.* FROM " . DB_PREFIX . "calls WHERE call_id = ?");
+	$stmt = $pdo->prepare("INSERT INTO oc_call_history SELECT oc_calls.* FROM oc_calls WHERE call_id = ?");
 	$result = $stmt->execute(array($callId));
 
 	if (!$result) {
@@ -253,7 +253,7 @@ function clearCall()
 		die();
 	}
 
-	$stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "calls WHERE call_id = ?");
+	$stmt = $pdo->prepare("DELETE FROM oc_calls WHERE call_id = ?");
 	$result = $stmt->execute(array($callId));
 
 	if (!$result) {
@@ -262,7 +262,7 @@ function clearCall()
 		die();
 	}
 
-	$stmt = $pdo->prepare("SELECT identifier FROM " . DB_PREFIX . "calls_users WHERE call_id = ?");
+	$stmt = $pdo->prepare("SELECT identifier FROM oc_calls_users WHERE call_id = ?");
 	$resStatus = $stmt->execute(array($callId));
 	$result = $stmt;
 
@@ -289,7 +289,7 @@ function clearUnitFromCall($callId, $unit)
 		die();
 	}
 
-	$stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "calls_users WHERE call_id = ? AND identifier = ?");
+	$stmt = $pdo->prepare("DELETE FROM oc_calls_users WHERE call_id = ? AND identifier = ?");
 	$result = $stmt->execute(array($callId, $unit));
 
 	if (!$result) {
@@ -311,7 +311,7 @@ function freeUnitStatus($unit)
 		die();
 	}
 
-	$stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "active_users SET status = '1', status_detail = '1' WHERE " . DB_PREFIX . "active_users.identifier = ?");
+	$stmt = $pdo->prepare("UPDATE oc_active_users SET status = '1', status_detail = '1' WHERE oc_active_users.identifier = ?");
 	$result = $stmt->execute(array($unit));
 
 	if (!$result) {
@@ -333,7 +333,7 @@ function newCall()
 		die();
 	}
 
-	$result = $pdo->query("SELECT MAX(call_id) AS max FROM " . DB_PREFIX . "call_list");
+	$result = $pdo->query("SELECT MAX(call_id) AS max FROM oc_call_list");
 
 	if (!$result) {
 		$_SESSION['error'] = $pdo->errorInfo();
@@ -347,7 +347,7 @@ function newCall()
 
 	$callid++;
 
-	$stmt = $pdo->prepare("REPLACE INTO " . DB_PREFIX . "call_list (call_id) VALUES (?)");
+	$stmt = $pdo->prepare("REPLACE INTO oc_call_list (call_id) VALUES (?)");
 	$result = $stmt->execute(array($callid));
 
 	if (!$result) {
@@ -377,7 +377,7 @@ function newCall()
 		$narrative = $created . date("Y-m-d H:i:s") . ': ' . $narrative . '<br/>';
 	}
 
-	$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "calls (call_id, call_type, call_street1, call_street2, call_street3, call_narrative) VALUES (?, ?, ?, ?, ?, ?)");
+	$stmt = $pdo->prepare("INSERT INTO oc_calls (call_id, call_type, call_street1, call_street2, call_street3, call_narrative) VALUES (?, ?, ?, ?, ?, ?)");
 	$result = $stmt->execute(array($callid, $call_type, $street1, $street2, $street3, $narrative));
 
 	if (!$result) {
@@ -409,7 +409,7 @@ function cadGetVehicleBOLOS()
 		die();
 	}
 
-	$result = $pdo->query("SELECT " . DB_PREFIX . "bolos_vehicles.* FROM " . DB_PREFIX . "bolos_vehicles");
+	$result = $pdo->query("SELECT oc_bolos_vehicles.* FROM oc_bolos_vehicles");
 
 	if (!$result) {
 		$_SESSION['error'] = $pdo->errorInfo();
@@ -488,7 +488,7 @@ function cadGetPersonBOLOS()
 		die();
 	}
 
-	$result = $pdo->query("SELECT " . DB_PREFIX . "bolos_persons.* FROM " . DB_PREFIX . "bolos_persons");
+	$result = $pdo->query("SELECT oc_bolos_persons.* FROM oc_bolos_persons");
 
 	if (!$result) {
 		$_SESSION['error'] = $pdo->errorInfo();
@@ -572,7 +572,7 @@ function create_citation()
 		die();
 	}
 
-	$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_citations (name_id, citation_name, citation_fine, issued_by, status, issued_date) VALUES (?, ?, ?, ?, '1', ?)");
+	$stmt = $pdo->prepare("INSERT INTO oc_ncic_citations (name_id, citation_name, citation_fine, issued_by, status, issued_date) VALUES (?, ?, ?, ?, '1', ?)");
 	$result = $stmt->execute(array($userId, $citation_name_1, $citation_fine_1, $issued_by, $date));
 
 	if (!$result) {
@@ -582,7 +582,7 @@ function create_citation()
 	}
 
 	if ($citation_name_2) {
-		$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_citations (name_id, citation_name, citation_fine, issued_by, status, issued_date) VALUES (?, ?, ?, ?, '1', ?)");
+		$stmt = $pdo->prepare("INSERT INTO oc_ncic_citations (name_id, citation_name, citation_fine, issued_by, status, issued_date) VALUES (?, ?, ?, ?, '1', ?)");
 		$result = $stmt->execute(array($userId, $citation_name_2, $citation_fine_2, $issued_by, $date));
 
 		if (!$result) {
@@ -592,7 +592,7 @@ function create_citation()
 		}
 	}
 	if ($citation_name_3) {
-		$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_citations (name_id, citation_name, citation_fine, issued_by, status, issued_date) VALUES (?, ?, ?, ?, '1', ?)");
+		$stmt = $pdo->prepare("INSERT INTO oc_ncic_citations (name_id, citation_name, citation_fine, issued_by, status, issued_date) VALUES (?, ?, ?, ?, '1', ?)");
 		$result = $stmt->execute(array($userId, $citation_name_3, $citation_fine_3, $issued_by, $date));
 
 		if (!$result) {
@@ -602,7 +602,7 @@ function create_citation()
 		}
 	}
 	if ($citation_name_4) {
-		$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_citations (name_id, citation_name, citation_fine, issued_by, status, issued_date) VALUES (?, ?, ?, ?, '1', ?)");
+		$stmt = $pdo->prepare("INSERT INTO oc_ncic_citations (name_id, citation_name, citation_fine, issued_by, status, issued_date) VALUES (?, ?, ?, ?, '1', ?)");
 		$result = $stmt->execute(array($userId, $citation_name_4, $citation_fine_4, $issued_by, $date));
 
 		if (!$result) {
@@ -612,7 +612,7 @@ function create_citation()
 		}
 	}
 	if ($citation_name_5) {
-		$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_citations (name_id, citation_name, citation_fine, issued_by, status, issued_date) VALUES (?, ?, ?, ?, '1', ?)");
+		$stmt = $pdo->prepare("INSERT INTO oc_ncic_citations (name_id, citation_name, citation_fine, issued_by, status, issued_date) VALUES (?, ?, ?, ?, '1', ?)");
 		$result = $stmt->execute(array($userId, $citation_name_5, $citation_fine_5, $issued_by, $date));
 
 		if (!$result) {
@@ -648,7 +648,7 @@ function create_warning()
 		die();
 	}
 
-	$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_warnings (name_id, warning_name, issued_by, status, issued_date) VALUES (?, ?, ?, '1', ?)");
+	$stmt = $pdo->prepare("INSERT INTO oc_ncic_warnings (name_id, warning_name, issued_by, status, issued_date) VALUES (?, ?, ?, '1', ?)");
 	$result = $stmt->execute(array($userId, $warning_name_1, $issued_by, $date));
 
 	if (!$result) {
@@ -658,7 +658,7 @@ function create_warning()
 	}
 
 	if ($warning_name_2) {
-		$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_warnings (name_id, warning_name, issued_by, status, issued_date) VALUES (?, ?, ?, '1', ?)");
+		$stmt = $pdo->prepare("INSERT INTO oc_ncic_warnings (name_id, warning_name, issued_by, status, issued_date) VALUES (?, ?, ?, '1', ?)");
 		$result = $stmt->execute(array($userId, $warning_name_2, $issued_by, $date));
 
 		if (!$result) {
@@ -669,7 +669,7 @@ function create_warning()
 	}
 
 	if ($warning_name_3) {
-		$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_warnings (name_id, warning_name, issued_by, status, issued_date) VALUES (?, ?, ?, '1', ?)");
+		$stmt = $pdo->prepare("INSERT INTO oc_ncic_warnings (name_id, warning_name, issued_by, status, issued_date) VALUES (?, ?, ?, '1', ?)");
 		$result = $stmt->execute(array($userId, $warning_name_3, $issued_by, $date));
 
 		if (!$result) {
@@ -680,7 +680,7 @@ function create_warning()
 	}
 
 	if ($warning_name_4) {
-		$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_warnings (name_id, warning_name, issued_by, status, issued_date) VALUES (?, ?, ?, '1', ?)");
+		$stmt = $pdo->prepare("INSERT INTO oc_ncic_warnings (name_id, warning_name, issued_by, status, issued_date) VALUES (?, ?, ?, '1', ?)");
 		$result = $stmt->execute(array($userId, $warning_name_4, $issued_by, $date));
 
 		if (!$result) {
@@ -691,7 +691,7 @@ function create_warning()
 	}
 
 	if ($warning_name_5) {
-		$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_warnings (name_id, warning_name, issued_by, status, issued_date) VALUES (?, ?, ?, '1', ?)");
+		$stmt = $pdo->prepare("INSERT INTO oc_ncic_warnings (name_id, warning_name, issued_by, status, issued_date) VALUES (?, ?, ?, '1', ?)");
 		$result = $stmt->execute(array($userId, $warning_name_5, $issued_by, $date));
 
 		if (!$result) {
@@ -729,7 +729,7 @@ function create_warrant()
 		die();
 	}
 
-	$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_warrants (name_id, expiration_date, warrant_name, issuing_agency, status, issued_date) VALUES (?, ?, ?, ?, ?, ?)");
+	$stmt = $pdo->prepare("INSERT INTO oc_ncic_warrants (name_id, expiration_date, warrant_name, issuing_agency, status, issued_date) VALUES (?, ?, ?, ?, ?, ?)");
 	$result = $stmt->execute(array($userId, $expire, $warrant_name, $issuing_agency, $status, $date));
 
 	if (!$result) {
@@ -757,7 +757,7 @@ function delete_citation()
 		die();
 	}
 
-	$stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "ncic_citations WHERE id = ?");
+	$stmt = $pdo->prepare("DELETE FROM oc_ncic_citations WHERE id = ?");
 	$result = $stmt->execute(array($cid));
 
 	if (!$result) {
@@ -784,7 +784,7 @@ function delete_arrest()
 		die();
 	}
 
-	$stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "ncic_arrests WHERE id = ?");
+	$stmt = $pdo->prepare("DELETE FROM oc_ncic_arrests WHERE id = ?");
 	$result = $stmt->execute(array($aid));
 
 	if (!$result) {
@@ -811,7 +811,7 @@ function delete_warning()
 		die();
 	}
 
-	$stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "ncic_warnings WHERE id = ?");
+	$stmt = $pdo->prepare("DELETE FROM oc_ncic_warnings WHERE id = ?");
 	$result = $stmt->execute(array($wgid));
 
 	if (!$result) {
@@ -838,7 +838,7 @@ function delete_warrant()
 		die();
 	}
 
-	$stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "ncic_warrants WHERE id = ?");
+	$stmt = $pdo->prepare("DELETE FROM oc_ncic_warrants WHERE id = ?");
 	$result = $stmt->execute(array($wid));
 
 	if (!$result) {
@@ -863,7 +863,7 @@ function ncic_arrests()
 		die();
 	}
 
-	$result = $pdo->query("SELECT " . DB_PREFIX . "ncic_arrests.*, " . DB_PREFIX . "ncic_names.name FROM " . DB_PREFIX . "ncic_arrests INNER JOIN " . DB_PREFIX . "ncic_names ON " . DB_PREFIX . "ncic_names.id=" . DB_PREFIX . "ncic_arrests.name_id");
+	$result = $pdo->query("SELECT oc_ncic_arrests.*, oc_ncic_names.name FROM oc_ncic_arrests INNER JOIN oc_ncic_names ON oc_ncic_names.id=oc_ncic_arrests.name_id");
 
 	if (!$result) {
 		$_SESSION['error'] = $pdo->errorInfo();
@@ -928,7 +928,7 @@ function ncic_warrants()
 		die();
 	}
 
-	$result = $pdo->query("SELECT " . DB_PREFIX . "ncic_warrants.*, " . DB_PREFIX . "ncic_names.name FROM " . DB_PREFIX . "ncic_warrants INNER JOIN " . DB_PREFIX . "ncic_names ON " . DB_PREFIX . "ncic_names.id=" . DB_PREFIX . "ncic_warrants.name_id");
+	$result = $pdo->query("SELECT oc_ncic_warrants.*, oc_ncic_names.name FROM oc_ncic_warrants INNER JOIN oc_ncic_names ON oc_ncic_names.id=oc_ncic_warrants.name_id");
 
 	if (!$result) {
 		$_SESSION['error'] = $pdo->errorInfo();
@@ -1002,7 +1002,7 @@ function ncic_citations()
 		die();
 	}
 
-	$result = $pdo->query("SELECT " . DB_PREFIX . "ncic_citations.*, " . DB_PREFIX . "ncic_names.name FROM " . DB_PREFIX . "ncic_citations INNER JOIN " . DB_PREFIX . "ncic_names ON " . DB_PREFIX . "ncic_names.id=" . DB_PREFIX . "ncic_citations.name_id");
+	$result = $pdo->query("SELECT oc_ncic_citations.*, oc_ncic_names.name FROM oc_ncic_citations INNER JOIN oc_ncic_names ON oc_ncic_names.id=oc_ncic_citations.name_id");
 
 	if (!$result) {
 		$_SESSION['error'] = $pdo->errorInfo();
@@ -1067,7 +1067,7 @@ function ncic_warnings()
 		die();
 	}
 
-	$result = $pdo->query("SELECT " . DB_PREFIX . "ncic_warnings.*, " . DB_PREFIX . "ncic_names.name FROM " . DB_PREFIX . "ncic_warnings INNER JOIN " . DB_PREFIX . "ncic_names ON " . DB_PREFIX . "ncic_names.id=" . DB_PREFIX . "ncic_warnings.name_id");
+	$result = $pdo->query("SELECT oc_ncic_warnings.*, oc_ncic_names.name FROM oc_ncic_warnings INNER JOIN oc_ncic_names ON oc_ncic_names.id=oc_ncic_warnings.name_id");
 
 	if (!$result) {
 		$_SESSION['error'] = $pdo->errorInfo();
@@ -1137,7 +1137,7 @@ function create_personbolo()
 		die();
 	}
 
-	$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "bolos_persons (first_name, last_name, gender, physical_description, reason_wanted, last_seen) VALUES (?, ?, ?, ?, ?, ?)");
+	$stmt = $pdo->prepare("INSERT INTO oc_bolos_persons (first_name, last_name, gender, physical_description, reason_wanted, last_seen) VALUES (?, ?, ?, ?, ?, ?)");
 	$result = $stmt->execute(array($first_name, $last_name, $gender, $physical_description, $reason_wanted, $last_seen));
 
 	if (!$result) {
@@ -1171,7 +1171,7 @@ function create_vehiclebolo()
 		die();
 	}
 
-	$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "bolos_vehicles (vehicle_make, vehicle_model, vehicle_plate, primary_color, secondary_color, reason_wanted, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?)");
+	$stmt = $pdo->prepare("INSERT INTO oc_bolos_vehicles (vehicle_make, vehicle_model, vehicle_plate, primary_color, secondary_color, reason_wanted, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?)");
 	$result = $stmt->execute(array($vehicle_make, $vehicle_model, $vehicle_plate, $primary_color, $secondary_color, $reason_wanted, $last_seen));
 
 	if (!$result) {
@@ -1199,7 +1199,7 @@ function delete_personbolo()
 		die();
 	}
 
-	$stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "bolos_persons WHERE id = ?");
+	$stmt = $pdo->prepare("DELETE FROM oc_bolos_persons WHERE id = ?");
 	$result = $stmt->execute(array($pbid));
 
 	if (!$result) {
@@ -1226,7 +1226,7 @@ function delete_vehiclebolo()
 		die();
 	}
 
-	$stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "bolos_vehicles WHERE id = ?");
+	$stmt = $pdo->prepare("DELETE FROM oc_bolos_vehicles WHERE id = ?");
 	$result = $stmt->execute(array($vbid));
 
 	if (!$result) {
@@ -1251,7 +1251,7 @@ function cadGetPersonBOLOSid()
 		die();
 	}
 
-	$stmt = $pdo->prepare("SELECT " . DB_PREFIX . "bolos_persons.* FROM " . DB_PREFIX . "bolos_persons WHERE id = ?");
+	$stmt = $pdo->prepare("SELECT oc_bolos_persons.* FROM oc_bolos_persons WHERE id = ?");
 	$resStatus = $stmt->execute(array(htmlspecialchars($_POST['bolos_personid'])));
 	$result = $stmt;
 
@@ -1280,7 +1280,7 @@ function cadGetVehicleBOLOSid()
 		die();
 	}
 
-	$stmt = $pdo->prepare("SELECT " . DB_PREFIX . "bolos_vehicles.* FROM " . DB_PREFIX . "bolos_vehicles WHERE id = ?");
+	$stmt = $pdo->prepare("SELECT oc_bolos_vehicles.* FROM oc_bolos_vehicles WHERE id = ?");
 	$resStatus = $stmt->execute(array(htmlspecialchars($_POST['bolos_vehicleid'])));
 	$result = $stmt;
 
@@ -1312,7 +1312,7 @@ function changeaop()
 
 	if (empty($_POST['aop'])) {
 		$null = null;
-		$stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "config SET svalue = null WHERE skey = 'aop'");
+		$stmt = $pdo->prepare("UPDATE oc_config SET svalue = null WHERE skey = 'aop'");
 		$result = $stmt->execute();
 		if ($result == false) {
 			$error = $pdo->errorInfo();
@@ -1325,7 +1325,7 @@ function changeaop()
 		}
 	} else {
 		$aop = $_POST['aop'];
-		$stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "config SET svalue = :newaop WHERE skey = 'aop'");
+		$stmt = $pdo->prepare("UPDATE oc_config SET svalue = :newaop WHERE skey = 'aop'");
 		$stmt->bindValue(':newaop', $aop);
 		$result = $stmt->execute();
 		if ($result == false) {
@@ -1360,7 +1360,7 @@ function editPersonBOLOS()
 		die();
 	}
 
-	$stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "bolos_persons SET first_name = ?, last_name = ?, gender = ?, physical_description = ?, reason_wanted = ?, last_seen = ? WHERE id = ?");
+	$stmt = $pdo->prepare("UPDATE oc_bolos_persons SET first_name = ?, last_name = ?, gender = ?, physical_description = ?, reason_wanted = ?, last_seen = ? WHERE id = ?");
 	$result = $stmt->execute(array($first_name, $last_name, $gender, $physical_description, $reason_wanted, $last_seen, $person_id));
 
 	if (!$result) {
@@ -1395,7 +1395,7 @@ function edit_vehiclebolo()
 		die();
 	}
 
-	$stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "bolos_vehicles SET vehicle_make = ?, vehicle_model = ?, vehicle_plate = ?, primary_color = ?, secondary_color = ?, reason_wanted = ?, last_seen = ? WHERE id = ?");
+	$stmt = $pdo->prepare("UPDATE oc_bolos_vehicles SET vehicle_make = ?, vehicle_model = ?, vehicle_plate = ?, primary_color = ?, secondary_color = ?, reason_wanted = ?, last_seen = ? WHERE id = ?");
 	$result = $stmt->execute(array($vehicle_make, $vehicle_model, $vehicle_plate, $primary_color, $secondary_color, $reason_wanted, $last_seen, $vehicle_id));
 
 	if (!$result) {
@@ -1427,7 +1427,7 @@ function selfAssign()
 		die();
 	}
 	fwrite($DebugLogFile, "executing first statement\n");
-	$stmt = $pdo->prepare("SELECT callsign, id FROM " . DB_PREFIX . "active_users WHERE identifier = '?'");
+	$stmt = $pdo->prepare("SELECT callsign, id FROM oc_active_users WHERE identifier = '?'");
 	$resStatus = $stmt->execute(array($unit));
 	$result = $stmt;
 
@@ -1444,7 +1444,7 @@ function selfAssign()
 		$id = $row[1];
 	}
 	fwrite($DebugLogFile, "executing second statement\n");
-	$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "calls_users (call_id, identifier, callsign, id) VALUES (?, ?, ?, ?)");
+	$stmt = $pdo->prepare("INSERT INTO oc_calls_users (call_id, identifier, callsign, id) VALUES (?, ?, ?, ?)");
 	$result = $stmt->execute(array($callId, $unit, $callsign, $id));
 
 	if (!$result) {
@@ -1458,7 +1458,7 @@ function selfAssign()
 		die();
 	}
 	fwrite($DebugLogFile, "executing third statement\n");
-	$stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "active_users SET status = '0', status_detail = '3' WHERE " . DB_PREFIX . "active_users.callsign = '?'");
+	$stmt = $pdo->prepare("UPDATE oc_active_users SET status = '0', status_detail = '3' WHERE oc_active_users.callsign = '?'");
 	$result = $stmt->execute(array($callsign));
 
 	if (!$result) {
@@ -1472,7 +1472,7 @@ function selfAssign()
 	//Now we'll add data to the call log for unit history
 	$narrativeAdd = date("Y-m-d H:i:s") . ': Dispatched: ' . $callsign . '<br/>';
 	fwrite($DebugLogFile, "executing fourth statement\n");
-	$stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "calls SET call_narrative = concat(call_narrative, ?) WHERE call_id = ?");
+	$stmt = $pdo->prepare("UPDATE oc_calls SET call_narrative = concat(call_narrative, ?) WHERE call_id = ?");
 	$result = $stmt->execute(array($narrativeAdd, $callId));
 
 	if (!$result) {
@@ -1513,7 +1513,7 @@ function create_arrest()
 		die();
 	}
 
-	$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_arrests (name_id, arrest_reason, arrest_fine, issued_by, issued_date) VALUES (?, ?, ?, ?, ?)");
+	$stmt = $pdo->prepare("INSERT INTO oc_ncic_arrests (name_id, arrest_reason, arrest_fine, issued_by, issued_date) VALUES (?, ?, ?, ?, ?)");
 	$result = $stmt->execute(array($userId, $arrest_reason_1, $arrest_fine_1, $issued_by, $date));
 
 	if (!$result) {
@@ -1523,7 +1523,7 @@ function create_arrest()
 	}
 
 	if ($arrest_reason_2) {
-		$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_arrests (name_id, arrest_reason, arrest_fine, issued_by, issued_date) VALUES (?, ?, ?, ?, ?)");
+		$stmt = $pdo->prepare("INSERT INTO oc_ncic_arrests (name_id, arrest_reason, arrest_fine, issued_by, issued_date) VALUES (?, ?, ?, ?, ?)");
 		$result = $stmt->execute(array($userId, $arrest_reason_2, $arrest_fine_2, $issued_by, $date));
 
 		if (!$result) {
@@ -1533,7 +1533,7 @@ function create_arrest()
 		}
 	}
 	if ($arrest_reason_3) {
-		$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_arrests (name_id, arrest_reason, arrest_fine, issued_by, issued_date) VALUES (?, ?, ?, ?, ?)");
+		$stmt = $pdo->prepare("INSERT INTO oc_ncic_arrests (name_id, arrest_reason, arrest_fine, issued_by, issued_date) VALUES (?, ?, ?, ?, ?)");
 		$result = $stmt->execute(array($userId, $arrest_reason_3, $arrest_fine_3, $issued_by, $date));
 
 		if (!$result) {
@@ -1543,7 +1543,7 @@ function create_arrest()
 		}
 	}
 	if ($arrest_reason_4) {
-		$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_arrests (name_id, arrest_reason, arrest_fine, issued_by, issued_date) VALUES (?, ?, ?, ?, ?)");
+		$stmt = $pdo->prepare("INSERT INTO oc_ncic_arrests (name_id, arrest_reason, arrest_fine, issued_by, issued_date) VALUES (?, ?, ?, ?, ?)");
 		$result = $stmt->execute(array($userId, $arrest_reason_4, $arrest_fine_4, $issued_by, $date));
 
 		if (!$result) {
@@ -1553,7 +1553,7 @@ function create_arrest()
 		}
 	}
 	if ($arrest_reason_5) {
-		$stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_arrests (name_id, arrest_reason, arrest_fine, issued_by, issued_date) VALUES (?, ?, ?, ?, ?)");
+		$stmt = $pdo->prepare("INSERT INTO oc_ncic_arrests (name_id, arrest_reason, arrest_fine, issued_by, issued_date) VALUES (?, ?, ?, ?, ?)");
 		$result = $stmt->execute(array($userId, $arrest_reason_5, $arrest_fine_5, $issued_by, $date));
 
 		if (!$result) {

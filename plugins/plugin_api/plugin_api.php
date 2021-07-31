@@ -30,7 +30,7 @@ class PluginApi
             die($ex->getMessage());
         }
 
-        $stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "logs (id, text, time) VALUES (?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO oc_logs (id, text, time) VALUES (?, ?, ?)");
         $result = $stmt->execute(array($id, $text, $date));
 
         if (!$result) {
@@ -53,28 +53,25 @@ class PluginApi
 
     function get_oc_version_name()
     {
-        echo 'Azazel';
+        return 'Azazel';
     }
 
     function get_oc_version_build()
     {
-        echo '0.3';
+        return '0.4';
     }
 
     function get_oc_version_build_date()
     {
-        echo 'June 17th 2021 @ 7:15AM CST';
+        return 'June 17th 2021 @ 7:15AM CST';
     }
 
     function get_oc_version_changes()
     {
         return array(
-            "Updated to Azazel 0.3",
-            "\"Admin\" page redesigned & renamed to staff, will move more stuff there in future",
-            "Centered the clock in panel on dashboard",
-            "Made newer page redesigns match",
-            "Re-enabled version being shown on the login page",
-            "More soon! Thank you for supporting my fork of OpenCAD!",
+            "Updated to Azazel 0.4",
+            "New things added to the staff dashboard",
+            "Update checker now built-in and shown on dashboard",
         );
     }
 }

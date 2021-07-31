@@ -35,14 +35,14 @@ This file handles all actions for admin.php script
  */
 if (isset($_GET['dept_id']) && isset($_GET['user_id'])) {
     deleteGroupItem();
-} else if (isset($_POST['approveUser'])) {
-    approveUser();
+} else if (isset($_POST['acceptUser'])) {
+    acceptUser();
 } else if (isset($_POST['editUserAccount'])) {
     editUserAccount();
 } else if (isset($_POST['editUserAccountRole'])) {
     editUserAccountRole();
-} else if (isset($_POST['rejectUser'])) {
-    rejectUser();
+} else if (isset($_POST['denyUser'])) {
+    denyUser();
 } else if (isset($_POST['suspendUser'])) {
     suspendUser();
 } else if (isset($_POST['suspendUserWithReason'])) {
@@ -78,7 +78,7 @@ function deleteGroupItem()
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "user_departments WHERE user_id = ? AND department_id = ?");
+    $stmt = $pdo->prepare("DELETE FROM oc_user_departments WHERE user_id = ? AND department_id = ?");
     if ($stmt->execute(array($user_id, $dept_id))) {
 
         $show_record = getUserGroupsApproved($user_id);
@@ -131,11 +131,11 @@ function editUserAccount()
     if (!empty($userGroups)) {
         foreach ($userGroups as $key => $val) {
             $val = htmlspecialchars($val);
-            $stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "user_departments (user_id, department_id) VALUES (?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO oc_user_departments (user_id, department_id) VALUES (?, ?)");
             $stmt->execute(array($userID, $val));
         }
     }
-    $stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "users SET name = ?, email = ?, identifier = ? WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE oc_users SET name = ?, email = ?, identifier = ? WHERE id = ?");
 
     if ($stmt->execute(array($userName, $userEmail, $userIdentifier, $userID))) {
         $pdo = null;
@@ -175,7 +175,7 @@ function editUserAccountRole()
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "users SET admin_privilege = ? WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE oc_users SET admin_privilege = ? WHERE id = ?");
 
     if ($stmt->execute(array($userRole, $userID))) {
         $pdo = null;
@@ -214,12 +214,12 @@ function delete_user()
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "users WHERE id = ?");
+    $stmt = $pdo->prepare("DELETE FROM oc_users WHERE id = ?");
     if (!$stmt->execute(array($uid))) {
         die($stmt->errorInfo());
     }
 
-    $stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "user_departments WHERE user_id = ?");
+    $stmt = $pdo->prepare("DELETE FROM oc_user_departments WHERE user_id = ?");
     if (!$stmt->execute(array($uid))) {
         die($stmt->errorInfo());
     }
@@ -234,15 +234,41 @@ function delete_user()
     header("Location: " . BASE_URL . "/oc-admin/userManagement.php#user_panel");
 }
 
-function getUserCount()
+function getUserCount($dept = "all")
 {
     try {
         $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
     } catch (PDOException $ex) {
         die($ex->getMessage());
     }
-    $nRows = $pdo->query('select count(*) from oc_users')->fetchColumn();
-    return $nRows;
+    switch ($dept) {
+        case "all":
+            $nRows = $pdo->query('select count(distinct id) from oc_users')->fetchColumn();
+            return $nRows;
+            break;
+        case "staff":
+            $nRows = $pdo->query('select count(distinct id) from oc_users where admin_privilege = 2 or 3')->fetchColumn();
+            return $nRows;
+            break;
+        case "police":
+            $nRows = $pdo->query('select count(distinct user_id) from oc_user_departments where department_id = 2 OR 3 OR 4 OR 5')->fetchColumn();
+            return $nRows;
+            break;
+        case "fireems":
+            $nRows = $pdo->query('select count(distinct user_id) from oc_user_departments where department_id = 6 OR 7')->fetchColumn();
+            return $nRows;
+            break;
+        case "dispatch":
+            $nRows = $pdo->query('select count(distinct user_id) from oc_user_departments where department_id = 1')->fetchColumn();
+            return $nRows;
+            break;
+        case "civ":
+            $nRows = $pdo->query('select count(distinct user_id) from oc_user_departments where department_id = 8')->fetchColumn();
+            return $nRows;
+            break;
+        default:
+            return 0;
+    }
 }
 
 function getPendingUsers()
@@ -253,7 +279,7 @@ function getPendingUsers()
         die($ex->getMessage());
     }
 
-    $result = $pdo->query("SELECT id, name, email, identifier FROM " . DB_PREFIX . "users WHERE approved = '0'");
+    $result = $pdo->query("SELECT id, name, email, identifier FROM oc_users WHERE approved = '0'");
     if (!$result) {
         $_SESSION['error'] = $pdo->errorInfo();
         header('Location: ' . BASE_URL . '/plugins/error/index.php');
@@ -263,42 +289,32 @@ function getPendingUsers()
     $pdo = null;
 
     if ($num_rows == 0) {
-        echo "<div class=\"alert alert-info\"><span>There are currently no access requests</span></div>";
+        echo "<tr>
+        <td>No pending users.</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>";
     } else {
-        echo '
-            <table id="pendingUsers" class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Identifier</th>
-                <th>Groups</th>
-                <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-        ';
-
         foreach ($result as $row) {
-            echo '
+            $id = $row[0];
+            $name = $row[1];
+            $email = $row[2];
+            $identifier = $row[3];
+            echo "
             <tr>
-                <td>' . $row[1] . '</td>
-                <td>' . $row[2] . '</td>
-                <td>' . $row[3] . '</td>
-                <td>';
-
-            getUserGroups($row[0]);
-
-            echo ' </td>
-                <td>
-                    <form action="' . BASE_URL . '/actions/adminActions.php" method="post">
-                    <input name="approveUser" type="submit" class="btn btn-xs btn-link" value="Approve" />
-                    <input name="rejectUser" type="submit" class="btn btn-xs btn-link" value="Reject" />
-                    <input name="uid" type="hidden" value=' . $row[0] . ' />
-                    </form>
-                </td>
+                <td>$id</td>
+                <td>$name</td>
+                <td>$email</td>
+                <td>$identifier</td>
+                <td><form action=\"../actions/adminActions.php\" method=\"post\">
+                    <input name=\"acceptUser\" type=\"submit\" class=\"btn red darken-3\" value=\"Accept\" />
+                    <input name=\"denyUser\" type=\"submit\" class=\"btn red darken-3\" value=\"Deny\" />
+                    <input name=\"uid\" type=\"hidden\" value='$id' />
+                </form></td>
             </tr>
-            ';
+            ";
         }
 
         echo '
@@ -329,7 +345,7 @@ function _getRole($id)
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT admin_privilege FROM " . DB_PREFIX . "users WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT admin_privilege FROM oc_users WHERE id = ?");
     $result = $stmt->execute(array($userID));
     if (!$result) {
         die($stmt->errorInfo());
@@ -348,7 +364,7 @@ function getUserGroups($uid)
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT " . DB_PREFIX . "departments.department_name FROM " . DB_PREFIX . "user_departments_temp INNER JOIN " . DB_PREFIX . "departments on " . DB_PREFIX . "user_departments_temp.department_id=" . DB_PREFIX . "departments.department_id WHERE " . DB_PREFIX . "user_departments_temp.user_id = ?");
+    $stmt = $pdo->prepare("SELECT oc_departments.department_name FROM oc_user_departments_temp INNER JOIN oc_departments on oc_user_departments_temp.department_id=oc_departments.department_id WHERE oc_user_departments_temp.user_id = ?");
     $resStatus = $stmt->execute(array(htmlspecialchars($uid)));
 
     if (!$resStatus) {
@@ -370,7 +386,7 @@ function getUserGroupsApproved($uid)
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT " . DB_PREFIX . "departments.department_name," . DB_PREFIX . "departments.department_id FROM " . DB_PREFIX . "user_departments INNER JOIN " . DB_PREFIX . "departments on " . DB_PREFIX . "user_departments.department_id=" . DB_PREFIX . "departments.department_id WHERE " . DB_PREFIX . "user_departments.user_id = ?");
+    $stmt = $pdo->prepare("SELECT oc_departments.department_name,oc_departments.department_id FROM oc_user_departments INNER JOIN oc_departments on oc_user_departments.department_id=oc_departments.department_id WHERE oc_user_departments.user_id = ?");
     $resStatus = $stmt->execute(array($uid));
 
     if (!$resStatus) {
@@ -391,7 +407,7 @@ function getUserGroupsApproved($uid)
     }
 }
 
-function approveUser()
+function acceptUser()
 {
     $uid = htmlspecialchars($_POST['uid']);
     try {
@@ -400,21 +416,21 @@ function approveUser()
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "user_departments SELECT u.* FROM " . DB_PREFIX . "user_departments_temp u WHERE user_id = ?");
+    $stmt = $pdo->prepare("INSERT INTO oc_user_departments SELECT u.* FROM oc_user_departments_temp u WHERE user_id = ?");
     $result = $stmt->execute(array($uid));
 
     if (!$result) {
         die($stmt->errorInfo());
     }
 
-    $stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "user_departments_temp WHERE user_id = ?");
+    $stmt = $pdo->prepare("DELETE FROM oc_user_departments_temp WHERE user_id = ?");
     $result = $stmt->execute(array($uid));
 
     if (!$result) {
         die($stmt->errorInfo());
     }
 
-    $stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "users SET approved = '1' WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE oc_users SET approved = '1' WHERE id = ?");
     $result = $stmt->execute(array($uid));
 
     if (!$result) {
@@ -426,10 +442,10 @@ function approveUser()
     $_SESSION['accessMessage'] = '<div class="alert alert-success"><span>Successfully approved user access</span></div>';
 
     sleep(1);
-    header("Location:" . BASE_URL . "/oc-admin/admin.php");
+    header("Location:" . BASE_URL . "/oc-admin/staff.php");
 }
 
-function rejectUser()
+function denyUser()
 {
     $uid = htmlspecialchars($_POST['uid']);
     try {
@@ -438,14 +454,14 @@ function rejectUser()
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "user_departments_temp where user_id = ?");
+    $stmt = $pdo->prepare("DELETE FROM oc_user_departments_temp where user_id = ?");
     $result = $stmt->execute(array($uid));
 
     if (!$result) {
         die($stmt->errorInfo());
     }
 
-    $stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "users where id = ?");
+    $stmt = $pdo->prepare("DELETE FROM oc_users where id = ?");
     $result = $stmt->execute(array($uid));
 
     if (!$result) {
@@ -457,7 +473,7 @@ function rejectUser()
     $_SESSION['accessMessage'] = '<div class="alert alert-danger"><span>Successfully rejected user access</span></div>';
 
     sleep(1);
-    header("Location:" . BASE_URL . "/oc-admin/admin.php");
+    header("Location:" . BASE_URL . "/oc-admin/staff.php");
 }
 
 function getGroupCount($gid)
@@ -469,7 +485,7 @@ function getGroupCount($gid)
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT COUNT(*) from " . DB_PREFIX . "user_departments WHERE department_id = ?");
+    $stmt = $pdo->prepare("SELECT COUNT(*) from oc_user_departments WHERE department_id = ?");
     $stmt->execute(array($gid));
     $result = $stmt->fetch(PDO::FETCH_NUM);
 
@@ -490,7 +506,7 @@ function getUsers()
         die($ex->getMessage());
     }
 
-    $result = $pdo->query("SELECT id, name, email, admin_privilege, identifier, approved FROM " . DB_PREFIX . "users WHERE approved = '1' OR approved = '2'");
+    $result = $pdo->query("SELECT id, name, email, admin_privilege, identifier, approved FROM oc_users WHERE approved = '1' OR approved = '2'");
 
     if (!$result) {
         $_SESSION['error'] = $pdo->errorInfo();
@@ -616,7 +632,7 @@ function suspendUser()
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "users SET approved = '2' WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE oc_users SET approved = '2' WHERE id = ?");
     $result = $stmt->execute(array($uid));
 
     if (!$result) {
@@ -653,14 +669,14 @@ function suspendUserWithReason()
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "users SET approved = '2' WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE oc_users SET approved = '2' WHERE id = ?");
     $result = $stmt->execute(array($uid));
 
     if (!$result) {
         die($stmt->errorInfo());
     }
 
-    $stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "users SET suspend_reason = (?) WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE oc_users SET suspend_reason = (?) WHERE id = ?");
     $result = $stmt->execute(array($suspend_reason, $uid));
 
     if (!$result) {
@@ -686,7 +702,7 @@ function reactivateUser()
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "users SET approved = '1' WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE oc_users SET approved = '1' WHERE id = ?");
     $result = $stmt->execute(array($uid));
 
     if (!$result) {
@@ -710,7 +726,7 @@ function getUserDetails()
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT id, name, email, identifier, admin_privilege FROM " . DB_PREFIX . "users WHERE ID = ?");
+    $stmt = $pdo->prepare("SELECT id, name, email, identifier, admin_privilege FROM oc_users WHERE ID = ?");
     $resStatus = $stmt->execute(array($userId));
     $result = $stmt;
 
@@ -741,7 +757,7 @@ function getUserID()
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT id FROM " . DB_PREFIX . "users WHERE ID = ?");
+    $stmt = $pdo->prepare("SELECT id FROM oc_users WHERE ID = ?");
     $resStatus = $stmt->execute(array($userId));
     $result = $stmt;
 
@@ -766,7 +782,7 @@ function getUserGroupsEditor($encode, $userId)
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT " . DB_PREFIX . "departments.department_name FROM " . DB_PREFIX . "user_departments INNER JOIN " . DB_PREFIX . "departments on " . DB_PREFIX . "user_departments.department_id=" . DB_PREFIX . "departments.department_id WHERE " . DB_PREFIX . "user_departments.user_id = ?");
+    $stmt = $pdo->prepare("SELECT oc_departments.department_name FROM oc_user_departments INNER JOIN oc_departments on oc_user_departments.department_id=oc_departments.department_id WHERE oc_user_departments.user_id = ?");
     $resStatus = $stmt->execute(array($userId));
     $result = $stmt;
 
@@ -794,7 +810,7 @@ function getCodes()
         die($ex->getMessage());
     }
 
-    $result = $pdo->query("SELECT code_id, code_name FROM " . DB_PREFIX . "codes");
+    $result = $pdo->query("SELECT code_id, code_name FROM oc_codes");
 
     if (!$result) {
         $_SESSION['error'] = $pdo->errorInfo();
@@ -837,7 +853,7 @@ function getCallHistory()
         die($ex->getMessage());
     }
 
-    $result = $pdo->query("SELECT * FROM " . DB_PREFIX . "call_history");
+    $result = $pdo->query("SELECT * FROM oc_call_history");
 
     if (!$result) {
         $_SESSION['error'] = $pdo->errorInfo();
@@ -905,7 +921,7 @@ function delete_callhistory()
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "call_history WHERE call_id = ?");
+    $stmt = $pdo->prepare("DELETE FROM oc_call_history WHERE call_id = ?");
     $result = $stmt->execute(array($callid));
 
     if (!$result) {
@@ -937,7 +953,7 @@ function changeUserPassword()
     $newpassword = htmlspecialchars($_POST['password']);
     $hashed_password = password_hash($newpassword, PASSWORD_DEFAULT);
 
-    $stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "users SET password = ? WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE oc_users SET password = ? WHERE id = ?");
     $result = $stmt->execute(array($hashed_password, $userID));
 
     if (!$result) {
