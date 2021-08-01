@@ -10,7 +10,7 @@ This program is free software: you can redistribute it and/or modify
  (at your option) any later version.
 
 This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
-**/
+ **/
 
 include_once(__DIR__ . "/../oc-config.php");
 
@@ -23,33 +23,33 @@ include_once(__DIR__ . "/../oc-config.php");
  * Running multiple functions at the same time doesnt seem to
  * be a needed feature.
  */
-if (isset($_POST['delete_name'])){
+if (isset($_POST['delete_name'])) {
     delete_name();
-}else if (isset($_POST['delete_plate'])){
+} else if (isset($_POST['delete_plate'])) {
     delete_plate();
-}else if (isset($_POST['delete_weapon'])){
+} else if (isset($_POST['delete_weapon'])) {
     delete_weapon();
-}else if (isset($_POST['create_name'])){
+} else if (isset($_POST['create_name'])) {
     create_name();
-}else if (isset($_POST['create_plate'])){
+} else if (isset($_POST['create_plate'])) {
     create_plate();
-}else if (isset($_POST['create_weapon'])){
+} else if (isset($_POST['create_weapon'])) {
     create_weapon();
-}else if (isset($_POST['new_911'])){
+} else if (isset($_POST['new_911'])) {
     create911Call();
-}else if (isset($_POST['edit_name'])){
+} else if (isset($_POST['edit_name'])) {
     edit_name();
-}else if (isset($_POST['edit_plate'])){
+} else if (isset($_POST['edit_plate'])) {
     edit_plate();
-}else if (isset($_POST['editid'])){
+} else if (isset($_POST['editid'])) {
     editnameid();
-}else if (isset($_POST['edit_plateid'])){
+} else if (isset($_POST['edit_plateid'])) {
     editplateid();
-}else if (isset($_POST['delete_warrant'])){
+} else if (isset($_POST['delete_warrant'])) {
     delete_warrant();
-}else if (isset($_POST['create_warrant'])){
+} else if (isset($_POST['create_warrant'])) {
     create_warrant();
-}else if (isset($_POST['getNumberOfProfiles'])){
+} else if (isset($_POST['getNumberOfProfiles'])) {
     getNumberOfProfiles();
 }
 
@@ -57,56 +57,48 @@ function getCivilianNamesOwn()
 {
     $uid = $_SESSION['id'];
 
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT ".DB_PREFIX."ncic_names.id, ".DB_PREFIX."ncic_names.name FROM ".DB_PREFIX."ncic_names where ".DB_PREFIX."ncic_names.submittedByID = ?");
+    $stmt = $pdo->prepare("SELECT " . DB_PREFIX . "ncic_names.id, " . DB_PREFIX . "ncic_names.name FROM " . DB_PREFIX . "ncic_names where " . DB_PREFIX . "ncic_names.submittedByID = ?");
     $resStatus = $stmt->execute(array($uid));
     $result = $stmt;
 
-    if (!$resStatus)
-    {
+    if (!$resStatus) {
         die($stmt->errorInfo());
     }
     $pdo = null;
 
-	foreach($result as $row)
-	{
-		echo "<option value=\"$row[0]\">$row[1]</option>";
-	}
+    foreach ($result as $row) {
+        echo "<option value=\"$row[0]\">$row[1]</option>";
+    }
 }
 
 function ncicGetNames()
 {
     $uid = $_SESSION['id'];
 
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT ".DB_PREFIX."ncic_names.* FROM ".DB_PREFIX."ncic_names WHERE ".DB_PREFIX."ncic_names.submittedById = ?");
+    $stmt = $pdo->prepare("SELECT " . DB_PREFIX . "ncic_names.* FROM " . DB_PREFIX . "ncic_names WHERE " . DB_PREFIX . "ncic_names.submittedById = ?");
     $resStatus = $stmt->execute(array($uid));
     $result = $stmt;
-    if (!$resStatus)
-    {
+    if (!$resStatus) {
         die($stmt->errorInfo());
     }
     $pdo = null;
 
     $num_rows = $result->rowCount();
-    if($num_rows == 0)
-    {
+    if ($num_rows == 0) {
         echo "<div class=\"alert alert-info\"><span>You currently have no identities</span></div>";
-    }
-    else
-    {
+    } else {
         echo '
             <table id="ncic_names" class="table table-striped table-bordered">
             <thead>
@@ -125,23 +117,22 @@ function ncicGetNames()
             <tbody>
         ';
 
-        foreach($result as $row)
-        {
+        foreach ($result as $row) {
             echo '
             <tr>
-                <td>'.$row['name'].'</td>
-                <td>'.$row['dob'].'</td>
-                <td>'.$row['address'].'</td>
-                <td>'.$row['gender'].'</td>
-                <td>'.$row['race'].'</td>
-                <td>'.$row['dl_type']. ' / '.$row['dl_status'].'</td>
-                <td>'.$row['hair_color'].'</td>
-                <td>'.$row['build'].'</td>
+                <td>' . $row['name'] . '</td>
+                <td>' . $row['dob'] . '</td>
+                <td>' . $row['address'] . '</td>
+                <td>' . $row['gender'] . '</td>
+                <td>' . $row['race'] . '</td>
+                <td>' . $row['license'] . '
+                <td>' . $row['hair_color'] . '</td>
+                <td>' . $row['build'] . '</td>
                 <td>
-                    <button name="edit_name" data-toggle="modal" data-target="#editIdentityModal" id="edit_nameBtn" data-id='.$row[0].' class="btn btn-xs btn-link">Edit</button>
+                    <button name="edit_name" data-toggle="modal" data-target="#editIdentityModal" id="edit_nameBtn" data-id=' . $row[0] . ' class="btn btn-xs btn-link">Edit</button>
                     <form action="".BASE_URL."/actions/civActions.php" method="post">
                     <input name="delete_name" type="submit" class="btn btn-xs btn-link" style="color: red;" value="Delete"/>
-                    <input name="uid" type="hidden" value='.$row[0].' />
+                    <input name="uid" type="hidden" value=' . $row[0] . ' />
                     </form>
                 </td>
             </tr>
@@ -159,31 +150,26 @@ function ncicGetPlates()
 {
     $uid = $_SESSION['id'];
 
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT ".DB_PREFIX."ncic_plates.*, ".DB_PREFIX."ncic_names.name FROM ".DB_PREFIX."ncic_plates INNER JOIN ".DB_PREFIX."ncic_names ON ".DB_PREFIX."ncic_names.id=".DB_PREFIX."ncic_plates.name_id WHERE ".DB_PREFIX."ncic_plates.user_id = ?");
+    $stmt = $pdo->prepare("SELECT " . DB_PREFIX . "ncic_plates.*, " . DB_PREFIX . "ncic_names.name FROM " . DB_PREFIX . "ncic_plates INNER JOIN " . DB_PREFIX . "ncic_names ON " . DB_PREFIX . "ncic_names.id=" . DB_PREFIX . "ncic_plates.name_id WHERE " . DB_PREFIX . "ncic_plates.user_id = ?");
     $resStatus = $stmt->execute(array($uid));
     $result = $stmt;
 
-    if (!$resStatus)
-    {
+    if (!$resStatus) {
         die($stmt->errorInfo());
     }
     $pdo = null;
 
     $num_rows = $result->rowCount();
 
-    if($num_rows == 0)
-    {
+    if ($num_rows == 0) {
         echo "<div class=\"alert alert-info\"><span>You currently have no vehicles</span></div>";
-    }
-    else
-    {
+    } else {
         echo '
             <table id="ncic_plates" class="table table-striped table-bordered">
             <thead>
@@ -202,24 +188,23 @@ function ncicGetPlates()
             <tbody>
         ';
 
-        foreach($result as $row)
-        {
+        foreach ($result as $row) {
 
             echo '
             <tr>
-                <td>'.$row['name'].'</td>
-                <td>'.$row['veh_plate'].'</td>
-                <td>'.$row['veh_reg_state'].'</td>
-                <td>'.$row['veh_make'].'</td>
-                <td>'.$row['veh_model'].'</td>
-                <td>'.$row['veh_pcolor'].'/'.$row['veh_scolor'].'</td>
-                <td>'.$row['veh_insurance'].' / '.$row['veh_insurance_type'].'</td>
-                <td>'.$row['notes'].'</td>
+                <td>' . $row['name'] . '</td>
+                <td>' . $row['veh_plate'] . '</td>
+                <td>' . $row['veh_reg_state'] . '</td>
+                <td>' . $row['veh_make'] . '</td>
+                <td>' . $row['veh_model'] . '</td>
+                <td>' . $row['veh_pcolor'] . '/' . $row['veh_scolor'] . '</td>
+                <td>' . $row['veh_insurance'] . ' / ' . $row['veh_insurance_type'] . '</td>
+                <td>' . $row['notes'] . '</td>
                 <td>
-                    <button name="edit_plate" data-toggle="modal" data-target="#editPlateModal" id="edit_plateBtn" data-id='.$row[0].' class="btn btn-xs btn-link">Edit</button>
+                    <button name="edit_plate" data-toggle="modal" data-target="#editPlateModal" id="edit_plateBtn" data-id=' . $row[0] . ' class="btn btn-xs btn-link">Edit</button>
                     <form action="".BASE_URL."/actions/civActions.php" method="post">
                     <input name="delete_plate" type="submit" class="btn btn-xs btn-link" style="color: red;" value="Delete" enabled/>
-                    <input name="vehid" type="hidden" value='.$row[0].' />
+                    <input name="vehid" type="hidden" value=' . $row[0] . ' />
                     </form>
                 </td>
             </tr>
@@ -237,50 +222,46 @@ function delete_name()
 {
     $uid = htmlspecialchars($_POST['uid']);
 
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."ncic_names WHERE id = ?");
+    $stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "ncic_names WHERE id = ?");
     $result = $stmt->execute(array($uid));
 
-    if (!$result)
-    {
+    if (!$result) {
         die($stmt->errorInfo());
     }
     $pdo = null;
 
     session_start();
     $_SESSION['nameMessage'] = '<div class="alert alert-success"><span>Successfully removed civilian name</span></div>';
-    header("Location: ".BASE_URL."/civilian.php");
+    header("Location: " . BASE_URL . "/civilian.php");
 }
 
 function delete_plate()
 {
     $vehid = htmlspecialchars($_POST['vehid']);
 
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."ncic_plates WHERE id = ?");
+    $stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "ncic_plates WHERE id = ?");
     $result = $stmt->execute(array($vehid));
 
-    if (!$result)
-    {
+    if (!$result) {
         die($stmt->errorInfo());
     }
     $pdo = null;
 
     session_start();
     $_SESSION['plateMessage'] = '<div class="alert alert-success"><span>Successfully removed civilian plate</span></div>';
-    header("Location: ".BASE_URL."/civilian.php");
+    header("Location: " . BASE_URL . "/civilian.php");
 }
 
 function create_name()
@@ -288,8 +269,8 @@ function create_name()
     session_start();
 
     $fullName = htmlspecialchars($_POST['civNameReq']);
-    $firstName = explode(" ", $fullName) [0];
-    $lastName = explode(" ", $fullName) [1];
+    $firstName = explode(" ", $fullName)[0];
+    $lastName = explode(" ", $fullName)[1];
 
     //Set first name to all lowercase
     $firstName = strtolower($firstName);
@@ -305,32 +286,29 @@ function create_name()
     //Set first letter to uppercase
     $lastName = ucfirst($lastName);
 
-	$name = $firstName . ' ' . $lastName;
+    $name = $firstName . ' ' . $lastName;
 
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT name FROM ".DB_PREFIX."ncic_names WHERE name = ?");
+    $stmt = $pdo->prepare("SELECT name FROM " . DB_PREFIX . "ncic_names WHERE name = ?");
     $resStatus = $stmt->execute(array($name));
     $result = $stmt;
 
-    if (!$resStatus)
-    {
+    if (!$resStatus) {
         die($stmt->errorInfo());
     }
 
     $num_rows = $result->rowCount();
 
-    if (!$num_rows == 0)
-    {
+    if (!$num_rows == 0) {
         $_SESSION['identityMessage'] = '<div class="alert alert-danger"><span>Name already exists</span></div>';
 
         sleep(1);
-        header("Location:".BASE_URL."/civilian.php");
+        header("Location:" . BASE_URL . "/civilian.php");
     }
 
     // If name doesn't exist, add it to ncic_requests table
@@ -343,21 +321,15 @@ function create_name()
     $address = htmlspecialchars($_POST['civAddressReq']);
     $sex = htmlspecialchars($_POST['civSexReq']);
     $race = htmlspecialchars($_POST['civRaceReq']);
-    $dlstatus = htmlspecialchars($_POST['civDLStatus']);
-    $dltype = htmlspecialchars($_POST['civDLType']);
-    $dlclass = htmlspecialchars($_POST['civDLClass']);
-    $dl_issuer = htmlspecialchars($_POST['civDLIssuer']);
+    $dlstatus = htmlspecialchars($_POST['civLicense']);
     $hair = htmlspecialchars($_POST['civHairReq']);
     $build = htmlspecialchars($_POST['civBuildReq']);
-	$weapon = htmlspecialchars($_POST['civWepStat']);
-	$deceased = htmlspecialchars($_POST['civDec']);
 
-    $stmt = $pdo->prepare("INSERT INTO ".DB_PREFIX."ncic_names (submittedByName, submittedById, name, dob, address, gender, race, hair_color, build)
-    VALUES (?,?,?,?,?,?,?,?,?)");
-    $result = $stmt->execute(array($submittedByName, $submitttedById, $name, $dob, $address, $sex, $race, $hair, $build));
+    $stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_names (submittedByName, submittedById, name, dob, address, gender, race, hair_color, build, license)
+    VALUES (?,?,?,?,?,?,?,?,?,?)");
+    $result = $stmt->execute(array($submittedByName, $submitttedById, $name, $dob, $address, $sex, $race, $hair, $build, $dlstatus));
 
-    if (!$result)
-    {
+    if (!$result) {
         die($stmt->errorInfo());
     }
     $pdo = null;
@@ -365,14 +337,14 @@ function create_name()
     $_SESSION['identityMessage'] = '<div class="alert alert-success"><span>Successfully created your identity!</span></div>';
 
     sleep(1);
-    header("Location:".BASE_URL."/civilian.php#name_panel");
+    header("Location:" . BASE_URL . "/civilian.php#name_panel");
 }
 
 function create_plate()
 {
-	session_start();
+    session_start();
 
-	$plate = htmlspecialchars($_POST['veh_plate']);
+    $plate = htmlspecialchars($_POST['veh_plate']);
 
     //Remove all spaces from plate
     $plate = str_replace(' ', '', $plate);
@@ -384,8 +356,8 @@ function create_plate()
     $plate = preg_replace('/[^A-Za-z0-9\-]/', '', $plate);
 
     $vehicle = htmlspecialchars($_POST['veh_make_model']);
-    $veh_make = explode(" ", $vehicle) [0];
-    $veh_model = explode(" ", $vehicle) [1];
+    $veh_make = explode(" ", $vehicle)[0];
+    $veh_model = explode(" ", $vehicle)[1];
 
     $uid = $_SESSION['id'];
 
@@ -399,18 +371,16 @@ function create_plate()
     $veh_reg_state = htmlspecialchars($_POST['veh_reg_state']);
     $notes = htmlspecialchars($_POST['notes']);
 
-	try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("INSERT INTO ".DB_PREFIX."ncic_plates (name_id, veh_plate, veh_make, veh_model, veh_pcolor, veh_scolor, veh_reg_state, notes, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_plates (name_id, veh_plate, veh_make, veh_model, veh_pcolor, veh_scolor, veh_reg_state, notes, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $result = $stmt->execute(array($userId, $veh_plate, $veh_make, $veh_model, $veh_pcolor, $veh_scolor, $veh_reg_state, $notes, $submittedById));
 
-    if (!$result)
-    {
+    if (!$result) {
         die($stmt->errorInfo());
     }
     $pdo = null;
@@ -418,37 +388,33 @@ function create_plate()
     session_start();
     $_SESSION['plateMessage'] = '<div class="alert alert-success"><span>Successfully added plate to the database</span></div>';
 
-    header("Location:".BASE_URL."/civilian.php#plate_panel");
+    header("Location:" . BASE_URL . "/civilian.php#plate_panel");
 }
 
 function create911Call()
 {
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $result = $pdo->query("SELECT MAX(call_id) AS max FROM ".DB_PREFIX."call_list");
+    $result = $pdo->query("SELECT MAX(call_id) AS max FROM " . DB_PREFIX . "call_list");
 
-    if (!$result)
-    {
+    if (!$result) {
         die($pdo->errorInfo());
     }
 
-	foreach($result as $row)
-	{
-		$callid = $row['max'];
-	}
+    foreach ($result as $row) {
+        $callid = $row['max'];
+    }
 
-	$callid++;
+    $callid++;
 
-	$stmt = $pdo->prepare("REPLACE INTO ".DB_PREFIX."call_list (call_id) VALUES (?)");
+    $stmt = $pdo->prepare("REPLACE INTO " . DB_PREFIX . "call_list (call_id) VALUES (?)");
     $result = $stmt->execute(array($callid));
 
-    if (!$result)
-    {
+    if (!$result) {
         die($pdo->errorInfo());
     }
 
@@ -456,15 +422,14 @@ function create911Call()
     $location = htmlspecialchars($_POST['911_location']);
     $description = htmlspecialchars($_POST['911_description']);
 
-    $created = date("Y-m-d H:i:s").': 911 Call Received<br/><br/>Caller Name: '.$caller;
+    $created = date("Y-m-d H:i:s") . ': 911 Call Received<br/><br/>Caller Name: ' . $caller;
 
-    $call_narrative = $created.'<br/>Caller States: '.$description.'<br/>';
+    $call_narrative = $created . '<br/>Caller States: ' . $description . '<br/>';
 
-    $stmt = $pdo->prepare("INSERT IGNORE INTO ".DB_PREFIX."calls (call_id, call_type, call_street1, call_narrative) VALUES (?, '911', ?, ?)");
+    $stmt = $pdo->prepare("INSERT IGNORE INTO " . DB_PREFIX . "calls (call_id, call_type, call_street1, call_narrative) VALUES (?, '911', ?, ?)");
     $result = $stmt->execute(array($callid, $location, $call_narrative));
 
-    if (!$result)
-    {
+    if (!$result) {
         die($stmt->errorInfo());
     }
     $pdo = null;
@@ -473,8 +438,7 @@ function create911Call()
     $_SESSION['good911'] = '<div class="alert alert-success"><span>Successfully created 911 call</span></div>';
 
     sleep(1);
-    header("Location:".BASE_URL."/civilian.php#911_panel");
-
+    header("Location:" . BASE_URL . "/civilian.php#911_panel");
 }
 
 function edit_name()
@@ -482,8 +446,8 @@ function edit_name()
     session_start();
 
     $fullName = htmlspecialchars($_POST['civNameReq']);
-    $firstName = explode(" ", $fullName) [0];
-    $lastName = explode(" ", $fullName) [1];
+    $firstName = explode(" ", $fullName)[0];
+    $lastName = explode(" ", $fullName)[1];
 
     //Set first name to all lowercase
     $firstName = strtolower($firstName);
@@ -499,31 +463,28 @@ function edit_name()
     //Set first letter to uppercase
     $lastName = ucfirst($lastName);
 
-	$name = $firstName . ' ' . $lastName;
+    $name = $firstName . ' ' . $lastName;
 
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT name FROM ".DB_PREFIX."ncic_names WHERE name = ?");
+    $stmt = $pdo->prepare("SELECT name FROM " . DB_PREFIX . "ncic_names WHERE name = ?");
     $result = $stmt->execute(array($name));
 
-    if (!$result)
-    {
+    if (!$result) {
         die($stmt->errorInfo());
     }
 
     $num_rows = $stmt->rowCount();
 
-    if (!$num_rows == 0)
-    {
+    if (!$num_rows == 0) {
         $_SESSION['identityMessage'] = '<div class="alert alert-danger"><span>Name already exists</span></div>';
 
         sleep(1);
-        header("Location:".BASE_URL."/civilian.php");
+        header("Location:" . BASE_URL . "/civilian.php");
     }
 
     // If name doesn't exist, add it to ncic_requests table
@@ -539,15 +500,14 @@ function edit_name()
     $dlstatus = htmlspecialchars($_POST['civDL']);
     $hair = htmlspecialchars($_POST['civHairReq']);
     $build = htmlspecialchars($_POST['civBuildReq']);
-	$weapon = htmlspecialchars($_POST['civWepStat']);
-	$deceased = htmlspecialchars($_POST['civDec']);
+    $weapon = htmlspecialchars($_POST['civWepStat']);
+    $deceased = htmlspecialchars($_POST['civDec']);
     $editid = htmlspecialchars($_POST['Edit_id']);
 
-    $stmt = $pdo->prepare("UPDATE ".DB_PREFIX."ncic_names SET name = ?, dob = ?, address = ?, gender = ?, race = ?, hair_color = ?, build = ? WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "ncic_names SET name = ?, dob = ?, address = ?, gender = ?, race = ?, hair_color = ?, build = ? WHERE id = ?");
     $result = $stmt->execute(array($name, $dob, $address, $sex, $race, $hair, $build, $editid));
     die();
-    if (!$result)
-    {
+    if (!$result) {
         die($stmt->errorInfo());
     }
     $pdo = null;
@@ -555,8 +515,7 @@ function edit_name()
     $_SESSION['identityMessage'] = '<div class="alert alert-success"><span>Successfully updated the identity.</span></div>';
 
     sleep(1);
-    header("Location:".BASE_URL."/civilian.php#name_panel");
-
+    header("Location:" . BASE_URL . "/civilian.php#name_panel");
 }
 
 function edit_plate()
@@ -575,8 +534,8 @@ function edit_plate()
     $plate = preg_replace('/[^A-Za-z0-9\-]/', '', $plate);
 
     $vehicle = htmlspecialchars($_POST['veh_make_model']);
-    $veh_make = explode(" ", $vehicle) [0];
-    $veh_model = explode(" ", $vehicle) [1];
+    $veh_make = explode(" ", $vehicle)[0];
+    $veh_model = explode(" ", $vehicle)[1];
 
     $uid = $_SESSION['id'];
 
@@ -591,18 +550,16 @@ function edit_plate()
     $notes = htmlspecialchars($_POST['notes']);
     $plate_id = htmlspecialchars($_POST['Edit_plateId']);
 
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("UPDATE ".DB_PREFIX."ncic_plates SET name_id = ?, veh_plate = ?, veh_make = ?, veh_model = ?, veh_pcolor = ?, veh_scolor = ?, veh_reg_state = ?, notes = ? WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE " . DB_PREFIX . "ncic_plates SET name_id = ?, veh_plate = ?, veh_make = ?, veh_model = ?, veh_pcolor = ?, veh_scolor = ?, veh_reg_state = ?, notes = ? WHERE id = ?");
     $result = $stmt->execute(array($userId, $veh_plate, $veh_make, $veh_model, $veh_pcolor, $veh_scolor, $veh_reg_state, $notes, $plate_id));
 
-    if (!$result)
-    {
+    if (!$result) {
         die($stmt->errorInfo());
     }
     $pdo = null;
@@ -610,23 +567,21 @@ function edit_plate()
     session_start();
     $_SESSION['plateMessage'] = '<div class="alert alert-success"><span>Successfully Updated plate to the database</span></div>';
 
-    header("Location:".BASE_URL."/civilian.php#plate_panel");
+    header("Location:" . BASE_URL . "/civilian.php#plate_panel");
 }
 
 function editnameid()
 {
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT ".DB_PREFIX."ncic_names.* FROM ".DB_PREFIX."ncic_names WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT " . DB_PREFIX . "ncic_names.* FROM " . DB_PREFIX . "ncic_names WHERE id = ?");
     $result = $stmt->execute(array(htmlspecialchars($_POST['editid'])));
 
-    if (!$result)
-    {
+    if (!$result) {
         die($stmt->errorInfo());
     }
 
@@ -637,18 +592,16 @@ function editnameid()
 
 function editplateid()
 {
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT ".DB_PREFIX."ncic_plates.* FROM ".DB_PREFIX."ncic_plates WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT " . DB_PREFIX . "ncic_plates.* FROM " . DB_PREFIX . "ncic_plates WHERE id = ?");
     $result = $stmt->execute(array(htmlspecialchars($_POST['edit_plateid'])));
 
-    if (!$result)
-    {
+    if (!$result) {
         die($stmt->errorInfo());
     }
     $pdo = null;
@@ -664,23 +617,21 @@ function create_warrant()
     $issuing_agency = htmlspecialchars($_POST['issuing_agency']);
     $warrant_name = htmlspecialchars($_POST['warrant_name_sel']);
 
-	$status = 'Active';
-	$date = date('Y-m-d');
+    $status = 'Active';
+    $date = date('Y-m-d');
 
-    $expire = date('Y-m-d',strtotime('+1 day',strtotime($date)));
+    $expire = date('Y-m-d', strtotime('+1 day', strtotime($date)));
 
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("INSERT INTO ".DB_PREFIX."ncic_warrants (name_id, expiration_date, warrant_name, issuing_agency, status, issued_date) SELECT ?, ?, ?, ?, ?, ?");
+    $stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_warrants (name_id, expiration_date, warrant_name, issuing_agency, status, issued_date) SELECT ?, ?, ?, ?, ?, ?");
     $result = $stmt->execute(array($userId, $expire, $warrant_name, $issuing_agency, $status, $date));
 
-    if (!$result)
-    {
+    if (!$result) {
         die($stmt->errorInfo());
     }
     $pdo = null;
@@ -688,51 +639,44 @@ function create_warrant()
     session_start();
     $_SESSION['warrantMessage'] = '<div class="alert alert-success"><span>Successfully created warrant</span></div>';
 
-    header("Location:".BASE_URL."/civilian.php");
+    header("Location:" . BASE_URL . "/civilian.php");
 }
 
 function ncic_warrants()
 {
     $uid = $_SESSION['id'];
 
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT ".DB_PREFIX."ncic_names.id from ".DB_PREFIX."ncic_names where submittedById = ?");
+    $stmt = $pdo->prepare("SELECT " . DB_PREFIX . "ncic_names.id from " . DB_PREFIX . "ncic_names where submittedById = ?");
     $resStatus = $stmt->execute(array($uid));
     $result = $stmt;
 
-    if (!$resStatus)
-    {
+    if (!$resStatus) {
         die($stmt->errorInfo());
     }
 
-	foreach($result as $row)
-    {
-        $nameid = ''.$row[0].'';
+    foreach ($result as $row) {
+        $nameid = '' . $row[0] . '';
     }
 
-    $stmt = $pdo->prepare("SELECT ".DB_PREFIX."ncic_warrants.*, ".DB_PREFIX."ncic_names.name FROM ".DB_PREFIX."ncic_warrants INNER JOIN ".DB_PREFIX."ncic_names ON ".DB_PREFIX."ncic_names.id=".DB_PREFIX."ncic_warrants.name_id WHERE name_id = ?");
+    $stmt = $pdo->prepare("SELECT " . DB_PREFIX . "ncic_warrants.*, " . DB_PREFIX . "ncic_names.name FROM " . DB_PREFIX . "ncic_warrants INNER JOIN " . DB_PREFIX . "ncic_names ON " . DB_PREFIX . "ncic_names.id=" . DB_PREFIX . "ncic_warrants.name_id WHERE name_id = ?");
     $resStatus = $stmt->execute(array($nameid));
     $result = $stmt;
 
-    if (!$resStatus)
-    {
+    if (!$resStatus) {
         die($stmt->errorInfo());
     }
 
     $num_rows = $result->rowCount();
 
-    if($num_rows == 0)
-    {
+    if ($num_rows == 0) {
         echo "<div class=\"alert alert-info\"><span>There are currently no warrants in the NCIC Database</span></div>";
-    }
-    else
-    {
+    } else {
         echo '
             <table id="ncic_warrants" class="table table-striped table-bordered">
             <thead>
@@ -749,31 +693,27 @@ function ncic_warrants()
             <tbody>
         ';
 
-        foreach($result as $row)
-        {
+        foreach ($result as $row) {
             echo '
             <tr>
-                <td>'.$row['status'].'</td>
-                <td>'.$row['name'].'</td>
-                <td>'.$row['warrant_name'].'</td>
-                <td>'.$row['issued_date'].'</td>
-                <td>'.$row['expiration_date'].'</td>
-                <td>'.$row['issuing_agency'].'</td>
+                <td>' . $row['status'] . '</td>
+                <td>' . $row['name'] . '</td>
+                <td>' . $row['warrant_name'] . '</td>
+                <td>' . $row['issued_date'] . '</td>
+                <td>' . $row['expiration_date'] . '</td>
+                <td>' . $row['issuing_agency'] . '</td>
                 <td>
                     <form action="".BASE_URL."/actions/civActions.php" method="post">
                     <input name="approveUser" type="submit" class="btn btn-xs btn-link" value="Edit" disabled />
                     ';
-                        if ($row[6] == "Active")
-                        {
-                            echo '<input name="serveWarrant" type="submit" class="btn btn-xs btn-link" value="Serve" disabled/>';
-                        }
-                        else
-                        {
-                            //Do Nothing
-                        }
-                    echo '
+            if ($row[6] == "Active") {
+                echo '<input name="serveWarrant" type="submit" class="btn btn-xs btn-link" value="Serve" disabled/>';
+            } else {
+                //Do Nothing
+            }
+            echo '
                     <input name="delete_warrant" type="submit" class="btn btn-xs btn-link" style="color: red;" value="Expunge"/>
-                    <input name="wid" type="hidden" value='.$row[0].' />
+                    <input name="wid" type="hidden" value=' . $row[0] . ' />
                     </form>
                 </td>
             </tr>
@@ -791,34 +731,32 @@ function ncic_warrants()
 function delete_warrant()
 {
     $wid = htmlspecialchars($_POST['wid']);
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."ncic_warrants WHERE id = ?");
+    $stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "ncic_warrants WHERE id = ?");
     $result = $stmt->execute(array($wid));
 
-    if (!$result)
-    {
+    if (!$result) {
         die($stmt->errorInfo());
     }
     $pdo = null;
 
     session_start();
     $_SESSION['warrantMessage'] = '<div class="alert alert-success"><span>Successfully removed warrant</span></div>';
-    header("Location: ".BASE_URL."/civilian.php");
+    header("Location: " . BASE_URL . "/civilian.php");
 }
 
 function create_weapon()
 {
-	session_start();
+    session_start();
 
     $weapon = htmlspecialchars($_POST['weapon_all']);
-    $wea_type = explode("&#8212;", $weapon) [0];
-    $wea_name = explode("&#8212;", $weapon) [0];
+    $wea_type = explode("&#8212;", $weapon)[0];
+    $wea_name = explode("&#8212;", $weapon)[0];
 
     $uid = $_SESSION['id'];
 
@@ -828,18 +766,16 @@ function create_weapon()
     $wea_name;
     $notes = htmlspecialchars($_POST['weapon_notes']);
 
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("INSERT INTO ".DB_PREFIX."ncic_weapons (name_id, weapon_type, weapon_name, user_id, notes) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $pdo->prepare("INSERT INTO " . DB_PREFIX . "ncic_weapons (name_id, weapon_type, weapon_name, user_id, notes) VALUES (?, ?, ?, ?, ?)");
     $result = $stmt->execute(array($userId, $wea_type, $wea_name, $submittedById, $notes));
 
-    if (!$result)
-    {
+    if (!$result) {
         die($stmt->errorInfo());
     }
     $pdo = null;
@@ -847,38 +783,33 @@ function create_weapon()
     session_start();
     $_SESSION['weaponMessage'] = '<div class="alert alert-success"><span>Successfully added a weapon to the database</span></div>';
 
-    header("Location:".BASE_URL."/civilian.php#weapon_panel");
+    header("Location:" . BASE_URL . "/civilian.php#weapon_panel");
 }
 
 function ncicGetWeapons()
 {
     $uid = $_SESSION['id'];
 
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("SELECT ".DB_PREFIX."ncic_weapons.*, ".DB_PREFIX."ncic_names.name FROM ".DB_PREFIX."ncic_weapons INNER JOIN ".DB_PREFIX."ncic_names ON ".DB_PREFIX."ncic_names.id=".DB_PREFIX."ncic_weapons.name_id WHERE ".DB_PREFIX."ncic_weapons.user_id = ?");
+    $stmt = $pdo->prepare("SELECT " . DB_PREFIX . "ncic_weapons.*, " . DB_PREFIX . "ncic_names.name FROM " . DB_PREFIX . "ncic_weapons INNER JOIN " . DB_PREFIX . "ncic_names ON " . DB_PREFIX . "ncic_names.id=" . DB_PREFIX . "ncic_weapons.name_id WHERE " . DB_PREFIX . "ncic_weapons.user_id = ?");
     $resStatus = $stmt->execute(array($uid));
     $result = $stmt;
 
-    if (!$resStatus)
-    {
+    if (!$resStatus) {
         die($stmt->errorInfo());
     }
     $pdo = null;
 
     $num_rows = $result->rowCount();
 
-    if($num_rows == 0)
-    {
+    if ($num_rows == 0) {
         echo "<div class=\"alert alert-info\"><span>You currently have no weapons</span></div>";
-    }
-    else
-    {
+    } else {
         echo '
             <table id="ncic_names" class="table table-striped table-bordered">
             <thead>
@@ -893,18 +824,17 @@ function ncicGetWeapons()
             <tbody>
         ';
 
-        foreach($result as $row)
-        {
+        foreach ($result as $row) {
             echo '
             <tr>
-            <td>'.$row['name'].'</td>
-            <td>'.$row['weapon_type'].'</td>
-            <td>'.$row['weapon_name'].'</td>
-            <td>'.$row['notes'].'</td>
+            <td>' . $row['name'] . '</td>
+            <td>' . $row['weapon_type'] . '</td>
+            <td>' . $row['weapon_name'] . '</td>
+            <td>' . $row['notes'] . '</td>
                 <td>
                     <form action="".BASE_URL."/actions/civActions.php" method="post">
                     <input name="delete_weapon" type="submit" class="btn btn-xs btn-link" style="color: red;" value="Delete"/>
-                    <input name="weaid" type="hidden" value='.$row[0].' />
+                    <input name="weaid" type="hidden" value=' . $row[0] . ' />
                     </form>
                 </td>
             </tr>
@@ -922,25 +852,23 @@ function delete_weapon()
 {
     $weaid = htmlspecialchars($_POST['weaid']);
 
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
         die($ex->getMessage());
     }
 
-    $stmt = $pdo->prepare("DELETE FROM ".DB_PREFIX."ncic_weapons WHERE id = ?");
+    $stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . "ncic_weapons WHERE id = ?");
     $result = $stmt->execute(array($weaid));
 
-    if (!$result)
-    {
+    if (!$result) {
         die($stmt->errorInfo());
     }
     $pdo = null;
 
     session_start();
     $_SESSION['weaponMessage'] = '<div class="alert alert-success"><span>Successfully removed civilian weapon</span></div>';
-    header("Location: ".BASE_URL."/civilian.php");
+    header("Location: " . BASE_URL . "/civilian.php");
 }
 
 function getNumberOfProfiles()
@@ -948,25 +876,23 @@ function getNumberOfProfiles()
     session_start();
     $id = $_SESSION['id'];
 
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
+        $_SESSION['error'] = "Could not connect -> " . $ex->getMessage();
         $_SESSION['error_blob'] = $ex;
         error_log(print_r($stmt->errorInfo(), true));
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
+        header('Location: ' . BASE_URL . '/plugins/error/index.php');
         die();
     }
 
-    $stmt = $pdo->prepare("SELECT COUNT(name) FROM ".DB_PREFIX."ncic_names WHERE submittedById=?");
+    $stmt = $pdo->prepare("SELECT COUNT(name) FROM " . DB_PREFIX . "ncic_names WHERE submittedById=?");
     $result = $stmt->execute(array($id));
 
-    if (!$result)
-    {
+    if (!$result) {
         $_SESSION['error'] = $stmt->errorInfo();
         error_log(print_r($stmt->errorInfo(), true));
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
+        header('Location: ' . BASE_URL . '/plugins/error/index.php');
         die();
     }
     $pdo = null;
@@ -980,25 +906,23 @@ function getNumberOfVehicles()
     session_start();
     $id = $_SESSION['id'];
 
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
+        $_SESSION['error'] = "Could not connect -> " . $ex->getMessage();
         $_SESSION['error_blob'] = $ex;
         error_log(print_r($stmt->errorInfo(), true));
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
+        header('Location: ' . BASE_URL . '/plugins/error/index.php');
         die();
     }
 
-    $stmt = $pdo->prepare("SELECT COUNT(name_id) FROM ".DB_PREFIX."ncic_plates WHERE user_id=?");
+    $stmt = $pdo->prepare("SELECT COUNT(name_id) FROM " . DB_PREFIX . "ncic_plates WHERE user_id=?");
     $result = $stmt->execute(array($id));
 
-    if (!$result)
-    {
+    if (!$result) {
         $_SESSION['error'] = $stmt->errorInfo();
         error_log(print_r($stmt->errorInfo(), true));
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
+        header('Location: ' . BASE_URL . '/plugins/error/index.php');
         die();
     }
     $pdo = null;
@@ -1012,25 +936,23 @@ function getNumberOfWeapons()
     session_start();
     $id = $_SESSION['id'];
 
-    try{
-        $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
-    } catch(PDOException $ex)
-    {
-        $_SESSION['error'] = "Could not connect -> ".$ex->getMessage();
+    try {
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+    } catch (PDOException $ex) {
+        $_SESSION['error'] = "Could not connect -> " . $ex->getMessage();
         $_SESSION['error_blob'] = $ex;
         error_log(print_r($stmt->errorInfo(), true));
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
+        header('Location: ' . BASE_URL . '/plugins/error/index.php');
         die();
     }
 
-    $stmt = $pdo->prepare("SELECT COUNT(name_id) FROM ".DB_PREFIX."ncic_weapons WHERE user_id=?");
+    $stmt = $pdo->prepare("SELECT COUNT(name_id) FROM " . DB_PREFIX . "ncic_weapons WHERE user_id=?");
     $result = $stmt->execute(array($id));
 
-    if (!$result)
-    {
+    if (!$result) {
         $_SESSION['error'] = $stmt->errorInfo();
         error_log(print_r($stmt->errorInfo(), true));
-        header('Location: '.BASE_URL.'/plugins/error/index.php');
+        header('Location: ' . BASE_URL . '/plugins/error/index.php');
         die();
     }
     $pdo = null;
@@ -1038,4 +960,3 @@ function getNumberOfWeapons()
     $count = $stmt->fetch();
     return $count[0];
 }
-?>
