@@ -1726,7 +1726,8 @@ function rms_warrants()
         die();
     }
 
-    $result = $pdo->query("SELECT oc_
+    $$result = $pdo->query("SELECT " . DB_PREFIX . "ncic_warrants.*, " . DB_PREFIX . "ncic_names.name FROM " . DB_PREFIX . "ncic_warrants INNER JOIN " . DB_PREFIX . "ncic_names ON " . DB_PREFIX . "ncic_names.id=" . DB_PREFIX . "ncic_warrants.name_id");
+
 
     if (!$result) {
         $_SESSION['error'] = $pdo->errorInfo();
