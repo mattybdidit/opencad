@@ -58,20 +58,19 @@ class PluginApi
 
     function get_oc_version_build()
     {
-        return '0.4';
+        return '0.5';
     }
 
     function get_oc_version_build_date()
     {
-        return 'June 17th 2021 @ 7:15AM CST';
+        return 'August 21th 2021 @ 5:30pm CST';
     }
 
     function get_oc_version_changes()
     {
         return array(
-            "Updated to Azazel 0.4",
-            "New things added to the staff dashboard",
-            "Update checker now built-in and shown on dashboard",
+            "Updated to Azazel 0.5",
+            "Fixed update checker not working and not being centered"
         );
     }
 }

@@ -56,23 +56,6 @@ if (isset($_GET['getCalls'])) {
     quickStatus();
 } else if (isset($_GET['getAOP'])) {
     getAOP();
-} else if (isset($_GET['newApiKey'])) {
-    $myRank = $_SESSION['admin_privilege'];
-
-    if ($myRank == 2) {
-        getApiKey(true);
-        session_start();
-        session_unset();
-        session_destroy();
-        if (ENABLE_API_SECURITY === true)
-            setcookie('opencad', null, -1, "/");
-
-        header("Location: " . BASE_URL . "/index.php?loggedOut=true");
-        exit();
-    } else {
-        header("Location: " . BASE_URL . "/oc-admin/about.php");
-        die();
-    }
 }
 
 function quickStatus()

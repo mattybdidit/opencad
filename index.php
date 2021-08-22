@@ -1,7 +1,5 @@
 <?php
 $DEV = false;
-include_once(getcwd() . "/plugins/plugin_api/plugin_api.php");
-$Plugin_API = new PluginApi();
 if (!$DEV && file_exists(getcwd() . '/oc-install/installer.php') && is_writable(getcwd())) {
     if (session_status() === PHP_SESSION_NONE) session_start();
     session_unset();
@@ -16,6 +14,9 @@ if (!file_exists(getcwd() . '/oc-install/installer.php') && is_dir("oc-install")
 require_once(__DIR__ . "/oc-config.php");
 require_once(__DIR__ . "/actions/register.php");
 require_once(__DIR__ . "/actions/publicFunctions.php");
+include_once(getcwd() . "/plugins/plugin_api/plugin_api.php");
+
+$Plugin_API = new PluginApi();
 
 if (session_status() === PHP_SESSION_NONE) session_start();
 

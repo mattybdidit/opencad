@@ -4,6 +4,7 @@ session_start();
 include_once("./oc-config.php");
 include_once("./oc-functions.php");
 include_once("./actions/adminActions.php");
+include_once("./actions/new.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +19,7 @@ include_once("./actions/adminActions.php");
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="./css/cad.css" />
+    <script src="./js/newcad.js"></script>
 </head>
 
 <body>
@@ -58,10 +60,9 @@ include_once("./actions/adminActions.php");
                 <div class="card-stacked">
                     <div class="card-content">
                         <span class="card-title">Active Calls</span>
-                        <ul class="collection">
+                        <ul class="collection calls">
 
-                            <li class="collection-item">
-                                <!-- example call for design poses -->
+                            <!-- <li class="collection-item">
                                 <div>10-80 // PURSUIT
 
                                     <div class="chip">
@@ -80,7 +81,7 @@ include_once("./actions/adminActions.php");
                                     <a href="#!" class="btn">Info</a>
                                     <a href="#!" class="btn">Clear</a>
                                 </div>
-                            </li>
+                            </li> -->
 
                         </ul>
                     </div>

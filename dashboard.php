@@ -13,8 +13,8 @@ This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
  **/
 
 session_start();
-include("./oc-config.php");
-require("./actions/generalActions.php");
+require_once("./oc-config.php");
+require_once("./actions/generalActions.php");
 require_once("./plugins/plugin_api/plugin_api.php");
 $PluginAPI = new PluginApi();
 
@@ -138,7 +138,7 @@ while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
         $roadsideAssistButton =
             '
             <li class="collection-item">
-                <div>Tow <a href="./mdt.php?dep=roadsideAssist" class="secondary-content">
+                <div>Tow <a href="./civ/tow.php" class="secondary-content">
                 <i class="material-icons red-text">send</i></a>
                 </div>
             </li>
@@ -183,7 +183,7 @@ mysqli_close($link);
     </div>
     <div id="container">
         <div class="row" style="margin-left: 50rem;">
-            <div class="animate__animated animate__fadeInDown" style="width: 44vh !important;">
+            <div class="animate__animated animate__fadeInDown center" style="width: 44vh !important;">
                 <ul class="collection with-header">
                     <li class="collection-header">
                         <h4>Clock In</h4>
@@ -199,23 +199,22 @@ mysqli_close($link);
                     <?php echo $highwayButton; ?>
                     <?php echo $policeButton; ?>
                 </ul>
+                <?php
+                $curVersion = $PluginAPI->get_oc_version_build();
+                $newVersion = file_get_contents("https://raw.githubusercontent.com/Matt4499/opencad/master/version.txt");
+                if ($newVersion > $curVersion) {
+                    echo "<br> <h4><a href='https://github.com/Matt4499/opencad'>OpenCAD has new updates!</a></h4>" . "<br>" . "Current version: $curVersion" . "<br>" . "New version: $newVersion";
+                }
+                if ($newVersion == $curVersion) {
+                    echo "<br> <h4>OpenCAD is up to date! (MASTER)</h4>";
+                }
+                if ($curVersion > $newVersion) {
+                    echo "<br> <h4>OpenCAD is up to date! (DEV)</h4>";
+                }
+                ?>
             </div>
         </div>
     </div>
-
-    <?php
-    $curVersion = $Plugin_API->get_oc_version_build();
-    $newVersion = file_get_contents("https://raw.githubusercontent.com/Matt4499/opencad/master/version.txt");
-    if ($newVersion > $curVersion) {
-        echo "<br> <h4><a href='https://github.com/Matt4499/opencad'>OpenCAD has new updates!</a></h4>" . "<br>" . "Current version: $curVersion" . "<br>" . "New version: $newVersion";
-    }
-    if ($newVersion == $curVersion) {
-        echo "<br> <h4>OpenCAD is up to date! (MASTER)</h4>";
-    }
-    if ($curVersion > $newVersion) {
-        echo "<br> <h4>OpenCAD is up to date! (DEV)</h4>";
-    }
-    ?>
 
     <div class="container center animate__animated animate__fadeInDown">
         <h3>OpenCAD Changelog (this version)</h3>

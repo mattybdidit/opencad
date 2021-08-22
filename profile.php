@@ -1,34 +1,20 @@
 <?php
-
-/**
-Open source CAD system for RolePlaying Communities.
-Copyright (C) 2017 Shane Gill
-
-This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
-This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
- **/
-
-
 require("./oc-config.php");
 require("./actions/generalActions.php");
 include("./actions/profileActions.php");
 
 session_start();
 if (empty($_SESSION['logged_in'])) {
-	header('Location: ./index.php');
-	die("Not logged in");
+    header('Location: ./index.php');
+    die("Not logged in");
 } else {
-	$name = $_SESSION['name'];
+    $name = $_SESSION['name'];
 }
 
 $profileUpdate = "";
 if (isset($_SESSION['profileUpdate'])) {
-	$profileUpdate = $_SESSION['profileUpdate'];
-	unset($_SESSION['profileUpdate']);
+    $profileUpdate = $_SESSION['profileUpdate'];
+    unset($_SESSION['profileUpdate']);
 }
 
 setDispatcher("1");
@@ -197,7 +183,7 @@ setDispatcher("1");
                                                 <!-- ./ col-sm-10 -->
                                             </div>
                                             <?php } else {
-											} ?>
+                                            } ?>
                                             <!-- ./ form-group -->
                                             <!-- ./ form-group -->
                                             <div class="form-group">
