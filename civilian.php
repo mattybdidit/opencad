@@ -1,20 +1,5 @@
 <?php
-
-/**
-Open source CAD system for RolePlaying Communities.
-Copyright (C) 2017 Shane Gill
-
-This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
-This program comes with ABSOLUTELY NO WARRANTY; Use at your own risk.
- **/
-if (session_id() == '' || !isset($_SESSION)) {
-	// session isn't started
-	session_start();
-}
+session_start();
 include_once(__DIR__ . "/oc-config.php");
 include_once(__DIR__ . "/oc-functions.php");
 include(__DIR__ . "/actions/civActions.php");
@@ -22,54 +7,52 @@ include(__DIR__ . "/actions/publicFunctions.php");
 include(__DIR__ . "/actions/generalActions.php");
 
 if (empty($_SESSION['logged_in'])) {
-	header('Location: ./index.php');
-	die("Not logged in");
+    header('Location: ./index.php');
+    die("Not logged in");
 } else {
-	$name = $_SESSION['name'];
-	$uid = $_SESSION['id'];
+    $name = $_SESSION['name'];
+    $uid = $_SESSION['id'];
 }
 
 $civName = $civDob = $civAddr = "";
 
-$good911 = "";
-if (isset($_SESSION['good911'])) {
-	$good911 = $_SESSION['good911'];
-	unset($_SESSION['good911']);
-}
-
 $identityMessage = "";
 if (isset($_SESSION['identityMessage'])) {
-	$identityMessage = $_SESSION['identityMessage'];
-	unset($_SESSION['identityMessage']);
+    $identityMessage = $_SESSION['identityMessage'];
+    unset($_SESSION['identityMessage']);
 }
 
 $plateMessage = "";
 if (isset($_SESSION['plateMessage'])) {
-	$plateMessage = $_SESSION['plateMessage'];
-	unset($_SESSION['plateMessage']);
+    $plateMessage = $_SESSION['plateMessage'];
+    unset($_SESSION['plateMessage']);
 }
 
 $nameMessage = "";
 if (isset($_SESSION['nameMessage'])) {
-	$nameMessage = $_SESSION['nameMessage'];
-	unset($_SESSION['nameMessage']);
+    $nameMessage = $_SESSION['nameMessage'];
+    unset($_SESSION['nameMessage']);
 }
 $weaponMessage = "";
 if (isset($_SESSION['weaponMessage'])) {
-	$weaponMessage = $_SESSION['weaponMessage'];
-	unset($_SESSION['weaponMessage']);
+    $weaponMessage = $_SESSION['weaponMessage'];
+    unset($_SESSION['weaponMessage']);
 }
 
-if (isset($_SESSION['civillian'])) {
+if (isset($_SESSION['civilian'])) {
 
-	if ($_SESSION['civillian'] == 'YES') {
-		setDispatcher("1");
-	}
+    if ($_SESSION['civilian'] == 'YES') {
+        setDispatcher("1");
+    }
 } else {
-	echo "You do not have permission to be here. Request access to dispatch through your administration.<br />Redirecting to the dashboard...";
-	sleep(5);
-	header("Location:" . BASE_URL);
-	die();
+    echo "You do not have permission to be here. Request access to dispatch through your administration.<br />Redirecting to the dashboard...";
+    sleep(5);
+    header("Location:" . BASE_URL);
+    die();
+}
+
+if (isset($_SESSION['good911'])) {
+    unset($_SESSION['good911']);
 }
 
 ?>
@@ -114,7 +97,7 @@ if (isset($_SESSION['civillian'])) {
                                     </ul>
                                 </li>
                                 <?php
-								if (CIV_WARRANT === true) { ?> <li>
+                                if (CIV_WARRANT === true) { ?> <li>
                                     <a><i class="fas fa-warning"></i> Warrants <span
                                             class="fas fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
@@ -129,25 +112,25 @@ if (isset($_SESSION['civillian'])) {
                                 <li><a type="button" data-toggle="modal" data-target="#newCall"> <i
                                             class="fas fa-phone"></i> Create a Call</a></li>
                                 <?php
-								if (CIV_LIMIT_MAX_IDENTITIES == 0) {
-									echo '<li><a type="button" data-toggle="modal" data-target="#createIdentityModal"><i class="fas fa-user-alt"></i> Add New Identity</a></li>';
-								} else if (CIV_LIMIT_MAX_IDENTITIES > getNumberOfProfiles()) {
-									echo '<li><a type="button" data-toggle="modal" data-target="#createIdentityModal"><i class="fas fa-user-alt"></i> Add New Identity</a></li>';
-								} else {/* Do Nothing. */
-								}
-								if (CIV_LIMIT_MAX_VEHICLES == 0) {
-									echo '<li><a type="button" data-toggle="modal" data-target="#createPlateModal"> <i class="fas fa-car"></i> Add New Plate</a></li>';
-								} else if (CIV_LIMIT_MAX_VEHICLES > getNumberOfVehicles()) {
-									echo '<li><a type="button" data-toggle="modal" data-target="#createPlateModal"> <i class="fas fa-car"></i> Add New Plate</a></li>';
-								} else {/* Do Nothing. */
-								}
-								if (CIV_LIMIT_MAX_WEAPONS == 0) {
-									echo '<li><a type="button" data-toggle="modal" data-target="#createWeaponModal">Add New Weapon</a></li>';
-								} else if (CIV_LIMIT_MAX_WEAPONS > getNumberOfWeapons()) {
-									echo '<li><a type="button" data-toggle="modal" data-target="#createWeaponModal">Add New Weapon</a></li>';
-								} else {/* Do Nothing. */
-								}
-								?>
+                                if (CIV_LIMIT_MAX_IDENTITIES == 0) {
+                                    echo '<li><a type="button" data-toggle="modal" data-target="#createIdentityModal"><i class="fas fa-user-alt"></i> Add New Identity</a></li>';
+                                } else if (CIV_LIMIT_MAX_IDENTITIES > getNumberOfProfiles()) {
+                                    echo '<li><a type="button" data-toggle="modal" data-target="#createIdentityModal"><i class="fas fa-user-alt"></i> Add New Identity</a></li>';
+                                } else {/* Do Nothing. */
+                                }
+                                if (CIV_LIMIT_MAX_VEHICLES == 0) {
+                                    echo '<li><a type="button" data-toggle="modal" data-target="#createPlateModal"> <i class="fas fa-car"></i> Add New Plate</a></li>';
+                                } else if (CIV_LIMIT_MAX_VEHICLES > getNumberOfVehicles()) {
+                                    echo '<li><a type="button" data-toggle="modal" data-target="#createPlateModal"> <i class="fas fa-car"></i> Add New Plate</a></li>';
+                                } else {/* Do Nothing. */
+                                }
+                                if (CIV_LIMIT_MAX_WEAPONS == 0) {
+                                    echo '<li><a type="button" data-toggle="modal" data-target="#createWeaponModal">Add New Weapon</a></li>';
+                                } else if (CIV_LIMIT_MAX_WEAPONS > getNumberOfWeapons()) {
+                                    echo '<li><a type="button" data-toggle="modal" data-target="#createWeaponModal">Add New Weapon</a></li>';
+                                } else {/* Do Nothing. */
+                                }
+                                ?>
                             </ul>
                         </div>
                         <!-- ./ menu_section -->
@@ -211,7 +194,6 @@ if (isset($_SESSION['civillian'])) {
                             <p>(Not <?php echo $name; ?>?, <a
                                     href="<?php echo BASE_URL; ?>/actions/logout.php?responder=<?php echo $_SESSION['identifier']; ?>">Log
                                     Out</a>)
-                                <?php echo $good911; ?>
                         </div>
                     </div>
                     <div class="clearfix"></div>
