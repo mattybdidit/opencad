@@ -7,15 +7,9 @@ CREATE TABLE IF NOT EXISTS `oc_active_users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `identifier` (`identifier`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
-
--- Dumping data for table opencad.oc_active_users: ~0 rows (approximately)
 DELETE FROM `oc_active_users`;
-/*!40000 ALTER TABLE `oc_active_users` DISABLE KEYS */;
 INSERT INTO `oc_active_users` (`identifier`, `callsign`, `status`, `status_detail`, `id`) VALUES
 	('ADMIN', 'ADMIN', 0, 6, 1);
-/*!40000 ALTER TABLE `oc_active_users` ENABLE KEYS */;
-
--- Dumping structure for table opencad.oc_bolos_persons
 CREATE TABLE IF NOT EXISTS `oc_bolos_persons` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `first_name` varchar(255) NOT NULL COMMENT 'First name of BOLO suspect.',
@@ -27,12 +21,8 @@ CREATE TABLE IF NOT EXISTS `oc_bolos_persons` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_bolos_persons: ~0 rows (approximately)
 DELETE FROM `oc_bolos_persons`;
-/*!40000 ALTER TABLE `oc_bolos_persons` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_bolos_persons` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_bolos_vehicles
 CREATE TABLE IF NOT EXISTS `oc_bolos_vehicles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `vehicle_make` varchar(255) NOT NULL COMMENT 'Make of BOLO vehicle.',
@@ -45,12 +35,8 @@ CREATE TABLE IF NOT EXISTS `oc_bolos_vehicles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_bolos_vehicles: ~0 rows (approximately)
 DELETE FROM `oc_bolos_vehicles`;
-/*!40000 ALTER TABLE `oc_bolos_vehicles` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_bolos_vehicles` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_calls
 CREATE TABLE IF NOT EXISTS `oc_calls` (
   `call_id` int(11) NOT NULL,
   `call_type` text NOT NULL,
@@ -61,12 +47,8 @@ CREATE TABLE IF NOT EXISTS `oc_calls` (
   `call_narrative` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_calls: ~0 rows (approximately)
 DELETE FROM `oc_calls`;
-/*!40000 ALTER TABLE `oc_calls` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_calls` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_calls_users
 CREATE TABLE IF NOT EXISTS `oc_calls_users` (
   `call_id` int(11) NOT NULL,
   `identifier` varchar(255) NOT NULL,
@@ -75,12 +57,8 @@ CREATE TABLE IF NOT EXISTS `oc_calls_users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_calls_users: ~0 rows (approximately)
 DELETE FROM `oc_calls_users`;
-/*!40000 ALTER TABLE `oc_calls_users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_calls_users` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_call_history
 CREATE TABLE IF NOT EXISTS `oc_call_history` (
   `call_id` int(11) NOT NULL,
   `call_type` text NOT NULL,
@@ -91,19 +69,13 @@ CREATE TABLE IF NOT EXISTS `oc_call_history` (
   `call_narrative` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_call_history: ~6 rows (approximately)
 DELETE FROM `oc_call_history`;
-/*!40000 ALTER TABLE `oc_call_history` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_call_history` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_call_list
 CREATE TABLE IF NOT EXISTS `oc_call_list` (
   `call_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_call_list: ~7 rows (approximately)
 DELETE FROM `oc_call_list`;
-/*!40000 ALTER TABLE `oc_call_list` DISABLE KEYS */;
 INSERT INTO `oc_call_list` (`call_id`) VALUES
 	(1),
 	(2),
@@ -112,9 +84,7 @@ INSERT INTO `oc_call_list` (`call_id`) VALUES
 	(5),
 	(6),
 	(7);
-/*!40000 ALTER TABLE `oc_call_list` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_citation_types
 CREATE TABLE IF NOT EXISTS `oc_citation_types` (
   `citation_id` int(11) NOT NULL AUTO_INCREMENT,
   `citation_description` varchar(255) NOT NULL,
@@ -122,9 +92,7 @@ CREATE TABLE IF NOT EXISTS `oc_citation_types` (
   PRIMARY KEY (`citation_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_citation_types: ~12 rows (approximately)
 DELETE FROM `oc_citation_types`;
-/*!40000 ALTER TABLE `oc_citation_types` DISABLE KEYS */;
 INSERT INTO `oc_citation_types` (`citation_id`, `citation_description`, `citation_fine`) VALUES
 	(1, 'Felony Hit and Run', 400.00),
 	(2, 'Hit and Run', 300.00),
@@ -138,29 +106,21 @@ INSERT INTO `oc_citation_types` (`citation_id`, `citation_description`, `citatio
 	(10, 'Compromised Safety during Lane Change', 150.00),
 	(11, 'Illegal Parking', 150.00),
 	(12, 'Driving without Headlights Active when appropriate', 150.00);
-/*!40000 ALTER TABLE `oc_citation_types` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_civilian_names
 CREATE TABLE IF NOT EXISTS `oc_civilian_names` (
   `user_id` int(11) NOT NULL COMMENT 'Links to users table',
   `names_id` int(11) NOT NULL COMMENT 'Links to names table'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_civilian_names: ~0 rows (approximately)
 DELETE FROM `oc_civilian_names`;
-/*!40000 ALTER TABLE `oc_civilian_names` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_civilian_names` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_colors
 CREATE TABLE IF NOT EXISTS `oc_colors` (
   `id` int(11) NOT NULL,
   `color_group` varchar(255) DEFAULT NULL,
   `color_name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_colors: ~248 rows (approximately)
 DELETE FROM `oc_colors`;
-/*!40000 ALTER TABLE `oc_colors` DISABLE KEYS */;
 INSERT INTO `oc_colors` (`id`, `color_group`, `color_name`) VALUES
 	(1, 'Chrome', 'Chrome'),
 	(2, 'Classic', 'Black'),
@@ -410,18 +370,14 @@ INSERT INTO `oc_colors` (`id`, `color_group`, `color_name`) VALUES
 	(246, 'Pearlescent', 'Cream'),
 	(247, 'Pearlescent', 'Ice White'),
 	(248, 'Pearlescent', 'Frost White');
-/*!40000 ALTER TABLE `oc_colors` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_config
 CREATE TABLE IF NOT EXISTS `oc_config` (
   `skey` varchar(80) NOT NULL UNIQUE,
   `svalue` varchar(255) DEFAULT NULL,
   PRIMARY KEY (skey)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_config: ~58 rows (approximately)
 DELETE FROM `oc_config`;
-/*!40000 ALTER TABLE `oc_config` DISABLE KEYS */;
 INSERT INTO `oc_config` (`skey`, `svalue`) VALUES
 	('api_key', 'tjGiGtzN5fupRFOydCeH991tikVAXe1V3DTIdWTxiQTs0vzhHyhZL0J33JQdL1Rp'),
 	('aop', 'Statewide'),
@@ -481,9 +437,7 @@ INSERT INTO `oc_config` (`skey`, `svalue`) VALUES
 	('oc_debug', 'false'),
 	('ems_ncic_plate', 'true'),
 	('login_captcha_enabled', 'false');
-/*!40000 ALTER TABLE `oc_config` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_departments
 CREATE TABLE IF NOT EXISTS `oc_departments` (
   `department_id` int(11) NOT NULL,
   `department_name` varchar(255) DEFAULT NULL COMMENT 'The functional name of the department. (eg. Police, Fire, EMS)',
@@ -492,9 +446,7 @@ CREATE TABLE IF NOT EXISTS `oc_departments` (
   `allow_department` int(1) DEFAULT 2 COMMENT 'If 1 then department is disabled, if 2 then department is enabled.'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_departments: ~9 rows (approximately)
 DELETE FROM `oc_departments`;
-/*!40000 ALTER TABLE `oc_departments` DISABLE KEYS */;
 INSERT INTO `oc_departments` (`department_id`, `department_name`, `department_short_name`, `department_long_name`, `allow_department`) VALUES
 	(1, 'Communications', 'SAECOMM', 'San Andreas Emergency Communications', 0),
 	(2, 'State', 'SASP', 'San Andreas State Police', 0),
@@ -505,9 +457,7 @@ INSERT INTO `oc_departments` (`department_id`, `department_name`, `department_sh
 	(7, 'EMS', 'SAEMS', 'San Andreas Emergency Services', 0),
 	(8, 'Civilian', 'SACS', 'San Andreas Civilian Services', 0),
 	(9, 'Roadside Assistance', 'SARA', 'San Andreas Roadside Assistance', 0);
-/*!40000 ALTER TABLE `oc_departments` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_dispatchers
 CREATE TABLE IF NOT EXISTS `oc_dispatchers` (
   `identifier` varchar(255) NOT NULL,
   `callsign` varchar(255) NOT NULL COMMENT 'Unit Callsign',
@@ -515,26 +465,18 @@ CREATE TABLE IF NOT EXISTS `oc_dispatchers` (
   UNIQUE KEY `identifier` (`identifier`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_dispatchers: ~2 rows (approximately)
 DELETE FROM `oc_dispatchers`;
-/*!40000 ALTER TABLE `oc_dispatchers` DISABLE KEYS */;
 INSERT INTO `oc_dispatchers` (`identifier`, `callsign`, `status`) VALUES
 	('<IDENTIFIER>', '<IDENTIFIER>', 0),
 	('ADMIN', 'ADMIN', 0);
-/*!40000 ALTER TABLE `oc_dispatchers` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_genders
 CREATE TABLE IF NOT EXISTS `oc_genders` (
   `id` int(11) NOT NULL,
   `genders` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_genders: ~0 rows (approximately)
 DELETE FROM `oc_genders`;
-/*!40000 ALTER TABLE `oc_genders` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_genders` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_incident_types
 CREATE TABLE IF NOT EXISTS `oc_incident_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code_id` varchar(255) DEFAULT '',
@@ -542,9 +484,7 @@ CREATE TABLE IF NOT EXISTS `oc_incident_types` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_incident_types: ~78 rows (approximately)
 DELETE FROM `oc_incident_types`;
-/*!40000 ALTER TABLE `oc_incident_types` DISABLE KEYS */;
 INSERT INTO `oc_incident_types` (`id`, `code_id`, `code_name`) VALUES
 	(1, '10-0', 'Use Caution'),
 	(2, '10-1', 'Signal Weak'),
@@ -625,7 +565,6 @@ INSERT INTO `oc_incident_types` (`id`, `code_id`, `code_name`) VALUES
 	(77, '10-83', 'Smoke Visible'),
 	(78, '10-84', 'No Smoke Visible');
 
--- Dumping structure for table opencad.oc_logs
 CREATE TABLE IF NOT EXISTS `oc_logs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `text` varchar(500) DEFAULT NULL,
@@ -633,12 +572,8 @@ CREATE TABLE IF NOT EXISTS `oc_logs` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table opencad.oc_logs: ~13 rows (approximately)
 DELETE FROM `oc_logs`;
-/*!40000 ALTER TABLE `oc_logs` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_logs` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_ncic_arrests
 CREATE TABLE IF NOT EXISTS `oc_ncic_arrests` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name_id` int(11) NOT NULL COMMENT 'Paired to ID of ncic_names table',
@@ -649,12 +584,8 @@ CREATE TABLE IF NOT EXISTS `oc_ncic_arrests` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_ncic_arrests: ~0 rows (approximately)
 DELETE FROM `oc_ncic_arrests`;
-/*!40000 ALTER TABLE `oc_ncic_arrests` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_ncic_arrests` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_ncic_citations
 CREATE TABLE IF NOT EXISTS `oc_ncic_citations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `status` tinyint(2) DEFAULT 0 COMMENT '0 = Pending, 1 = Approved/Active',
@@ -666,12 +597,7 @@ CREATE TABLE IF NOT EXISTS `oc_ncic_citations` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_ncic_citations: ~0 rows (approximately)
 DELETE FROM `oc_ncic_citations`;
-/*!40000 ALTER TABLE `oc_ncic_citations` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_ncic_citations` ENABLE KEYS */;
-
--- Dumping structure for table opencad.oc_ncic_names
 CREATE TABLE IF NOT EXISTS `oc_ncic_names` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `submittedByName` varchar(255) NOT NULL,
@@ -696,12 +622,7 @@ CREATE TABLE IF NOT EXISTS `oc_ncic_names` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_ncic_names: ~1 rows (approximately)
 DELETE FROM `oc_ncic_names`;
-/*!40000 ALTER TABLE `oc_ncic_names` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_ncic_names` ENABLE KEYS */;
-
--- Dumping structure for table opencad.oc_ncic_plates
 CREATE TABLE IF NOT EXISTS `oc_ncic_plates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name_id` int(11) NOT NULL COMMENT 'Links to ncic_names db for driver information',
@@ -719,12 +640,7 @@ CREATE TABLE IF NOT EXISTS `oc_ncic_plates` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_ncic_plates: ~0 rows (approximately)
 DELETE FROM `oc_ncic_plates`;
-/*!40000 ALTER TABLE `oc_ncic_plates` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_ncic_plates` ENABLE KEYS */;
-
--- Dumping structure for table opencad.oc_ncic_warnings
 CREATE TABLE IF NOT EXISTS `oc_ncic_warnings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `status` tinyint(2) DEFAULT 0 COMMENT '0 = Pending, 1 = Approved/Active',
@@ -735,12 +651,7 @@ CREATE TABLE IF NOT EXISTS `oc_ncic_warnings` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_ncic_warnings: ~0 rows (approximately)
 DELETE FROM `oc_ncic_warnings`;
-/*!40000 ALTER TABLE `oc_ncic_warnings` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_ncic_warnings` ENABLE KEYS */;
-
--- Dumping structure for table opencad.oc_ncic_warrants
 CREATE TABLE IF NOT EXISTS `oc_ncic_warrants` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `expiration_date` date DEFAULT NULL,
@@ -751,13 +662,7 @@ CREATE TABLE IF NOT EXISTS `oc_ncic_warrants` (
   `status` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
-
--- Dumping data for table opencad.oc_ncic_warrants: ~0 rows (approximately)
 DELETE FROM `oc_ncic_warrants`;
-/*!40000 ALTER TABLE `oc_ncic_warrants` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_ncic_warrants` ENABLE KEYS */;
-
--- Dumping structure for table opencad.oc_ncic_weapons
 CREATE TABLE IF NOT EXISTS `oc_ncic_weapons` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name_id` int(11) NOT NULL COMMENT 'Links to ncic_names db for driver information',
@@ -767,13 +672,7 @@ CREATE TABLE IF NOT EXISTS `oc_ncic_weapons` (
   `notes` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
-
--- Dumping data for table opencad.oc_ncic_weapons: ~0 rows (approximately)
 DELETE FROM `oc_ncic_weapons`;
-/*!40000 ALTER TABLE `oc_ncic_weapons` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_ncic_weapons` ENABLE KEYS */;
-
--- Dumping structure for table opencad.oc_radio_codes
 CREATE TABLE IF NOT EXISTS `oc_radio_codes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(10) NOT NULL,
@@ -782,10 +681,7 @@ CREATE TABLE IF NOT EXISTS `oc_radio_codes` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
-
--- Dumping data for table opencad.oc_radio_codes: ~8 rows (approximately)
 DELETE FROM `oc_radio_codes`;
-/*!40000 ALTER TABLE `oc_radio_codes` DISABLE KEYS */;
 INSERT INTO `oc_radio_codes` (`id`, `code`, `code_description`, `onCall`) VALUES
 	(1, '10-8', 'Available', 2),
 	(2, '10-6', 'Busy', 1),
@@ -795,17 +691,12 @@ INSERT INTO `oc_radio_codes` (`id`, `code`, `code_description`, `onCall`) VALUES
 	(6, '10-7U', 'Unavailable', 1),
 	(7, '10-23', 'Arrived on Scene', 1),
 	(8, '10-65', 'Transporting Prisoner', 1);
-/*!40000 ALTER TABLE `oc_radio_codes` ENABLE KEYS */;
-
--- Dumping structure for table opencad.oc_statuses
 CREATE TABLE IF NOT EXISTS `oc_statuses` (
   `status_id` int(11) NOT NULL,
   `status_text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_statuses: ~8 rows (approximately)
 DELETE FROM `oc_statuses`;
-/*!40000 ALTER TABLE `oc_statuses` DISABLE KEYS */;
 INSERT INTO `oc_statuses` (`status_id`, `status_text`) VALUES
 	(1, '10-8 | Available'),
 	(2, '10-6 | Busy'),
@@ -815,9 +706,6 @@ INSERT INTO `oc_statuses` (`status_id`, `status_text`) VALUES
 	(6, '10-7 | Unavailable'),
 	(7, '10-23 | Arrived on Scene'),
 	(8, '10-65 | Transporting Prisoner');
-/*!40000 ALTER TABLE `oc_statuses` ENABLE KEYS */;
-
--- Dumping structure for table opencad.oc_streets
 CREATE TABLE IF NOT EXISTS `oc_streets` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary key for each street',
   `name` text NOT NULL COMMENT 'Street name',
@@ -825,9 +713,7 @@ CREATE TABLE IF NOT EXISTS `oc_streets` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1950 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_streets: ~1,949 rows (approximately)
 DELETE FROM `oc_streets`;
-/*!40000 ALTER TABLE `oc_streets` DISABLE KEYS */;
 INSERT INTO `oc_streets` (`id`, `name`, `county`) VALUES
 	(1, 'Abattoir Avenue', 'Los Santos County'),
 	(2, 'Abe Milton Parkway', 'Los Santos County'),
@@ -2778,25 +2664,18 @@ INSERT INTO `oc_streets` (`id`, `name`, `county`) VALUES
 	(1947, '10138', 'Postal'),
 	(1948, '10139', 'Postal'),
 	(1949, '10140', 'Postal');
-/*!40000 ALTER TABLE `oc_streets` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_tones
 CREATE TABLE IF NOT EXISTS `oc_tones` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `active` set('0','1') DEFAULT '0' COMMENT '0 = inactive, 1 = active'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT COMMENT='Tones table. DO NOT ADD ROWS TO THIS TABLE';
 
--- Dumping data for table opencad.oc_tones: ~3 rows (approximately)
 DELETE FROM `oc_tones`;
-/*!40000 ALTER TABLE `oc_tones` DISABLE KEYS */;
 INSERT INTO `oc_tones` (`id`, `name`, `active`) VALUES
 	(1, 'priority', '0'),
 	(2, 'recurring', '0'),
 	(3, 'panic', '0');
-/*!40000 ALTER TABLE `oc_tones` ENABLE KEYS */;
-
--- Dumping structure for table opencad.oc_users
 CREATE TABLE IF NOT EXISTS `oc_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` text NOT NULL,
@@ -2812,22 +2691,16 @@ CREATE TABLE IF NOT EXISTS `oc_users` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT COMMENT='User table';
 
--- Dumping data for table opencad.oc_users: ~0 rows (approximately)
 DELETE FROM `oc_users`;
-/*!40000 ALTER TABLE `oc_users` DISABLE KEYS */;
 INSERT INTO `oc_users` (`id`, `name`, `email`, `password`, `identifier`, `admin_privilege`, `supervisor_privilege`, `password_reset`, `approved`, `suspend_reason`, `suspend_duration`) VALUES
 	(1, 'Admin', 'admin@admin.admin', '$2y$10$YTGmQHkodl1eeQpuZ0ioNOn3t3EujCBZgs1l0mUg2cRZZiOmHaLOO', 'ADMIN', 3, 1, 0, 1, NULL, NULL);
-/*!40000 ALTER TABLE `oc_users` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_user_departments
 CREATE TABLE IF NOT EXISTS `oc_user_departments` (
   `user_id` int(11) NOT NULL,
   `department_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_user_departments: ~9 rows (approximately)
 DELETE FROM `oc_user_departments`;
-/*!40000 ALTER TABLE `oc_user_departments` DISABLE KEYS */;
 INSERT INTO `oc_user_departments` (`user_id`, `department_id`) VALUES
 	(1, 1),
 	(1, 2),
@@ -2838,20 +2711,12 @@ INSERT INTO `oc_user_departments` (`user_id`, `department_id`) VALUES
 	(1, 7),
 	(1, 8),
 	(1, 9);
-/*!40000 ALTER TABLE `oc_user_departments` ENABLE KEYS */;
-
--- Dumping structure for table opencad.oc_user_departments_temp
 CREATE TABLE IF NOT EXISTS `oc_user_departments_temp` (
   `user_id` int(11) NOT NULL,
   `department_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT COMMENT='Temporary table - stores user departments for non-approved users';
 
--- Dumping data for table opencad.oc_user_departments_temp: ~0 rows (approximately)
 DELETE FROM `oc_user_departments_temp`;
-/*!40000 ALTER TABLE `oc_user_departments_temp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_user_departments_temp` ENABLE KEYS */;
-
--- Dumping structure for table opencad.oc_vehicles
 CREATE TABLE IF NOT EXISTS `oc_vehicles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `Make` varchar(100) NOT NULL,
@@ -2859,9 +2724,7 @@ CREATE TABLE IF NOT EXISTS `oc_vehicles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=499 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_vehicles: ~498 rows (approximately)
 DELETE FROM `oc_vehicles`;
-/*!40000 ALTER TABLE `oc_vehicles` DISABLE KEYS */;
 INSERT INTO `oc_vehicles` (`id`, `Make`, `Model`) VALUES
 	(1, 'Albany', 'Alpha'),
 	(2, 'Albany', 'Buccaneer'),
@@ -3361,21 +3224,14 @@ INSERT INTO `oc_vehicles` (`id`, `Make`, `Model`) VALUES
 	(496, 'Willard', 'Faction Custom Donk'),
 	(497, 'Zirconium', 'Journey'),
 	(498, 'Zirconium', 'Stratum');
-/*!40000 ALTER TABLE `oc_vehicles` ENABLE KEYS */;
 
--- Dumping structure for table opencad.oc_warning_types
 CREATE TABLE IF NOT EXISTS `oc_warning_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `warning_description` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_warning_types: ~0 rows (approximately)
 DELETE FROM `oc_warning_types`;
-/*!40000 ALTER TABLE `oc_warning_types` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oc_warning_types` ENABLE KEYS */;
-
--- Dumping structure for table opencad.oc_warrant_types
 CREATE TABLE IF NOT EXISTS `oc_warrant_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `warrant_violent` int(1) NOT NULL,
@@ -3383,9 +3239,7 @@ CREATE TABLE IF NOT EXISTS `oc_warrant_types` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_warrant_types: ~50 rows (approximately)
 DELETE FROM `oc_warrant_types`;
-/*!40000 ALTER TABLE `oc_warrant_types` DISABLE KEYS */;
 INSERT INTO `oc_warrant_types` (`id`, `warrant_violent`, `warrant_description`) VALUES
 	(1, 1, 'First Degree Murder'),
 	(2, 1, 'Second Degree Murder'),
@@ -3437,9 +3291,6 @@ INSERT INTO `oc_warrant_types` (`id`, `warrant_violent`, `warrant_description`) 
 	(48, 0, 'FTA: Failure to Identify'),
 	(49, 0, 'FTA: Stalking'),
 	(50, 0, 'FTA: Public Intoxication');
-/*!40000 ALTER TABLE `oc_warrant_types` ENABLE KEYS */;
-
--- Dumping structure for table opencad.oc_weapons
 CREATE TABLE IF NOT EXISTS `oc_weapons` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `weapon_type` varchar(255) NOT NULL,
@@ -3447,95 +3298,98 @@ CREATE TABLE IF NOT EXISTS `oc_weapons` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table opencad.oc_weapons: ~88 rows (approximately)
 DELETE FROM `oc_weapons`;
-/*!40000 ALTER TABLE `oc_weapons` DISABLE KEYS */;
 INSERT INTO `oc_weapons` (`id`, `weapon_type`, `weapon_name`) VALUES
-	(1, 'Vom Feuer', 'Advanced Rifle'),
-	(2, 'Shrewsbury', 'Assault Rifle'),
-	(3, 'Shrewsbury', 'Assault Rifle MKII'),
-	(4, 'Hawk & Little', 'Bullpup Rifle'),
-	(5, 'Hawk & Little', 'Bullpup Rifle MKII'),
-	(6, 'Vom Feuer', 'Carbine Rifle'),
-	(7, 'Vom Feuer', 'Carbine Rifle MKII'),
-	(8, 'Shrewsbury', 'Compact Rifle'),
-	(9, 'Vom Feuer', 'Special Carbine'),
-	(10, 'Vom Feuer', 'Special Carbine MKII'),
-	(11, 'Vom Feuer', 'AP Pistol'),
-	(12, 'Hawk & Little', 'Combat Pistol'),
+	(1, 'Automatic/Heavy', 'Advanced Rifle'),
+	(2, 'Automatic/Heavy', 'Assault Rifle'),
+	(3, 'Automatic/Heavy', 'Assault Rifle MKII'),
+	(4, 'Automatic/Heavy', 'Bullpup Rifle'),
+	(5, 'Automatic/Heavy', 'Bullpup Rifle MKII'),
+	(6, 'Automatic/Heavy', 'Carbine Rifle'),
+	(7, 'Automatic/Heavy', 'Carbine Rifle MKII'),
+	(8, 'Automatic/Heavy', 'Compact Rifle'),
+	(9, 'Automatic/Heavy', 'Special Carbine'),
+	(10, 'Automatic/Heavy', 'Special Carbine MKII'),
+	(11, 'Automatic/Heavy', 'AP Pistol'),
+	(12, 'Handgun', 'Combat Pistol'),
 	(13, 'Handgun', 'Double Action Revolver'),
-	(14, 'Handgun', 'Flare Gun'),
+	(14, 'Utility', 'Flare Gun'),
 	(15, 'Handgun', 'Heavy Pistol'),
-	(16, 'Hawk & Little', 'Heavy Revolver'),
-	(17, 'Hawk & Little', 'Heavy Revolver MK II'),
+	(16, 'Handgun', 'Heavy Revolver'),
+	(17, 'Handgun', 'Heavy Revolver MK II'),
 	(18, 'Handgun', 'Marksman Pistol'),
-	(19, 'Hawk & Little', 'Pistol'),
-	(20, 'Hawk & Little', 'Pistol .50'),
-	(21, 'Hawk & Little', 'Pistol MK II'),
-	(22, 'Shrewsbury', 'SNS Pistol'),
-	(23, 'Shrewsbury', 'SNS Pistol MK II'),
-	(24, 'Coil', 'Stun Gun'),
-	(25, 'Handgun', 'Up-n-Atomizer'),
+	(19, 'Handgun', 'Pistol'),
+	(20, 'Handgun', 'Pistol .50'),
+	(21, 'Handgun', 'Pistol MK II'),
+	(22, 'Handgun', 'SNS Pistol'),
+	(23, 'Handgun', 'SNS Pistol MK II'),
+	(24, 'Utility', 'Stun Gun'),
+	(25, 'Automatic/Heavy', 'Up-n-Atomizer'),
 	(26, 'Handgun', 'Vintage Pistol'),
-	(27, 'Vom Feuer', 'Compact Grenade Launcher'),
-	(28, 'Heavy Weapon', 'Firework Launcher'),
-	(29, 'Shrewsbury', 'Grenade Launcher'),
-	(30, 'Hawk & Little', 'Homing Launcher'),
-	(31, 'Coil', 'Minigun'),
-	(32, 'Shrewsbury', 'RPG'),
-	(33, 'Coil', 'Railgun'),
-	(34, 'Heavy Weapon', 'Widowmaker'),
-	(35, 'Vom Feuer', 'Assault SMG'),
-	(36, 'Machine Gun', 'Combat MG'),
-	(37, 'Machine Gun', 'Combat MG MK II'),
-	(38, 'Coil', 'Combat PDW'),
-	(39, 'Machine Gun', 'Gusenberg Sweeper'),
-	(40, 'Shrewsbury', 'MG'),
-	(41, 'Vom Feuer', 'Machine Pistol'),
-	(42, 'Shrewsbury', 'Micro SMG'),
-	(43, 'Hawk & Little', 'Mini SMG'),
-	(44, 'Hawk & Little', 'SMG'),
-	(45, 'Hawk & Little', 'SMG MK II'),
-	(46, 'Machine Gun', 'Unholy Hellbringer'),
+	(27, 'Automatic/Heavy', 'Compact Grenade Launcher'),
+	(28, 'Automatic/Heavy', 'Firework Launcher'),
+	(29, 'Automatic/Heavy', 'Grenade Launcher'),
+	(30, 'Automatic/Heavy', 'Homing Launcher'),
+	(31, 'Automatic/Heavy', 'Minigun'),
+	(32, 'Automatic/Heavy', 'RPG'),
+	(33, 'Automatic/Heavy', 'Railgun'),
+	(34, 'Automatic/Heavy', 'Widowmaker'),
+	(35, 'Automatic/Heavy', 'Assault SMG'),
+	(36, 'Automatic/Heavy', 'Combat MG'),
+	(37, 'Automatic/Heavy', 'Combat MG MK II'),
+	(38, 'Automatic/Heavy', 'Combat PDW'),
+	(39, 'Automatic/Heavy', 'Gusenberg Sweeper'),
+	(40, 'Automatic/Heavy', 'MG'),
+	(41, 'Automatic', 'Machine Pistol'),
+	(42, 'Automatic', 'Micro SMG'),
+	(43, 'Automatic', 'Mini SMG'),
+	(44, 'Automatic', 'SMG'),
+	(45, 'Automatic', 'SMG MK II'),
+	(46, 'Automatic/Heavy', 'Unholy Hellbringer'),
 	(47, 'Melee', 'Antique Cavalry Dagger'),
 	(48, 'Melee', 'Baseball Bat'),
 	(49, 'Melee', 'Battle Axe'),
 	(50, 'Melee', 'Broken Bottle'),
 	(51, 'Melee', 'Crowbar'),
-	(52, 'Vom Feuer', 'Flashlight'),
+	(52, 'Utility', 'Flashlight'),
 	(53, 'Melee', 'Golf Club'),
 	(54, 'Melee', 'Hammer'),
 	(55, 'Melee', 'Hatchet'),
-	(56, 'Hawk & Little', 'Knife'),
+	(56, 'Melee', 'Knife'),
 	(57, 'Melee', 'Knuckle Dusters'),
-	(58, 'Vom Feuer', 'Machete'),
-	(59, 'Melee', 'Nightstick'),
+	(58, 'Melee', 'Machete'),
+	(59, 'Utility', 'Nightstick'),
 	(60, 'Melee', 'Pipe Wrench'),
 	(61, 'Melee', 'Pool Cue'),
 	(62, 'Melee', 'Stone Hatchet'),
 	(63, 'Melee', 'Switchblade'),
-	(64, 'Vom Feuer', 'Remote Sniper'),
-	(65, 'Vom Feuer', 'Assault Shotgun'),
-	(66, 'Hawk & Little', 'Bullpup Shotgun'),
+	(64, 'Heavy', 'Remote Sniper'),
+	(65, 'Shotgun', 'Assault Shotgun'),
+	(66, 'Shotgun', 'Bullpup Shotgun'),
 	(67, 'Shotgun', 'Double Barrel Shotgun'),
-	(68, 'Shrewsbury', 'Heavy Shotgun'),
-	(69, 'Shotgun', 'Musket'),
-	(70, 'Shrewsbury', 'Pump Shotgun'),
-	(71, 'Vom Feuer', 'Pump Shotgun MK II'),
-	(72, 'Shrewsbury', 'Sawed-Off Shotgun'),
-	(73, 'Shrewsbury', 'Sweeper Shotgun'),
-	(74, 'Shrewsbury', 'Sniper Rifle'),
-	(75, 'Vom Feuer', 'Heavy Sniper'),
-	(76, 'Vom Feuer', 'Marksman Rifle'),
-	(77, 'Vom Feuer', 'Heavy Sniper MK II'),
-	(78, 'Vom Feuer', 'Marksman Rifle MK II'),
+	(68, 'Shotgun', 'Heavy Shotgun'),
+	(69, 'Handgun', 'Musket'),
+	(70, 'Shotgun', 'Pump Shotgun'),
+	(71, 'Shotgun', 'Pump Shotgun MK II'),
+	(72, 'Shotgun', 'Sawed-Off Shotgun'),
+	(73, 'Shotgun', 'Sweeper Shotgun'),
+	(74, 'Automatic/Heavy', 'Sniper Rifle'),
+	(75, 'Automatic/Heavy', 'Heavy Sniper'),
+	(76, 'Automatic/Heavy', 'Marksman Rifle'),
+	(77, 'Automatic/Heavy', 'Heavy Sniper MK II'),
+	(78, 'Automatic/Heavy', 'Marksman Rifle MK II'),
 	(79, 'Throwable', 'Granade'),
 	(80, 'Throwable', 'Sticky Bomb'),
 	(81, 'Throwable', 'Tear Gas'),
 	(82, 'Throwable', 'Molotov'),
 	(83, 'Throwable', 'Ball'),
-	(84, 'Throwable', 'Flare'),
-	(85, 'Throwable', 'Jerry Can'),
+	(84, 'Utility', 'Flare'),
+	(85, 'Utility', 'Jerry Can'),
 	(86, 'Throwable', 'Proximity Mine'),
 	(87, 'Throwable', 'Snowball'),
 	(88, 'Throwable', 'Pipe Bomb');
+	(89, 'Handgun', 'Perico Pistol');
+	(90, 'Shotgun', 'Combat Shotgun');
+	(91, 'Automatic/Heavy', 'Military Rifle');
+	(92, 'Handgun', 'Navy Revolver');
+	(93, 'Handgun', 'Ceramic Pistol');
