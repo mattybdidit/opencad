@@ -15,7 +15,7 @@ setDispatcher("1");
 $link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 if (!$link) {
-    die('Could not connect: ' . mysqli_errno($link));
+    die('Could not connect to database.');
 }
 
 $id = $_SESSION['id'];
@@ -112,7 +112,7 @@ while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
             </li>
             ';
     } else if ($row[1] == "8") {
-        $_SESSION['civillian'] = 'YES';
+        $_SESSION['civilian'] = 'YES';
         $civilianButton = '
             <li class="collection-item">
                 <div>Civilian <a href="./civilian.php" class="secondary-content">
@@ -205,8 +205,7 @@ mysqli_close($link);
 
     <div class="container center animate__animated animate__fadeInDown">
         <h3>OpenCAD Changelog (this version)</h3>
-        <p> OpenCAD is open source. This version is maintained by <a
-                href="https://github.com/Matt4499/opencad">Matt4499</a></p>
+        <p> OpenCAD is open source. This version is maintained by <a href="https://github.com/Matt4499/opencad">Matt4499</a></p>
 
         <ul class="collection">
             <?php

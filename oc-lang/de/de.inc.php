@@ -352,8 +352,8 @@ $arrLang["NCIC_WARRANTS_DB"] = "";
 $arrLang["NCIC_WARRANTS_DB_none"] = "";
 //** End Administrator/Moderator Console Strings  **/
 
-//** Begin Civillian Console Strings **/
-$arrLang["CIVILLIAN_CONSOLE"] = "";
+//** Begin civilian Console Strings **/
+$arrLang["civilian_CONSOLE"] = "";
 $arrLang["MY_IDENTITIES"] = "";
 $arrLang["MY_IDENTITIES_none"] = "";
 $arrLang["MY_VEHICLES"] = "";
@@ -366,11 +366,11 @@ $arrLang["CREATE_A_CALL"] = "";
 $arrLang["ADD_NEW_IDENTITY"] = "";
 $arrLang["Add_ADD_NEW_PLATE"] = "";
 $arrLang["ADD_NEW_WEAPON"] = "";
-$arrLang["CIVILLIAN_DASHBOARD"] = "";
+$arrLang["civilian_DASHBOARD"] = "";
 $arrLang["VIEW_WARRANTS"] = "";
 $arrLang["CREATE_WARRANT"] = "";
 $arrLang["UPDATE"] = "";
-//** End Civillian Console Strings **/
+//** End civilian Console Strings **/
 
 //** Begin CAD Console Strings **/
 $arrLang["CAD_CONSOLE"] = "";
@@ -404,4 +404,3 @@ $arrLang["PASSWORD"] = "";
 $arrLang["CHANGE_PASSWORD"] = "";
 $arrLang["MY_PRFILE"] ="";
 //** End Profile Console Strings *//
-?>  

@@ -289,7 +289,7 @@ $arrLang['CIV_WARRANT'] = "Civilian Warrant Creation";
 $arrLang['CIV_WARRANT_notes'] = "If set to 'true' then Civs will be able to delete warrants from their profile, else if set to 'false' then Civs will not have the ability to remove warrants.";
 
 $arrLang['CIV_REG'] = "Instant Civilian Registration";
-$arrLang['CIV_REG_notes'] = "If set to 'true' then civillians will not require admin approval, esle if set to 'false' then Civillian registartion will require Admin approval. Allow/Disallow immediate regitration for civilians. If 'true' then civilian registartion will require Administrator approval else if 'false' then civilian registrations will NOT require Administrator approval.";
+$arrLang['CIV_REG_notes'] = "If set to 'true' then civilians will not require admin approval, esle if set to 'false' then civilian registartion will require Admin approval. Allow/Disallow immediate regitration for civilians. If 'true' then civilian registartion will require Administrator approval else if 'false' then civilian registrations will NOT require Administrator approval.";
 
 $arrLang['CIV_LIMIT_MAX_IDENTITIES'] = "Civilian Maximum Identities";
 $arrLang['CIV_LIMIT_MAX_IDENTITIES_notes'] = "If CIV_LIMIT_MAX is '0' then civilians will be able to create unlimited identites. Otherwise, if CIV_LIMIT_MAX is a value other than '0' then it will cap the maximum number of possible identites to that value.";
@@ -500,8 +500,8 @@ $arrLang["RESET_ALL_DATA_OPTGRP"] = "RESET ALL DATA (USE WITH CUATION)";
 $arrLang["RESET_ALL_DATA"] = "All Data (Use with CAUTION)";
 //** End Administrator/Moderator Console Strings  **/
 
-//** Begin Civillian Console Strings **/
-$arrLang["CIVILLIAN_CONSOLE"] = "Civillian Console";
+//** Begin civilian Console Strings **/
+$arrLang["civilian_CONSOLE"] = "civilian Console";
 $arrLang["MY_IDENTITIES"] = "My Identities";
 $arrLang["MY_IDENTITIES_none"] = "No results found in the the identities database.";
 $arrLang["MY_VEHICLES"] = "My Vehicles";
@@ -514,11 +514,11 @@ $arrLang["CREATE_A_CALL"] = "Create A Call";
 $arrLang["ADD_NEW_IDENTITY"] = "Add New Identity";
 $arrLang["ADD_NEW_VEHICLE"] = "Add New Vehcile";
 $arrLang["ADD_NEW_WEAPON"] = "Add New Weapon";
-$arrLang["CIVILLIAN_DASHBOARD"] = "Civillian Dashboard";
+$arrLang["civilian_DASHBOARD"] = "civilian Dashboard";
 $arrLang["VIEW_WARRANTS"] = "View Warrants";
 $arrLang["CREATE_WARRANT"] = "Create Warrant";
 $arrLang["UPDATE"] = "Update";
-//** End Civillian Console Strings **/
+//** End civilian Console Strings **/
 
 //** Begin CAD Console Strings **/
 $arrLang["CAD_CONSOLE"] = "CAD Console";
@@ -555,4 +555,3 @@ $arrLang["MY_PRFILE"] ="My Profile";
 $arrLang["PROFILE_SUCCESS"] = "Successfully updated your user profile.";
 $arrLang["PASSWORD_SUCCESS"] = "Successfully updated your password."
 //** End Profile Console Strings *//
-?>
