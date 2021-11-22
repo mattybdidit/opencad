@@ -414,8 +414,9 @@ INSERT INTO `oc_colors` (`id`, `color_group`, `color_name`) VALUES
 
 -- Dumping structure for table opencad.oc_config
 CREATE TABLE IF NOT EXISTS `oc_config` (
-  `skey` varchar(80) NOT NULL,
-  `svalue` varchar(255) DEFAULT NULL
+  `skey` varchar(80) NOT NULL UNIQUE,
+  `svalue` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (skey)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table opencad.oc_config: ~58 rows (approximately)
