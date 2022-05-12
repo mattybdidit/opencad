@@ -4,6 +4,13 @@
 
 -------------------
 
+# Discontinuation of Fork
+I have decided as of May 11th 2022 that I will no longer be upholding this fork of OpenCAD.
+Mainly because nobody uses OpenCAD anymore, mainly in favor of Bubble CAD's and whatnot.
+I will still be providing support with setting it up, using it, and bug fixing, but there will NOT be any new features or any other major changes.
+
+- Matt4499 
+
 # OpenCAD
 Open Source Computer Aided Dispatch System for GTA V Roleplay Communities.
 
